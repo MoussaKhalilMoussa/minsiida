@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/getx_controllers/photos_controller.dart';
+import 'package:simple_nav_bar/view/post/pages/category_selection.dart';
 import 'package:simple_nav_bar/view/post/pages/photos_page.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
@@ -96,7 +97,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         currentPage: _currentPage,
                         index: index,
                       ),
-                      Center(child: Text("Page 2")),
+                      CategorySelection(currentPage: _currentPage, index: index, controller: _controller),
                       Center(child: Text("Page 3")),
                     ],
                   ),
