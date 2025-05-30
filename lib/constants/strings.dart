@@ -1,0 +1,29 @@
+const appname = "Minsiida";
+const appversion = "Version 1.0.0";
+const email = "Email";
+const emailHint = "admin@admin.com";
+const password = "Password";
+const passwordHint = "******";
+const retypePassword = "Retype Password";
+const name = "Name";
+const nameHint = "Minsiida Devs";
+const forgetPass = "Forget Password";
+const login = "Log in";
+const signup = "Sign up";
+const logout = "Log out";
+const createNewAccount = "or, create a new account";
+const loginWith = "Log in with";
+const loggedin = "Logged in Successfully";
+const loggedout = "Logged out Successfully";
+const privacyPolicy = "Privacy Policy";
+const termAndCond = "Terms and Conditions";
+const alreadyHaveAccount = "Already have an account?";
+const home = "Home",
+    categories = "Categories",
+    cart = "Cart",
+    account = "Account";
+    const menu = "Menu";
+const favorites = "Favorites";
+const search = "Search";
+
+
