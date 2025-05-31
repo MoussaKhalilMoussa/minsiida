@@ -28,7 +28,7 @@ class PhotosPage extends StatefulWidget {
 }
 
 class _PhotosPageState extends State<PhotosPage> {
-  List<File> _images = [];
+  //List<File> _images = [];
   final ImagePicker _picker = ImagePicker();
 
   var controller = Get.put(PhotosController());
@@ -87,40 +87,12 @@ class _PhotosPageState extends State<PhotosPage> {
     currentPage = widget.currentPage;
   }
 
-  // Function to remove an image from the list
-  void _removeImage(File image) {
-    setState(() {
-      controller.selectedImages.remove(image);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.of(context).size.width;
     final screenH = MediaQuery.of(context).size.height;
 
-    // 1) Picker Section fixed height:
-    const double pickerH = 0.43; // fraction of screen for picker UI
-
-    // 2) Image rows: 3 per line, each ~100px tall + 8px spacing
-    double imageH = 0;
-    if (controller.selectedImages.isNotEmpty) {
-      final rows = (controller.selectedImages.length / 3).ceil();
-      imageH = rows * 108; // 100 + ~8 spacing
-    }
-
-    // 3) Total container height in px:
-    final totalH = screenH * pickerH + imageH + 24;
-    // +24 for some bottom padding
-
-    double baseHeight = 120;
-    double dynamicHeight = baseHeight;
-
-    if (controller.selectedImages.isNotEmpty) {
-      int rows =
-          (controller.selectedImages.length / 3).ceil(); // 3 images per row
-      dynamicHeight = 120 + (rows * 110); // Add height per row
-    }
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -200,7 +172,7 @@ class _PhotosPageState extends State<PhotosPage> {
                               ],
                             ),
                             Text(
-                              '${widget.currentPage + 1}/3',
+                              '${widget.currentPage + 1}/6',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -213,7 +185,7 @@ class _PhotosPageState extends State<PhotosPage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: LinearProgressIndicator(
-                          value: (widget.currentPage + 1) / 3,
+                          value: (widget.currentPage + 1) / 6,
                           backgroundColor: Colors.grey[300],
                           color: purple_600,
                           minHeight: 5,
@@ -396,8 +368,8 @@ class _PhotosPageState extends State<PhotosPage> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(
-                                              0.5,
+                                            color: Colors.black.withValues(
+                                              alpha: 0.5,
                                             ),
                                             shape: BoxShape.circle,
                                           ),

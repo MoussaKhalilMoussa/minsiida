@@ -112,7 +112,7 @@ class _CategorySelectionState extends State<CategorySelection> {
                               ],
                             ),
                             Text(
-                              '${widget.currentPage + 1}/3',
+                              '${widget.currentPage + 1}/6',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class _CategorySelectionState extends State<CategorySelection> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.75,
                         child: LinearProgressIndicator(
-                          value: (widget.currentPage + 1) / 3,
+                          value: (widget.currentPage + 1) / 6,
                           backgroundColor: Colors.grey[300],
                           color: purple_600,
                           minHeight: 5,
