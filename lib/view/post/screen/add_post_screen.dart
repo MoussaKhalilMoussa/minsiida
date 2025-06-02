@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/controllers/getx_controllers/photos_controller.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
 import 'package:simple_nav_bar/view/post/pages/category_selection.dart';
+import 'package:simple_nav_bar/view/post/pages/details_page.dart';
 import 'package:simple_nav_bar/view/post/pages/photos_page.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
@@ -16,30 +18,42 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   final PageController _controller = PageController(keepPage: true);
+  final controller = Get.put(PhotosController());
+  final categoryController = Get.put(CategoryContorller());
+
   int _currentPage = 0;
   int index = 0;
-  var controller = Get.put(PhotosController());
 
   void _goToPage() {
-    if (controller.selectedImages.isEmpty) {
+    // Page 0: Validate photos
+    if (index == 0 && controller.selectedImages.isEmpty) {
       controller.isError.value = true;
       return;
     }
+
+    // Page 1: Validate category selection
+    if (index == 1 && categoryController.selectedCategoryIndex.value == -1) {
+      categoryController.showCategoryError.value = true;
+      return;
+    }
+
+    // Clear errors if validations pass
     controller.isError.value = false;
+    categoryController.showCategoryError.value = false;
+
+    // Move to next page if not last
     if (index < 2) {
-      // You have 3 pages: 0, 1, 2
       index++;
       _controller.animateToPage(
         index,
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 50),
         curve: Curves.easeInOut,
       );
       setState(() {
         _currentPage = index;
       });
     } else {
-      // If you are on the last page, you can handle it here
-      // For example, you might want to submit the form or show a message
+      // Final action
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Vous avez atteint la dernière page.")),
       );
@@ -62,6 +76,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             controller.selectedImages.clear();
+            categoryController.selectedCategoryIndex.value = -1;
+            categoryController.showCategoryError.value = false;
             controller.isError.value = false;
             Navigator.pop(context);
           },
@@ -97,8 +113,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         currentPage: _currentPage,
                         index: index,
                       ),
-                      CategorySelection(currentPage: _currentPage, index: index, controller: _controller),
-                      Center(child: Text("Page 3")),
+                      CategorySelection(
+                        currentPage: _currentPage,
+                        index: index,
+                        controller: _controller,
+                      ),
+
+                      DetailsPage(currentPage: _currentPage, index: index, controller: _controller),
+                      Center(child: Text("Page ")),
                     ],
                   ),
                 ),

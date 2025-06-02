@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/controllers/getx_controllers/photos_controller.dart';
+import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
 class PhotosPage extends StatefulWidget {
@@ -105,96 +106,8 @@ class _PhotosPageState extends State<PhotosPage> {
             children: [
               // Header section with title and progress bar parent
               // This section is fixed at the top of the screen
-              Align(
-                //alignment: Alignment.topCenter,
-                child: Container(
-                  padding: const EdgeInsets.only(top: 14),
-                  alignment: Alignment.bottomCenter,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withValues(alpha: 0.5),
-                        blurRadius: 4,
-                        spreadRadius: 1,
-                      ),
-                    ],
-                  ),
-                  // This is the header section including the title and progress bar
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        //padding: const EdgeInsets.symmetric(horizontal: 4),
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                widget.currentPage == 0
-                                    ? SizedBox(height: 20)
-                                    : SizedBox(
-                                      //width: 20,
-                                      height: 20,
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (widget.currentPage > 0) {
-                                            widget.controller.previousPage(
-                                              duration: Duration(
-                                                milliseconds: 300,
-                                              ),
-                                              curve: Curves.easeInOut,
-                                            );
-                                            setState(() {
-                                              currentPage--;
-                                            });
-                                          }
-                                        },
-                                        child: Icon(
-                                          Icons.arrow_back_ios,
-                                          size: 16,
-                                          color: blackColor,
-                                        ),
-                                      ),
-                                    ),
-                                Text(
-                                  'Photos',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              '${widget.currentPage + 1}/6',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        child: LinearProgressIndicator(
-                          value: (widget.currentPage + 1) / 6,
-                          backgroundColor: Colors.grey[300],
-                          color: purple_600,
-                          minHeight: 5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+
+              Breadcrump(title: "Photos", currentPage: widget.currentPage, controller: widget.controller),
               const SizedBox(height: 30),
 
               Obx(() {
@@ -387,23 +300,6 @@ class _PhotosPageState extends State<PhotosPage> {
                               }).toList(),
                         );
                       }),
-
-                      /* Wrap(
-                        spacing: 12,
-                        runSpacing: 8,
-                        children:
-                            _images.map((img) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.file(
-                                  img,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            }).toList(),
-                      ), */
                     ],
                   ),
                 );
