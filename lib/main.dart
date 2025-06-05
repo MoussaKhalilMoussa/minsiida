@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
 import 'view/home/home.dart';
 
 void main() {
+  Get.lazyPut<LocationController>(() => LocationController());
   runApp(MyApp());
 }
 
@@ -12,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Simple Nav Bar',
       theme: ThemeData(

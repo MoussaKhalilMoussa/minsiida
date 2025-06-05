@@ -95,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    var width =  MediaQuery.sizeOf(context).width;
+    var height =  MediaQuery.sizeOf(context).height;
     final double itemWidth = width * 0.30;
     final double spacing = 14.0;
     itemWidthWithSpacing = itemWidth + spacing;
@@ -452,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: MediaQuery.of(context).size.width / 7,
+                        spacing:  MediaQuery.sizeOf(context).width / 7,
                         children: [
                           _buildNavItem(Icons.menu, "Menu", 3),
                           _buildNavItem(
@@ -478,7 +478,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             Positioned(
               bottom: 25,
-              left: MediaQuery.of(context).size.width / 2 - 40,
+              left:  MediaQuery.sizeOf(context).width / 2 - 40,
               child: GestureDetector(
                 onTap: (){
                   Navigator.pushNamed(context, '/addPost');
@@ -555,8 +555,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _horizontalGrid({required controller}) {
     // Width of one item + horizontal margin
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    var width =  MediaQuery.sizeOf(context).width;
+    var height =  MediaQuery.sizeOf(context).height;
     final double itemWidth = width * 0.45;
     final double spacing = 14.0;
     final double itemWidthWithSpacing = itemWidth + spacing;
@@ -721,7 +721,7 @@ class _HomeScreenState extends State<HomeScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: MediaQuery.of(context).size.width / 1.9,
+                spacing:  MediaQuery.sizeOf(context).width / 1.9,
                 children: [
                   //backword button
                   InkWell(
