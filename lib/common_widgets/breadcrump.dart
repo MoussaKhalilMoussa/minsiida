@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 
 class Breadcrump extends StatefulWidget {
-  var currentPage;
-  var title ;
-  var controller;
+  final int currentPage;
+  final String title ;
+  final PageController controller;
 
-  Breadcrump({
+  const Breadcrump({
     super.key,
     required this.title,
     required this.currentPage,
@@ -34,7 +34,7 @@ class _BreadcrumpState extends State<Breadcrump> {
       child: Container(
         padding: const EdgeInsets.only(top: 4),
         alignment: Alignment.bottomCenter,
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.sizeOf(context).width * 0.9,
         height: 60,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -51,7 +51,7 @@ class _BreadcrumpState extends State<Breadcrump> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.75,
+              width: MediaQuery.sizeOf(context).width * 0.75,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -100,8 +100,9 @@ class _BreadcrumpState extends State<Breadcrump> {
             ),
             SizedBox(height: 8),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.75,
+              width: MediaQuery.sizeOf(context).width * 0.75,
               child: LinearProgressIndicator(
+
                 value: (widget.currentPage + 1) / 6,
                 backgroundColor: Colors.grey[300],
                 color: purple_600,

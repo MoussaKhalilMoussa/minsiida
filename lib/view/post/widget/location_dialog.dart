@@ -420,7 +420,219 @@ class _DetailsPageState extends State<DetailsPage> {
   }) {
     return GestureDetector(
       onTap: () {
-        Get.dialog(cityDialog(onChanged: onChanged));
+        // Handle tap to add location
+        showDialog(
+          //useSafeArea: true,
+          context: context,
+          builder: (context) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 60.0,
+              ),
+              child: AlertDialog(
+                insetPadding: EdgeInsets.symmetric(
+                  horizontal: 6.0,
+                  vertical: 0.0,
+                ),
+                //contentPadding: const EdgeInsets.all(16.0),
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                titlePadding: const EdgeInsets.symmetric(
+                  horizontal: 0.0,
+                  vertical: 0.0,
+                ),
+                //elevation: 1.0,
+                title: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 12.0,
+                        right: 8.0,
+                        top: 8.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Selectionner un lieu",
+                            style: TextStyle(
+                              color: blackColor2,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: Icon(
+                              Icons.close,
+                              color: blackColor2,
+                              size: 18,
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(color: Colors.grey[300], thickness: 1),
+                  ],
+                ),
+                contentPadding: const EdgeInsets.only(
+                  left: 14.0,
+                  right: 14.0,
+                  top: 12.0,
+                  bottom: 12.0,
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.deepPurple[600],
+                            size: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Utiliser ma Position Actuelle",
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 14,
+                              color: Colors.deepPurple[600],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      //autofocus: true,
+                      onChanged: onChanged,
+                      decoration: InputDecoration(
+                        hintText: "Rechercher un lieu",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey[400]!),
+                        ),
+                        prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0),
+                      child: Text(
+                        "SELECTIONNER UNE VILLE",
+                        style: GoogleFonts.playfairDisplay(
+                          color: blackColor2,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Obx(() {
+                      final cities = locationController.filteredCities;
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: greyColo1,
+                            strokeAlign: 1.0,
+                            width: 0.5,
+                          ),
+                        ),
+                        height: MediaQuery.sizeOf(context).width * 0.7,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: cities.length,
+                            itemBuilder: (_, index) {
+                              final city = cities[index];
+                              return Card(
+                                color: whiteColor,
+
+                                shape: LinearBorder(),
+                                margin: const EdgeInsets.only(
+                                  left: 0,
+                                  right: 0,
+                                  top: 0,
+                                  bottom: 0.3,
+                                ),
+                                child: ListTile(
+                                  title: Text(city.name),
+                                  trailing: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 14,
+                                  ),
+
+                                  onTap: () {
+                                    final cityName = city.name;
+                                    final subPrefectures = city.subPrefectures;
+
+                                    // Filter sub-prefectures for selected city
+                                    locationController.filterSubPrefectures(
+                                      city,
+                                    );
+
+                                    // Show sub-prefecture selection dialog
+                                    Get.back(); // Close current dialog
+                                    Get.dialog(
+                                      subPrefectureDialog(
+                                        city: city,
+                                        onChanged:
+                                            (query) => locationController
+                                                .filterSubPrefectures(
+                                                  city,
+                                                  query: query,
+                                                ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+
+                actions: [
+                  TextButton(
+                    style: ButtonStyle(),
+                    onPressed: () => Get.back(),
+                    child: Text(
+                      "Annuler",
+                      style: GoogleFonts.playfairDisplay(
+                        color: blackColor2,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+                actionsAlignment: MainAxisAlignment.center,
+              ),
+            );
+          },
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4),
@@ -465,331 +677,142 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  Widget cityDialog({required Function(String)? onChanged}) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 60.0),
-      child: AlertDialog(
-        insetPadding: const EdgeInsets.symmetric(
-          horizontal: 6.0,
-          vertical: 0.0,
-        ),
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        titlePadding: const EdgeInsets.symmetric(
-          horizontal: 0.0,
-          vertical: 0.0,
-        ),
-        title: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0, right: 8.0, top: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "Selectionner un lieu",
-                    style: TextStyle(
-                      color: blackColor2,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.close, color: blackColor2, size: 18),
-                    onPressed: () => Navigator.of(Get.context!).pop(),
-                  ),
-                ],
-              ),
-            ),
-            Divider(color: Colors.grey[300], thickness: 1),
-          ],
-        ),
-        contentPadding: const EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 12.0),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.deepPurple.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.location_on_outlined,
-                    color: Colors.deepPurple[600],
-                    size: 20,
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    "Utiliser ma Position Actuelle",
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 14,
-                      color: Colors.deepPurple[600],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                hintText: "Rechercher un lieu",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.grey[400]!),
-                ),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Text(
-                "SELECTIONNER UNE VILLE",
-                style: GoogleFonts.playfairDisplay(
-                  color: blackColor2,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Obx(() {
-              final cities = locationController.filteredCities;
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(
-                    color: greyColo1,
-                    strokeAlign: 1.0,
-                    width: 0.5,
-                  ),
-                ),
-                height: MediaQuery.sizeOf(Get.context!).width * 0.7,
-                width: MediaQuery.sizeOf(Get.context!).width * 0.9,
-                child:
-                    cities.isEmpty
-                        ? Center(child: Text("Aucune ville trouvée"))
-                        : ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: cities.length,
-                            itemBuilder: (_, index) {
-                              final city = cities[index];
-                              return Card(
-                                color: whiteColor,
-                                shape: LinearBorder(),
-                                margin: const EdgeInsets.only(bottom: 0.3),
-                                child: ListTile(
-                                  title: Text(city.name),
-                                  trailing: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 14,
-                                  ),
-                                  onTap: () {
-                                    locationController.filterSubPrefectures(
-                                      city,
-                                    );
-                                    Get.back(); // Close current dialog
-                                    Get.dialog(
-                                      subPrefectureDialog(
-                                        city: city,
-                                        onChanged: (query) {
-                                          locationController
-                                              .filterSubPrefectures(
-                                                city,
-                                                query: query,
-                                              );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-              );
-            }),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text(
-              "Annuler",
-              style: GoogleFonts.playfairDisplay(
-                color: blackColor2,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-        actionsAlignment: MainAxisAlignment.center,
-      ),
-    );
-  }
-
-  Widget subPrefectureDialog({
+  AlertDialog subPrefectureDialog({
     required var city,
     required Function(String)? onChanged,
   }) {
     final locationController = Get.find<LocationController>();
     final cityName = city.name;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 70.0),
-      child: AlertDialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 6.0),
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        titlePadding: const EdgeInsets.symmetric(
-          horizontal: 0.0,
-          vertical: 0.0,
-        ),
-        title: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0, right: 8.0, top: 8.0),
-              child: Row(
-                children: [
-                  Text(
-                    "Selectionner un lieu",
-                    style: TextStyle(
-                      color: blackColor2,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.close, color: blackColor2, size: 18),
-                    onPressed: () => Get.back(),
-                  ),
-                ],
-              ),
-            ),
-            Divider(color: Colors.grey[300], thickness: 1),
-          ],
-        ),
-        contentPadding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.back(); // Close subPrefecture dialog
-                      Get.dialog(cityDialog(onChanged: onChanged));
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: blackColor2,
-                      size: 20,
-                    ),
-                  ),
-                  //const SizedBox(width: 2),
-                  Text(
-                    cityName,
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 14,
-                      color: blackColor2,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                hintText: "Rechercher une prefecture ou quartier",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.grey[400]!),
-                ),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Obx(() {
-              final subPrefectures = locationController.filteredSubPrefectures;
-
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(
-                    color: greyColo1,
-                    strokeAlign: 1.0,
-                    width: 0.5,
+    return AlertDialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: 6.0),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      titlePadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+      title: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0, right: 8.0, top: 8.0),
+            child: Row(
+              children: [
+                Text(
+                  "Selectionner un lieu",
+                  style: TextStyle(
+                    color: blackColor2,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                height: MediaQuery.of(Get.context!).size.width * 0.7,
-                width: MediaQuery.of(Get.context!).size.width * 0.9,
-                child:
-                    subPrefectures.isEmpty
-                        ? Center(child: Text("Aucune préfecture trouvée"))
-                        : ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: subPrefectures.length,
-                            itemBuilder: (_, index) {
-                              final subPref = subPrefectures[index];
-                              return Card(
-                                shape: LinearBorder(),
-                                color: whiteColor,
-                                margin: const EdgeInsets.only(bottom: 0.3),
-                                child: ListTile(
-                                  title: Text(subPref),
-                                  trailing: const Icon(Icons.check, size: 14),
-                                  onTap: () {
-                                    print("*************************");
-                                    print(subPref);
-                                    onChanged?.call(subPref);
-                                    Get.back();
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-              );
-            }),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Get.back(), child: Text("Annuler")),
+                const Spacer(),
+                IconButton(
+                  icon: Icon(Icons.close, color: blackColor2, size: 18),
+                  onPressed: () => Get.back(),
+                ),
+              ],
+            ),
+          ),
+          Divider(color: Colors.grey[300], thickness: 1),
         ],
       ),
+      contentPadding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.deepPurple.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    // TODO: Implement previous dialog navigation
+                    print("Back to previous dialog");
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: blackColor2,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  cityName,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 14,
+                    color: blackColor2,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            onChanged: onChanged,
+            decoration: InputDecoration(
+              hintText: "Rechercher une prefecture ou quartier",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey[400]!),
+              ),
+              prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Obx(() {
+            final subPrefectures = locationController.filteredSubPrefectures;
+
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(color: greyColo1, width: 0.5),
+              ),
+              height: MediaQuery.of(Get.context!).size.width * 0.7,
+              width: MediaQuery.of(Get.context!).size.width * 0.9,
+              child:
+                  subPrefectures.isEmpty
+                      ? Center(child: Text("Aucune préfecture trouvée"))
+                      : ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: subPrefectures.length,
+                          itemBuilder: (_, index) {
+                            final subPref = subPrefectures[index];
+                            return Card(
+                              color: whiteColor,
+                              margin: const EdgeInsets.only(bottom: 0.3),
+                              child: ListTile(
+                                title: Text(subPref),
+                                trailing: const Icon(Icons.check, size: 14),
+                                onTap: () {
+                                  print("*************************");
+                                  print(subPref);
+                                  onChanged?.call(subPref);
+                                  Get.back();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+            );
+          }),
+        ],
+      ),
+      actions: [
+        TextButton(onPressed: () => Get.back(), child: Text("Annuler")),
+      ],
     );
   }
+
+
 }

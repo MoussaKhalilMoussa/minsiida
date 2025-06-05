@@ -46,7 +46,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       index++;
       _controller.animateToPage(
         index,
-        duration: Duration(milliseconds: 50),
+        duration: Duration(microseconds: 300),
         curve: Curves.easeInOut,
       );
       setState(() {
@@ -100,6 +100,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 Expanded(
                   // Wrap in Obx so we rebuild when isError changes
                   child: PageView(
+                     
                     controller: _controller,
                     physics: NeverScrollableScrollPhysics(),
                     onPageChanged:
@@ -130,7 +131,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   child: CustomButton(
                     borderRadius: 12,
                     onPressed: _goToPage,
-                    width: MediaQuery.of(context).size.width * 0.9,
+                    width: MediaQuery.sizeOf(context).width * 0.9,
                     height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

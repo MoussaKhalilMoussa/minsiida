@@ -56,7 +56,7 @@ class _PhotosPageState extends State<PhotosPage> {
 
             child: Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width * 0.8,
+              width:  MediaQuery.sizeOf(context).width * 0.8,
               height: 40,
               decoration: BoxDecoration(
                 border: Border.all(
@@ -91,8 +91,8 @@ class _PhotosPageState extends State<PhotosPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenW = MediaQuery.of(context).size.width;
-    final screenH = MediaQuery.of(context).size.height;
+    final screenW =  MediaQuery.sizeOf(context).width;
+    final screenH =  MediaQuery.sizeOf(context).height;
 
 
     return Scaffold(
@@ -114,7 +114,7 @@ class _PhotosPageState extends State<PhotosPage> {
                 final images = controller.selectedImages;
                 final rows = (images.length / 3).ceil();
                 final imageHeight = rows * 108.0; // 100px + 8px spacing
-                final pickerHeight = MediaQuery.of(context).size.height * 0.35;
+                final pickerHeight =  MediaQuery.sizeOf(context).height * 0.35;
                 final totalHeight =
                     pickerHeight + imageHeight + 100; // + extra spacing
 
@@ -207,7 +207,7 @@ class _PhotosPageState extends State<PhotosPage> {
                               CustomButton(
                                 borderRadius: 50,
                                 onPressed: _pickImages,
-                                width: MediaQuery.of(context).size.width * 0.45,
+                                width:  MediaQuery.sizeOf(context).width * 0.45,
                                 height: 45,
                                 child: Row(
                                   //spacing: 4,

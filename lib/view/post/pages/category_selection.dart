@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
