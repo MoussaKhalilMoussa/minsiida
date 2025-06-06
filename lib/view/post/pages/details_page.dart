@@ -420,7 +420,11 @@ class _DetailsPageState extends State<DetailsPage> {
   }) {
     return GestureDetector(
       onTap: () {
-        Get.dialog(cityDialog(onChanged: onChanged));
+        Get.dialog(
+          cityDialog(onChanged: onChanged),
+          barrierDismissible: true,
+          transitionDuration: Duration(milliseconds: 0),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4),
@@ -517,7 +521,7 @@ class _DetailsPageState extends State<DetailsPage> {
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.deepPurple.withOpacity(0.1),
+                color: Colors.deepPurple.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Row(
@@ -600,10 +604,11 @@ class _DetailsPageState extends State<DetailsPage> {
                                     size: 14,
                                   ),
                                   onTap: () {
-                                    locationController.filterSubPrefectures(
+                                     locationController.filterSubPrefectures(
                                       city,
                                     );
-                                    Get.back(); // Close current dialog
+                                    Get.back();
+                                    locationController.filteredCities.value = locationController.cities; // Close current dialog
                                     Get.dialog(
                                       subPrefectureDialog(
                                         city: city,
@@ -614,6 +619,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                                 query: query,
                                               );
                                         },
+                                      ),
+                                      barrierDismissible: true,
+                                      transitionDuration: Duration(
+                                        milliseconds: 0,
                                       ),
                                     );
                                   },
@@ -706,7 +715,12 @@ class _DetailsPageState extends State<DetailsPage> {
                   IconButton(
                     onPressed: () {
                       Get.back(); // Close subPrefecture dialog
-                      Get.dialog(cityDialog(onChanged: onChanged));
+                      locationController.filteredCities.value = locationController.cities;
+                      Get.dialog(
+                        cityDialog(onChanged: onChanged),
+                        barrierDismissible: true,
+                        transitionDuration: Duration(milliseconds: 0),
+                      );
                     },
                     icon: Icon(
                       Icons.arrow_back_ios,

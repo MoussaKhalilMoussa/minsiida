@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:simple_nav_bar/models/city.dart';
 
@@ -6,12 +8,37 @@ class LocationController extends GetxController {
   final filteredCities = <City>[..._chadCities].obs;
   final filteredSubPrefectures = <String>[].obs;
 
+  final isSubPrefecturePage = false.obs;
+  final selectedCity = Rx<City?>(null);
+
+  final RxString searchQuery = ''.obs;
+  Timer? debounce;
+
+  void setSearchQuery(String query) {
+    searchQuery.value = query;
+
+    debounce?.cancel();
+    debounce = Timer(Duration(milliseconds: 300), () {
+      if (isSubPrefecturePage.value && selectedCity.value != null) {
+        filterSubPrefectures(selectedCity.value!, query: query);
+      } else {
+        filterCities(query);
+      }
+    });
+  }
+
   void filterCities(String query) {
-  final results = _chadCities
-      .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
-      .toList();
-  filteredCities.assignAll(results);
-}
+    final results = _chadCities;
+    if (query.isEmpty) {
+      filteredCities.assignAll(results);
+    } else {
+      filteredCities.assignAll(
+        _chadCities
+            .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
+            .toList(),
+      );
+    }
+  }
 
   void filterSubPrefectures(City city, {String query = ''}) {
     final allSubPrefectures = city.subPrefectures;
