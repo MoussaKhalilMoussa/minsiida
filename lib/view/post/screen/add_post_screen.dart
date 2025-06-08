@@ -3,10 +3,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
+import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
 import 'package:simple_nav_bar/view/post/pages/category_selection.dart';
 import 'package:simple_nav_bar/view/post/pages/details_page.dart';
 import 'package:simple_nav_bar/view/post/pages/photos_page.dart';
+import 'package:simple_nav_bar/view/post/pages/specifications.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -20,6 +23,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final PageController _controller = PageController(keepPage: true);
   final controller = Get.put(PhotosController());
   final categoryController = Get.put(CategoryContorller());
+  final detailsController = Get.find<DetailsPageController>();
+  final locationController = Get.find<LocationController>();
 
   int _currentPage = 0;
   int index = 0;
@@ -37,12 +42,29 @@ class _AddPostScreenState extends State<AddPostScreen> {
       return;
     }
 
-    // Clear errors if validations pass
+    if (index == 2 &&
+        (detailsController.titleController.text.trim().isEmpty ||
+            detailsController.priceController.text.trim().isEmpty ||
+            detailsController.descController.text.trim().isEmpty ||
+            locationController.selectedCity.value == null ||
+            locationController.selectedSubPrefecture.value.isEmpty)) {
+      detailsController.showDetailsError.value = true;
+      
+      detailsController.showTitleError.value = true;
+      detailsController.showPriceError.value = true;
+      detailsController.showDescriptionError.value = true;
+
+      detailsController.titleTouched.value = true;
+      detailsController.priceTouched.value = true;
+      detailsController.descTouched.value = true;
+      return;
+    }
+    // Clear errors if vali dations pass
     controller.isError.value = false;
     categoryController.showCategoryError.value = false;
-
+    detailsController.showDetailsError.value = false;
     // Move to next page if not last
-    if (index < 2) {
+    if (index < 3) {
       index++;
       _controller.animateToPage(
         index,
@@ -100,7 +122,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 Expanded(
                   // Wrap in Obx so we rebuild when isError changes
                   child: PageView(
-                     
                     controller: _controller,
                     physics: NeverScrollableScrollPhysics(),
                     onPageChanged:
@@ -120,7 +141,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         controller: _controller,
                       ),
 
-                      DetailsPage(currentPage: _currentPage, index: index, controller: _controller),
+                      DetailsPage(
+                        currentPage: _currentPage,
+                        index: index,
+                        controller: _controller,
+                      ),
+
+                      Specifications(),
                       Center(child: Text("Page ")),
                     ],
                   ),
