@@ -48,12 +48,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
             detailsController.descController.text.trim().isEmpty ||
             locationController.selectedCity.value == null ||
             locationController.selectedSubPrefecture.value.isEmpty)) {
-      detailsController.showDetailsError.value = true;
-      
-      detailsController.showTitleError.value = true;
-      detailsController.showPriceError.value = true;
-      detailsController.showDescriptionError.value = true;
+      // detailsController.showDetailsError.value = true;
 
+      if (detailsController.titleController.text.trim().isEmpty) {
+        detailsController.showTitleError.value = true;
+      }
+
+      if (detailsController.descController.text.trim().isEmpty) {
+        detailsController.showPriceError.value = true;
+      }
+
+      if (detailsController.descController.text.trim().isEmpty) {
+        detailsController.showDescriptionError.value = true;
+      }
+
+      if (locationController.selectedCity.value == null ||
+          locationController.selectedSubPrefecture.value.isEmpty) {
+        detailsController.showDetailsError.value = true;
+      }
       detailsController.titleTouched.value = true;
       detailsController.priceTouched.value = true;
       detailsController.descTouched.value = true;

@@ -473,32 +473,30 @@ class _DetailsPageState extends State<DetailsPage> {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomTitle(title: label),
-            const SizedBox(height: 14),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: spacing,
-              children: [
-                Obx(() {
-                  final city = locationController.selectedCity.value;
-                  final subPref =
-                      locationController.selectedSubPrefecture.value;
+        child: Obx(() {
+          final city = locationController.selectedCity.value;
+          final subPref = locationController.selectedSubPrefecture.value;
 
-                  String locationText;
+          String locationText;
 
-                  if (city != null && subPref.isNotEmpty) {
-                    locationText = "${city.name} - $subPref";
-                  } else if (city != null) {
-                    locationText = city.name;
-                  } else {
-                    locationText = "Ajouter votre localisation";
-                  }
-
-                  return Row(
+          if (city != null && subPref.isNotEmpty) {
+            locationText = "${city.name} - $subPref";
+          } else if (city != null) {
+            locationText = city.name;
+          } else {
+            locationText = "Ajouter votre localisation";
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTitle(title: label),
+              const SizedBox(height: 14),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: spacing,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
@@ -517,19 +515,38 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                       ),
                     ],
-                  );
-                }),
-
-                //const SizedBox(width: 8),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey[600],
-                  size: 14,
+                  ),
+                  //const SizedBox(width: 8),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.grey[600],
+                    size: 14,
+                  ),
+                ],
+              ),
+              if (detailsController.showDetailsError.value) ...[
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        'location address not selected',
+                        style: const TextStyle(color: Colors.red, fontSize: 13),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -917,6 +934,7 @@ class _DetailsPageState extends State<DetailsPage> {
           ElevatedButton(
             onPressed: () {
               Get.back();
+              detailsController.showDetailsError.value = false;
             },
             style: ButtonStyle(
               fixedSize: WidgetStatePropertyAll(Size(145, 44)),
@@ -936,7 +954,7 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  String truncateWithEllipsis(String s, {int cutoff = 26}) {
+  String truncateWithEllipsis(String s, {int cutoff = 20}) {
     if (s.length <= cutoff) return s;
     return '${s.substring(0, 20)} ...';
   }
