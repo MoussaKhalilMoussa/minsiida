@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
+import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
 import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
 import 'view/home/home.dart';
 
 void main() {
   Get.lazyPut<LocationController>(() => LocationController());
-  Get.lazyPut<DetailsPageController>(()=> DetailsPageController());
+  Get.lazyPut<DetailsPageController>(() => DetailsPageController());
+  Get.lazyPut<SpecificationController>(() => SpecificationController());
   runApp(MyApp());
 }
 

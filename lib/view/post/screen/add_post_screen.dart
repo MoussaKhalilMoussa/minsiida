@@ -6,6 +6,7 @@ import 'package:simple_nav_bar/controllers/category_controller/category_contorll
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
+import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
 import 'package:simple_nav_bar/view/post/pages/category_selection.dart';
 import 'package:simple_nav_bar/view/post/pages/details_page.dart';
 import 'package:simple_nav_bar/view/post/pages/photos_page.dart';
@@ -25,6 +26,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final categoryController = Get.put(CategoryContorller());
   final detailsController = Get.find<DetailsPageController>();
   final locationController = Get.find<LocationController>();
+  final specificationsController = Get.find<SpecificationController>();
 
   int _currentPage = 0;
   int index = 0;
@@ -71,12 +73,17 @@ class _AddPostScreenState extends State<AddPostScreen> {
       detailsController.descTouched.value = true;
       return;
     }
+
+    if (index == 3 && specificationsController.selectedModel.value == null) {
+      specificationsController.showModelError.value = true;
+      return;
+    }
     // Clear errors if vali dations pass
     controller.isError.value = false;
     categoryController.showCategoryError.value = false;
     detailsController.showDetailsError.value = false;
     // Move to next page if not last
-    if (index < 3) {
+    if (index < 4) {
       index++;
       _controller.animateToPage(
         index,
@@ -162,7 +169,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       Specifications(
                         currentPage: _currentPage,
                         index: index,
-                        controller: _controller
+                        controller: _controller,
                       ),
                       Center(child: Text("Page ")),
                     ],

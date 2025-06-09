@@ -22,8 +22,6 @@ const home = "Home",
     categories = "Categories",
     cart = "Cart",
     account = "Account";
-    const menu = "Menu";
+const menu = "Menu";
 const favorites = "Favorites";
 const search = "Search";
-
-
