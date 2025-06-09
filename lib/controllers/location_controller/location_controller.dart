@@ -8,13 +8,17 @@ class LocationController extends GetxController {
   final filteredCities = <City>[..._chadCities].obs;
   final filteredSubPrefectures = <String>[].obs;
 
-  final isSubPrefecturePage = false.obs;
-  final selectedCity = Rx<City?>(null);
+  //final isSubPrefecturePage = false.obs;
+  final Rx<City?> selectedCity = Rx<City?>(null);
+  //final selectedSubPrefecture = Rx<String?>(null);
+  final RxString selectedSubPrefecture = ''.obs;
+
+
 
   final RxString searchQuery = ''.obs;
   Timer? debounce;
 
-  void setSearchQuery(String query) {
+  /* void setSearchQuery(String query) {
     searchQuery.value = query;
 
     debounce?.cancel();
@@ -26,7 +30,7 @@ class LocationController extends GetxController {
       }
     });
   }
-
+ */
   void filterCities(String query) {
     final results = _chadCities;
     if (query.isEmpty) {
@@ -52,6 +56,12 @@ class LocationController extends GetxController {
       );
     }
   }
+
+  void resetSelection() {
+  selectedCity.value = null;
+  selectedSubPrefecture.value = '';
+}
+
 
   static final List<City> _chadCities = [
     City(
@@ -100,4 +110,5 @@ class LocationController extends GetxController {
     ),
     City(name: "Bol", subPrefectures: ["Bol", "Bagasola", "Liwa"]),
   ];
+
 }

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 import 'package:simple_nav_bar/common_widgets/custom_title.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -24,28 +25,48 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   late int currentPage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _descController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
   final locationController = Get.find<LocationController>();
+  final detailsController = Get.find<DetailsPageController>();
+
+  //var _titleController = detailsController.titleController
+  // final TextEditingController _priceController = TextEditingController();
+  // final TextEditingController _descController = TextEditingController();
+  // final ScrollController _scrollController = ScrollController();
 
   final FocusNode _titleFocus = FocusNode();
   final FocusNode _priceFocus = FocusNode();
   final FocusNode _descFocus = FocusNode();
 
-  bool _titleTouched = false;
-  bool _priceTouched = false;
-  bool _descTouched = false;
-
   @override
   void initState() {
     super.initState();
     currentPage = widget.currentPage;
+
+    detailsController.titleController.addListener(() {
+      if (detailsController.titleTouched.value &&
+          detailsController.titleController.text.trim().isNotEmpty) {
+        detailsController.showTitleError.value = false;
+      }
+    });
+
+    detailsController.priceController.addListener(() {
+      if (detailsController.priceTouched.value &&
+          detailsController.priceController.text.trim().isNotEmpty) {
+        detailsController.showPriceError.value = false;
+      }
+    });
+
+    detailsController.descController.addListener(() {
+      if (detailsController.descTouched.value &&
+          detailsController.descController.text.trim().isNotEmpty) {
+        detailsController.showDescriptionError.value = false;
+      }
+    });
+
     _titleFocus.addListener(() {
       if (!_titleFocus.hasFocus) {
         setState(() {
-          _titleTouched = true;
+          detailsController.titleTouched.value = true;
         });
       }
     });
@@ -53,7 +74,7 @@ class _DetailsPageState extends State<DetailsPage> {
     _priceFocus.addListener(() {
       if (!_priceFocus.hasFocus) {
         setState(() {
-          _priceTouched = true;
+          detailsController.priceTouched.value = true;
         });
       }
     });
@@ -61,7 +82,7 @@ class _DetailsPageState extends State<DetailsPage> {
     _descFocus.addListener(() {
       if (!_descFocus.hasFocus) {
         setState(() {
-          _descTouched = true;
+          detailsController.descTouched.value = true;
         });
       }
     });
@@ -69,9 +90,6 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _priceController.dispose();
-    _descController.dispose();
     _titleFocus.dispose();
     _priceFocus.dispose();
     _descFocus.dispose();
@@ -80,8 +98,8 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenW = MediaQuery.sizeOf(context).width;
-    final screenH = MediaQuery.sizeOf(context).height;
+    final screenW = MediaQuery.sizeOf(Get.context!).width;
+    final screenH = MediaQuery.sizeOf(Get.context!).height;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -121,14 +139,12 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                   // And inside, we stack picker UI + images:
                   child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(14.0),
                         child: Container(
                           alignment: Alignment.center,
-                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          width: MediaQuery.sizeOf(Get.context!).width * 0.8,
                           height: 80,
                           decoration: BoxDecoration(
                             color: Colors.deepPurple.withValues(alpha: 0.1),
@@ -200,45 +216,60 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            buildLabeledField(
-                              label: "Titre",
-                              hintText: "Que vendez-vous ?",
-                              controller: _titleController,
-                              focusNode: _titleFocus,
-                              touched: _titleTouched,
-                              errorText:
-                                  _titleTouched &&
-                                          _titleController.text.trim().isEmpty
-                                      ? 'Le titre est requis.'
-                                      : null,
-                            ),
+                            Obx(() {
+                              return buildLabeledField(
+                                label: "Titre",
+                                hintText: "Que vendez-vous ?",
+                                controller: detailsController.titleController,
+                                focusNode: _titleFocus,
+                                touched: detailsController.titleTouched.value,
+                                errorText:
+                                    detailsController.titleTouched.value &&
+                                            detailsController
+                                                    .showTitleError
+                                                    .value ==
+                                                true
+                                        ? 'Le titre est requis.'
+                                        : null,
+                              );
+                            }),
                             const SizedBox(height: 16),
-                            buildPriceLabeledField(
-                              label: "Prix",
-                              hintText: "0",
-                              controller: _priceController,
-                              focusNode: _priceFocus,
-                              touched: _priceTouched,
-                              errorText:
-                                  _priceTouched &&
-                                          _priceController.text.trim().isEmpty
-                                      ? 'Veuillez entrer un prix valide.'
-                                      : null,
-                            ),
+                            Obx(() {
+                              return buildPriceLabeledField(
+                                label: "Prix",
+                                hintText: "0",
+                                controller: detailsController.priceController,
+                                focusNode: _priceFocus,
+                                touched: detailsController.priceTouched.value,
+                                errorText:
+                                    detailsController.priceTouched.value &&
+                                            detailsController
+                                                    .showPriceError
+                                                    .value ==
+                                                true
+                                        ? 'Veuillez entrer un prix valide.'
+                                        : null,
+                              );
+                            }),
                             const SizedBox(height: 16),
-                            buildLabeledField(
-                              label: "Description",
-                              hintText: "Entrez la description du produit",
-                              controller: _descController,
-                              focusNode: _descFocus,
-                              touched: _descTouched,
-                              maxLines: 4,
-                              errorText:
-                                  _descTouched &&
-                                          _descController.text.trim().isEmpty
-                                      ? 'La description est requise.'
-                                      : null,
-                            ),
+                            Obx(() {
+                              return buildLabeledField(
+                                label: "Description",
+                                hintText: "Entrez la description du produit",
+                                controller: detailsController.descController,
+                                focusNode: _descFocus,
+                                touched: detailsController.descTouched.value,
+                                maxLines: 4,
+                                errorText:
+                                    detailsController.descTouched.value &&
+                                            detailsController
+                                                    .showDescriptionError
+                                                    .value ==
+                                                true
+                                        ? 'La description est requise.'
+                                        : null,
+                              );
+                            }),
                             const SizedBox(height: 2),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -273,13 +304,25 @@ class _DetailsPageState extends State<DetailsPage> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   setState(() {
-                                    _titleTouched = true;
-                                    _priceTouched = true;
-                                    _descTouched = true;
+                                    detailsController.titleTouched.value = true;
+                                    detailsController.priceTouched.value = true;
+                                    detailsController.descTouched.value = true;
                                   });
-                                  if (_titleController.text.trim().isNotEmpty &&
-                                      _priceController.text.trim().isNotEmpty &&
-                                      _descController.text.trim().isNotEmpty) {
+                                  if (detailsController.titleController.text
+                                          .trim()
+                                          .isNotEmpty &&
+                                      detailsController.priceController.text
+                                          .trim()
+                                          .isNotEmpty &&
+                                      detailsController.descController.text
+                                          .trim()
+                                          .isNotEmpty &&
+                                      locationController.selectedCity.value ==
+                                          null &&
+                                      locationController
+                                          .selectedSubPrefecture
+                                          .value
+                                          .isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text('Formulaire valide'),
@@ -372,7 +415,7 @@ class _DetailsPageState extends State<DetailsPage> {
           const SizedBox(height: 4),
           TextFormField(
             keyboardType: TextInputType.number,
-            controller: _priceController,
+            controller: detailsController.priceController,
             focusNode: _priceFocus,
             decoration: InputDecoration(
               hintText: "0",
@@ -418,8 +461,10 @@ class _DetailsPageState extends State<DetailsPage> {
     required String label,
     required Function(String)? onChanged,
   }) {
+    final spacing = MediaQuery.sizeOf(Get.context!).width * 0.26;
     return GestureDetector(
       onTap: () {
+        locationController.resetSelection();
         Get.dialog(
           cityDialog(onChanged: onChanged),
           barrierDismissible: true,
@@ -436,25 +481,45 @@ class _DetailsPageState extends State<DetailsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: MediaQuery.sizeOf(context).width * 0.26,
+              spacing: spacing,
               children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      color: Colors.deepPurple[600],
-                      size: 16,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      "Ajouter votre localisation",
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 14,
-                        color: Colors.grey[600],
+                Obx(() {
+                  final city = locationController.selectedCity.value;
+                  final subPref =
+                      locationController.selectedSubPrefecture.value;
+
+                  String locationText;
+
+                  if (city != null && subPref.isNotEmpty) {
+                    locationText = "${city.name} - $subPref";
+                  } else if (city != null) {
+                    locationText = city.name;
+                  } else {
+                    locationText = "Ajouter votre localisation";
+                  }
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.deepPurple[600],
+                        size: 16,
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 6),
+                      Text(
+                        truncateWithEllipsis(locationText),
+                        style: GoogleFonts.playfairDisplay(
+                          textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+
+                          fontSize: 14,
+                          color: city == null ? Colors.grey[600] : Colors.black,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+
                 //const SizedBox(width: 8),
                 Icon(
                   Icons.arrow_forward_ios,
@@ -604,11 +669,15 @@ class _DetailsPageState extends State<DetailsPage> {
                                     size: 14,
                                   ),
                                   onTap: () {
-                                     locationController.filterSubPrefectures(
+                                    locationController.filterSubPrefectures(
                                       city,
                                     );
+                                    locationController.selectedCity.value =
+                                        city;
                                     Get.back();
-                                    locationController.filteredCities.value = locationController.cities; // Close current dialog
+                                    locationController.filteredCities.value =
+                                        locationController
+                                            .cities; // Close current dialog
                                     Get.dialog(
                                       subPrefectureDialog(
                                         city: city,
@@ -636,18 +705,28 @@ class _DetailsPageState extends State<DetailsPage> {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
+          ElevatedButton(
+            onPressed: () {
+              locationController.resetSelection();
+              Get.back();
+            },
+            style: ButtonStyle(
+              fixedSize: WidgetStatePropertyAll(
+                Size(MediaQuery.sizeOf(Get.context!).width, 44),
+              ),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              backgroundColor: WidgetStatePropertyAll(whiteColor),
+            ),
             child: Text(
               "Annuler",
-              style: GoogleFonts.playfairDisplay(
-                color: blackColor2,
-                fontWeight: FontWeight.w600,
-              ),
+              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
             ),
           ),
         ],
         actionsAlignment: MainAxisAlignment.center,
+        actionsPadding: EdgeInsets.fromLTRB(14.0, 12.0, 14.0, 12.0),
       ),
     );
   }
@@ -658,7 +737,6 @@ class _DetailsPageState extends State<DetailsPage> {
   }) {
     final locationController = Get.find<LocationController>();
     final cityName = city.name;
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 70.0),
       child: AlertDialog(
@@ -688,7 +766,10 @@ class _DetailsPageState extends State<DetailsPage> {
                   const Spacer(),
                   IconButton(
                     icon: Icon(Icons.close, color: blackColor2, size: 18),
-                    onPressed: () => Get.back(),
+                    onPressed: () {
+                      locationController.resetSelection();
+                      Get.back();
+                    },
                   ),
                 ],
               ),
@@ -715,7 +796,9 @@ class _DetailsPageState extends State<DetailsPage> {
                   IconButton(
                     onPressed: () {
                       Get.back(); // Close subPrefecture dialog
-                      locationController.filteredCities.value = locationController.cities;
+
+                      locationController.filteredCities.value =
+                          locationController.cities;
                       Get.dialog(
                         cityDialog(onChanged: onChanged),
                         barrierDismissible: true,
@@ -778,18 +861,30 @@ class _DetailsPageState extends State<DetailsPage> {
                             itemCount: subPrefectures.length,
                             itemBuilder: (_, index) {
                               final subPref = subPrefectures[index];
+                              final isSelected =
+                                  locationController
+                                      .selectedSubPrefecture
+                                      .value ==
+                                  subPref;
+                              //locationController.selectedSubPrefecture.value = '';
                               return Card(
                                 shape: LinearBorder(),
-                                color: whiteColor,
+                                color:
+                                    isSelected
+                                        ? purple_600.withValues(alpha: 0.2)
+                                        : whiteColor,
                                 margin: const EdgeInsets.only(bottom: 0.3),
                                 child: ListTile(
                                   title: Text(subPref),
-                                  trailing: const Icon(Icons.check, size: 14),
+                                  trailing:
+                                      isSelected
+                                          ? const Icon(Icons.check, size: 14)
+                                          : null,
                                   onTap: () {
-                                    print("*************************");
-                                    print(subPref);
+                                    locationController
+                                        .selectedSubPrefecture
+                                        .value = subPref;
                                     onChanged?.call(subPref);
-                                    Get.back();
                                   },
                                 ),
                               );
@@ -800,10 +895,49 @@ class _DetailsPageState extends State<DetailsPage> {
             }),
           ],
         ),
+        actionsAlignment: MainAxisAlignment.spaceAround,
         actions: [
-          TextButton(onPressed: () => Get.back(), child: Text("Annuler")),
+          ElevatedButton(
+            onPressed: () {
+              locationController.resetSelection();
+              Get.back();
+            },
+            style: ButtonStyle(
+              fixedSize: WidgetStatePropertyAll(Size(145, 44)),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              backgroundColor: WidgetStatePropertyAll(whiteColor),
+            ),
+            child: Text(
+              "Annuler",
+              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Get.back();
+            },
+            style: ButtonStyle(
+              fixedSize: WidgetStatePropertyAll(Size(145, 44)),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              backgroundColor: WidgetStatePropertyAll(purple_600),
+              foregroundColor: WidgetStatePropertyAll(whiteColor),
+            ),
+            child: Text(
+              "Confirm",
+              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  String truncateWithEllipsis(String s, {int cutoff = 26}) {
+    if (s.length <= cutoff) return s;
+    return '${s.substring(0, 20)} ...';
   }
 }
