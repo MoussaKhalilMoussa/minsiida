@@ -159,7 +159,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         controller: _controller,
                       ),
 
-                      Specifications(),
+                      Specifications(
+                        currentPage: _currentPage,
+                        index: index,
+                        controller: _controller
+                      ),
                       Center(child: Text("Page ")),
                     ],
                   ),

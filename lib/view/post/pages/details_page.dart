@@ -299,40 +299,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               label: "Localisation",
                               onChanged: locationController.filterCities,
                             ),
-                            const SizedBox(height: 20),
-                            Center(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    detailsController.titleTouched.value = true;
-                                    detailsController.priceTouched.value = true;
-                                    detailsController.descTouched.value = true;
-                                  });
-                                  if (detailsController.titleController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      detailsController.priceController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      detailsController.descController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      locationController.selectedCity.value ==
-                                          null &&
-                                      locationController
-                                          .selectedSubPrefecture
-                                          .value
-                                          .isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Formulaire valide'),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text("Soumettre"),
-                              ),
-                            ),
+                            const SizedBox(height: 30),
                           ],
                         ),
                       ),
