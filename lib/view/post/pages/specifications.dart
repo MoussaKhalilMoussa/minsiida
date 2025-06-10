@@ -95,30 +95,74 @@ class _Specifications extends State<Specifications> {
                               label: "Modele *",
                               onChanged: specificationController.filterModels,
                               hintText: "un model",
+                              hintText1: "model",
+                              items: specificationController.modeles,
                               selectedItemRx:
                                   specificationController.selectedModel,
+                              showError: specificationController.showModelError,
                             ),
-                            /* 
+
                             buildLocalizationLabeledField(
                               label: "Stockage *",
-                              onChanged: (p0) {},
+                              onChanged: specificationController.filterStorage,
+                              hintText: "un stockage",
+                              hintText1: "stockage",
+                              items: specificationController.storages,
+                              selectedItemRx:
+                                  specificationController.selectedStorage,
+                              showError:
+                                  specificationController.showStorageError,
                             ),
+
                             buildLocalizationLabeledField(
                               label: "Couleur *",
-                              onChanged: (p0) {},
+                              onChanged: specificationController.filterColor,
+                              hintText: "une couleur",
+                              hintText1: "couleur",
+                              items: specificationController.colors,
+                              selectedItemRx:
+                                  specificationController.selectedColor,
+                              showError: specificationController.showColorError,
                             ),
+
                             buildLocalizationLabeledField(
                               label: "Etat de la baterie *",
-                              onChanged: (p0) {},
+                              onChanged: specificationController.filterState,
+                              hintText: "l'etat de la baterie",
+                              hintText1: "etat de la baterie",
+                              items: specificationController.bateryStates,
+                              selectedItemRx:
+                                  specificationController.selectedBateryState,
+                              showError:
+                                  specificationController.showBateryStateError,
                             ),
+
                             buildLocalizationLabeledField(
                               label: "Guarantie *",
-                              onChanged: (p0) {},
+                              onChanged:
+                                  specificationController.filterGuarantee,
+                              hintText1: "gurentie",
+                              hintText: "une guarentie",
+                              items: specificationController.guarentees,
+                              selectedItemRx:
+                                  specificationController.selectedGuarantee,
+                              showError:
+                                  specificationController.showGuaranteeError,
+                                  showSearcharea: true
                             ),
                             buildLocalizationLabeledField(
                               label: "Etat *",
-                              onChanged: (p0) {},
-                            ), */
+                              onChanged:
+                                  specificationController.filterCondition,
+                              hintText1: "l'etat",
+                              hintText: "etat",
+                              items: specificationController.conditions,
+                              selectedItemRx:
+                                  specificationController.selectedCondition,
+                              showError:
+                                  specificationController.showConditionError,
+                                  showSearcharea: true
+                            ),
                             const SizedBox(height: 8),
                           ],
                         ),
@@ -142,8 +186,12 @@ class _Specifications extends State<Specifications> {
   Widget buildLocalizationLabeledField({
     required String label,
     required String hintText,
+    required String hintText1,
+    required List<String> items,
     required Rx<String?> selectedItemRx,
     required Function(String)? onChanged,
+    required RxBool showError,
+    bool showSearcharea = false
   }) {
     final width = MediaQuery.sizeOf(Get.context!).width * 0.82;
     final height = MediaQuery.sizeOf(Get.context!).height / 22;
@@ -152,7 +200,15 @@ class _Specifications extends State<Specifications> {
         //locationController.resetSelection();
         specificationController.resetSelectedModel();
         Get.dialog(
-          cityDialog(onChanged: onChanged),
+          cityDialog(
+            onChanged: onChanged,
+            hintText1: hintText1,
+            hintText: hintText,
+            items: items,
+            selectedItemRx: selectedItemRx,
+            showError: showError,
+            showSearcharea:showSearcharea
+          ),
           barrierDismissible: true,
           transitionDuration: Duration(milliseconds: 0),
         );
@@ -160,16 +216,8 @@ class _Specifications extends State<Specifications> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4),
         child: Obx(() {
-          //final city = locationController.selectedCity.value;
-          //final model = specificationController.selectedModel.value;
-          //final item = selectedItem;
-          //final city = null;
-
-          //final subPref = null;
-
           final item = selectedItemRx.value;
-          String locationText =
-              item != null ? "$item" : "Selectionner $hintText";
+          String locationText = item ?? "Selectionner $hintText";
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +254,7 @@ class _Specifications extends State<Specifications> {
                   ],
                 ),
               ),
-              if (specificationController.showModelError.value) ...[
+              if (showError.value) ...[
                 const SizedBox(height: 4),
                 Row(
                   //mainAxisAlignment: MainAxisAlignment.end,
@@ -219,7 +267,7 @@ class _Specifications extends State<Specifications> {
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        "$item n'est page encore selectionner",
+                        "$hintText1 n'est page encore selectionner",
                         style: const TextStyle(color: Colors.red, fontSize: 13),
                       ),
                     ),
@@ -233,7 +281,15 @@ class _Specifications extends State<Specifications> {
     );
   }
 
-  Widget cityDialog({required Function(String)? onChanged}) {
+  Widget cityDialog({
+    required Function(String)? onChanged,
+    required String hintText,
+    required String hintText1,
+    required List<String> items,
+    required Rx<String?> selectedItemRx,
+    required RxBool showError,
+    bool showSearcharea = false
+  }) {
     //specificationController.resetSelectedModel();
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 60.0),
@@ -258,7 +314,7 @@ class _Specifications extends State<Specifications> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    "Selectionner modele",
+                    "Selectionner $hintText1",
                     style: TextStyle(
                       color: blackColor2,
                       fontSize: 20,
@@ -281,21 +337,24 @@ class _Specifications extends State<Specifications> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 4),
-            TextField(
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                hintText: "Rechercher un model",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.grey[400]!),
+            if (!showSearcharea) ...[
+              const SizedBox(height: 4),
+              TextField(
+                onChanged: onChanged,
+                decoration: InputDecoration(
+                  hintText: "Rechercher $hintText",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey[400]!),
+                  ),
+                  prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
                 ),
-                prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
               ),
-            ),
+            ],
             const SizedBox(height: 16),
             Obx(() {
-              final modeles = specificationController.filteredModels;
+              //final modeles = specificationController.filteredModels;
+              final listItems = items;
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.grey.withValues(alpha: 0.3),
@@ -309,18 +368,16 @@ class _Specifications extends State<Specifications> {
                 height: MediaQuery.sizeOf(Get.context!).width * 0.7,
                 width: MediaQuery.sizeOf(Get.context!).width * 0.9,
                 child:
-                    modeles.isEmpty
-                        ? Center(child: Text("Aucune ville trouvée"))
+                    listItems.isEmpty
+                        ? Center(child: Text("Aucun $hintText1 trouvée"))
                         : ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: modeles.length,
+                            itemCount: listItems.length,
                             itemBuilder: (_, index) {
-                              final model = modeles[index];
-                              final isSelected =
-                                  specificationController.selectedModel.value ==
-                                  model;
+                              final item = listItems[index];
+                              final isSelected = selectedItemRx.value == item;
                               return Card(
                                 color:
                                     isSelected
@@ -329,20 +386,16 @@ class _Specifications extends State<Specifications> {
                                 shape: LinearBorder(),
                                 margin: const EdgeInsets.only(bottom: 0.3),
                                 child: ListTile(
-                                  title: Text(model),
+                                  title: Text(item),
                                   trailing:
                                       isSelected
                                           ? const Icon(Icons.check, size: 14)
                                           : null,
 
                                   onTap: () {
-                                    specificationController
-                                        .selectedModel
-                                        .value = model;
-                                    specificationController
-                                        .showModelError
-                                        .value = false;
-                                    onChanged?.call(model);
+                                    selectedItemRx.value = item;
+                                    showError.value = false;
+                                    onChanged?.call(item);
                                     Get.back();
                                   },
                                 ),

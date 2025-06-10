@@ -56,7 +56,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         detailsController.showTitleError.value = true;
       }
 
-      if (detailsController.descController.text.trim().isEmpty) {
+      if (detailsController.priceController.text.trim().isEmpty) {
         detailsController.showPriceError.value = true;
       }
 
@@ -74,9 +74,28 @@ class _AddPostScreenState extends State<AddPostScreen> {
       return;
     }
 
-    if (index == 3 && specificationsController.selectedModel.value == null) {
-      specificationsController.showModelError.value = true;
-      return;
+    if (index == 3) {
+      final model = specificationsController.selectedModel.value;
+      final storage = specificationsController.selectedStorage.value;
+      final color = specificationsController.selectedColor.value;
+      final bateryState = specificationsController.selectedBateryState.value;
+      final guarantee = specificationsController.selectedGuarantee.value;
+      final condition = specificationsController.selectedCondition.value;
+
+      specificationsController.showModelError.value = model == null;
+      specificationsController.showStorageError.value = storage == null;
+      specificationsController.showBateryStateError.value = bateryState == null;
+      specificationsController.showGuaranteeError.value = guarantee == null;
+      specificationsController.showConditionError.value = condition == null;
+
+      if (model == null ||
+          storage == null ||
+          color == null ||
+          bateryState == null ||
+          guarantee == null ||
+          condition == null) {
+        return;
+      }
     }
     // Clear errors if vali dations pass
     controller.isError.value = false;
