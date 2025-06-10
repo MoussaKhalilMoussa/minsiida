@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
+import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
+import 'package:simple_nav_bar/view/post/widget/delivery_method_card.dart';
 
 class DeliveryPage extends StatefulWidget {
   final int currentPage;
@@ -19,9 +22,7 @@ class DeliveryPage extends StatefulWidget {
 
 class _DeliveryPage extends State<DeliveryPage> {
   late int currentPage;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
-
+  final deliveryController = Get.find<DeliveryController>();
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,7 @@ class _DeliveryPage extends State<DeliveryPage> {
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(Get.context!).width;
-    final screenH = MediaQuery.sizeOf(Get.context!).height;
+    //final screenH = MediaQuery.sizeOf(Get.context!).height;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -77,14 +78,62 @@ class _DeliveryPage extends State<DeliveryPage> {
                   // And inside, we stack picker UI + images:
                   child: Column(
                     children: [
-                      Form(
-                        key: _formKey,
-                        autovalidateMode: AutovalidateMode.disabled,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [const SizedBox(height: 8)],
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [const SizedBox(height: 8)],
+                      ),
+                      DeliveryMethodCard(
+                        methodTitle: 'Paiement Sécurisé',
+                        methodSubtitle:
+                            'Expédiez votre article et recevez le paiement en \ntoute sécurité',
+                      ),
+                      DeliveryMethodCard(
+                        showRecommandation: true,
+                        methodTitle: 'Livraison en Personne',
+                        methodSubtitle:
+                            "Rencontrez l'acheteur et livrez en personne",
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          elevation: 0,
+                          color: const Color.fromARGB(255, 249, 252, 255),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 10,
+                              children: [
+                                // Left side: Texts
+                                Icon(size: 30, Icons.info, color: purple_600),
+                                // Right side: Checkbox-like icon area
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "Vous pouvez proposer votre article avec les deux méthodes de livraison.\nLe Paiement Sécurisé offre une protection supplémentaire pour les acheteurs et les vendeurs.",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10,
+                                          color: blackColor2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
+
+                      SizedBox(height: 16),
                     ],
                   ),
                 ),
