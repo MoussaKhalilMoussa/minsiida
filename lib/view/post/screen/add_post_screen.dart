@@ -8,6 +8,7 @@ import 'package:simple_nav_bar/controllers/location_controller/location_controll
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
 import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
 import 'package:simple_nav_bar/view/post/pages/category_selection.dart';
+import 'package:simple_nav_bar/view/post/pages/delivery_page.dart';
 import 'package:simple_nav_bar/view/post/pages/details_page.dart';
 import 'package:simple_nav_bar/view/post/pages/photos_page.dart';
 import 'package:simple_nav_bar/view/post/pages/specifications.dart';
@@ -103,7 +104,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     categoryController.showCategoryError.value = false;
     detailsController.showDetailsError.value = false;
     // Move to next page if not last
-    if (index < 4) {
+    if (index < 5) {
       index++;
       _controller.animateToPage(
         index,
@@ -120,11 +121,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
       );
     }
   }
-
-  Map<Map<String, dynamic>, Map<String, Widget>> pages = {
-    {'title': 'Page 2'}: {'content': Center(child: Text("page 2"))},
-    {'title': 'Page 3'}: {'content': Center(child: Text("page 3"))},
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -187,6 +183,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       ),
 
                       Specifications(
+                        currentPage: _currentPage,
+                        index: index,
+                        controller: _controller,
+                      ),
+                      DeliveryPage(
                         currentPage: _currentPage,
                         index: index,
                         controller: _controller,
