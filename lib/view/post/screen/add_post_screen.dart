@@ -84,6 +84,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
       specificationsController.showModelError.value = model == null;
       specificationsController.showStorageError.value = storage == null;
+      specificationsController.showColorError.value = color == null;
       specificationsController.showBateryStateError.value = bateryState == null;
       specificationsController.showGuaranteeError.value = guarantee == null;
       specificationsController.showConditionError.value = condition == null;
