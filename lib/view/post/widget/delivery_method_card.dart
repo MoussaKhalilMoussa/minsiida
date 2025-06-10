@@ -26,14 +26,17 @@ class DeliveryMethodCard extends StatelessWidget {
         final isSelected = controller.selectedMethod.value == methodTitle;
 
         return GestureDetector(
-          onTap: () => controller.selectMethod(methodTitle),
+          onTap: () {
+            controller.selectMethod(methodTitle);
+            controller.showDeliveryError.value = false;
+          },
           child: Card(
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
               side: BorderSide(
                 color: isSelected ? blueColor : Colors.grey.shade300,
-                width: 0.5,
+                width: 1,
               ),
             ),
             color: isSelected ? Colors.blue.shade50 : Colors.white,

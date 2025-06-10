@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
@@ -12,6 +13,7 @@ import 'package:simple_nav_bar/view/post/pages/delivery_page.dart';
 import 'package:simple_nav_bar/view/post/pages/details_page.dart';
 import 'package:simple_nav_bar/view/post/pages/photos_page.dart';
 import 'package:simple_nav_bar/view/post/pages/specifications.dart';
+import 'package:simple_nav_bar/view/post/pages/summary_page.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -28,6 +30,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final detailsController = Get.find<DetailsPageController>();
   final locationController = Get.find<LocationController>();
   final specificationsController = Get.find<SpecificationController>();
+  final deliveryController = Get.find<DeliveryController>();
 
   int _currentPage = 0;
   int index = 0;
@@ -99,12 +102,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
         return;
       }
     }
+    if (index == 4 && deliveryController.selectedMethod.value.isEmpty) {
+      deliveryController.showDeliveryError(true);
+      return;
+    }
     // Clear errors if vali dations pass
     controller.isError.value = false;
     categoryController.showCategoryError.value = false;
     detailsController.showDetailsError.value = false;
     // Move to next page if not last
-    if (index < 5) {
+    if (index < 6) {
       index++;
       _controller.animateToPage(
         index,
@@ -188,6 +195,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         controller: _controller,
                       ),
                       DeliveryPage(
+                        currentPage: _currentPage,
+                        index: index,
+                        controller: _controller,
+                      ),
+
+                      SummaryPage(
                         currentPage: _currentPage,
                         index: index,
                         controller: _controller,

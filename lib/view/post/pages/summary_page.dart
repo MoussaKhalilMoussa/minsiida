@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
-import 'package:simple_nav_bar/view/post/widget/delivery_method_card.dart';
 
-class DeliveryPage extends StatefulWidget {
+class SummaryPage extends StatefulWidget {
   final int currentPage;
   final int index;
   final PageController controller;
-  const DeliveryPage({
+  const SummaryPage({
     super.key,
     required this.currentPage,
     required this.index,
@@ -17,10 +16,10 @@ class DeliveryPage extends StatefulWidget {
   });
 
   @override
-  State<DeliveryPage> createState() => _DeliveryPage();
+  State<SummaryPage> createState() => _SummaryPage();
 }
 
-class _DeliveryPage extends State<DeliveryPage> {
+class _SummaryPage extends State<SummaryPage> {
   late int currentPage;
   final deliveryController = Get.find<DeliveryController>();
   @override
@@ -53,7 +52,7 @@ class _DeliveryPage extends State<DeliveryPage> {
                 // Header section with title and progress bar parent
                 // This section is fixed at the top of the screen
                 Breadcrump(
-                  title: "Livraison",
+                  title: "Appercy",
                   currentPage: widget.currentPage,
                   controller: widget.controller,
                 ),
@@ -79,51 +78,6 @@ class _DeliveryPage extends State<DeliveryPage> {
                   child: Obx(() {
                     return Column(
                       children: [
-                        deliveryController.showDeliveryError.value
-                            ? Padding(
-                              padding: const EdgeInsets.only(
-                                left: 12.0,
-                                right: 12.0,
-                                top: 12.0,
-                                bottom: 8,
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-
-                                ///width: MediaQuery.sizeOf(context).width * 0.8,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.red.withValues(alpha: 0.5),
-                                    width: 0,
-                                  ),
-                                  color: Colors.red.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  "ⓘ Veuillez selectionner une option de livraison.",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            )
-                            : SizedBox.shrink(),
-
-                        DeliveryMethodCard(
-                          methodTitle: 'Paiement Sécurisé',
-                          methodSubtitle:
-                              'Expédiez votre article et recevez le paiement en \ntoute sécurité',
-                        ),
-                        DeliveryMethodCard(
-                          showRecommandation: true,
-                          methodTitle: 'Livraison en Personne',
-                          methodSubtitle:
-                              "Rencontrez l'acheteur et livrez en personne",
-                        ),
-
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Card(
@@ -148,7 +102,9 @@ class _DeliveryPage extends State<DeliveryPage> {
                                       children: [
                                         SizedBox(height: 4),
                                         Text(
-                                          "Vous pouvez proposer votre article avec les deux méthodes de livraison.\nLe Paiement Sécurisé offre une protection supplémentaire pour les acheteurs et les vendeurs.",
+                                          deliveryController
+                                              .selectedMethod
+                                              .value,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 10,
