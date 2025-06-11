@@ -2,7 +2,7 @@ name: simple_nav_bar
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -40,6 +40,7 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   dotted_border: ^3.0.1
   get: ^4.7.2
+  lucide_icons:
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +58,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -68,7 +68,6 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -99,7 +98,7 @@ fonts:
   - family: sans_regular
     fonts:
       - asset: assets/fonts/sans_regular.ttf
-    
+
   - family: sans_semibold
     fonts:
       - asset: assets/fonts/sans_semibold.ttf
