@@ -102,7 +102,7 @@ class _Specifications extends State<Specifications> {
                               showError: specificationController.showModelError,
                               showTouched: specificationController.modelTouched,
                             ),
-                             
+
                             buildLocalizationLabeledField(
                               label: "Stockage *",
                               onChanged: specificationController.filterStorage,
@@ -113,7 +113,8 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedStorage,
                               showError:
                                   specificationController.showStorageError,
-                                  showTouched:specificationController.storageTouched
+                              showTouched:
+                                  specificationController.storageTouched,
                             ),
 
                             buildLocalizationLabeledField(
@@ -125,7 +126,7 @@ class _Specifications extends State<Specifications> {
                               selectedItemRx:
                                   specificationController.selectedColor,
                               showError: specificationController.showColorError,
-                              showTouched:specificationController.colorTouched
+                              showTouched: specificationController.colorTouched,
                             ),
 
                             buildLocalizationLabeledField(
@@ -138,7 +139,8 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedBateryState,
                               showError:
                                   specificationController.showBateryStateError,
-                                  showTouched:specificationController.bateryStateTouched
+                              showTouched:
+                                  specificationController.bateryStateTouched,
                             ),
 
                             buildLocalizationLabeledField(
@@ -152,8 +154,9 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedGuarantee,
                               showError:
                                   specificationController.showGuaranteeError,
-                                  showSearcharea: true,
-                                  showTouched:specificationController.guaranteeTouched
+                              showSearcharea: true,
+                              showTouched:
+                                  specificationController.guaranteeTouched,
                             ),
                             buildLocalizationLabeledField(
                               label: "Etat *",
@@ -166,9 +169,10 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedCondition,
                               showError:
                                   specificationController.showConditionError,
-                                  showSearcharea: true,
-                                  showTouched:specificationController.conditionTouched 
-                            ), 
+                              showSearcharea: true,
+                              showTouched:
+                                  specificationController.conditionTouched,
+                            ),
                             const SizedBox(height: 8),
                           ],
                         ),
@@ -418,7 +422,6 @@ class _Specifications extends State<Specifications> {
         actions: [
           ElevatedButton(
             onPressed: () {
-              //locationController.resetSelection();
               Get.back();
             },
             style: ButtonStyle(
@@ -441,6 +444,4 @@ class _Specifications extends State<Specifications> {
       ),
     );
   }
-
-
 }

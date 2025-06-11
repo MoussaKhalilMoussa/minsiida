@@ -572,9 +572,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     return SizedBox(
       height: height * 0.52,
-      //width: (160 + 24) * 2,
       child: Stack(
-        //alignment: Alignment.center,
         children: [
           SizedBox(
             height: height * 0.5,
