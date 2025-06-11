@@ -26,4 +26,19 @@ class DetailsPageController extends GetxController {
     descController.dispose();
     super.dispose();
   }
+
+  void resetFields() {
+    titleController.clear();
+    priceController.clear();
+    descController.clear();
+
+    titleTouched.value = false;
+    priceTouched.value = false;
+    descTouched.value = false;
+
+    showDetailsError.value = false;
+    showTitleError.value = false;
+    showPriceError.value = false;
+    showDescriptionError.value = false;
+  }
 }

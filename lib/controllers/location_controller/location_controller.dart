@@ -14,19 +14,6 @@ class LocationController extends GetxController {
   final RxString searchQuery = ''.obs;
   Timer? debounce;
 
-  /* void setSearchQuery(String query) {
-    searchQuery.value = query;
-
-    debounce?.cancel();
-    debounce = Timer(Duration(milliseconds: 300), () {
-      if (isSubPrefecturePage.value && selectedCity.value != null) {
-        filterSubPrefectures(selectedCity.value!, query: query);
-      } else {
-        filterCities(query);
-      }
-    });
-  }
- */
   void filterCities(String query) {
     final results = _chadCities;
     if (query.isEmpty) {
@@ -56,6 +43,7 @@ class LocationController extends GetxController {
   void resetSelection() {
     selectedCity.value = null;
     selectedSubPrefecture.value = '';
+    searchQuery.value = '';
   }
 
   static final List<City> _chadCities = [

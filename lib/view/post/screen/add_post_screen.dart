@@ -34,6 +34,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   int _currentPage = 0;
   int index = 0;
+  bool hideContinueButton = false;
 
   void _goToPage() {
     // Page 0: Validate photos
@@ -93,6 +94,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
       specificationsController.showGuaranteeError.value = guarantee == null;
       specificationsController.showConditionError.value = condition == null;
 
+      specificationsController.modelTouched.value = true;
+      specificationsController.storageTouched.value = true;
+      specificationsController.colorTouched.value = true;
+      specificationsController.bateryStateTouched.value = true;
+      specificationsController.guaranteeTouched.value = true;
+      specificationsController.conditionTouched.value = true;
+
       if (model == null ||
           storage == null ||
           color == null ||
@@ -143,6 +151,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
             categoryController.selectedCategoryIndex.value = -1;
             categoryController.showCategoryError.value = false;
             controller.isError.value = false;
+            detailsController.resetFields();
+            locationController.resetSelection();
+            deliveryController.resetFields();
+            specificationsController.resetSelection();
             Navigator.pop(context);
           },
         ),
@@ -170,6 +182,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         (p) => setState(() {
                           _currentPage = p;
                           index = p;
+                          hideContinueButton = p == 5;
                         }),
                     children: [
                       PhotosPage(
@@ -205,42 +218,43 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         index: index,
                         controller: _controller,
                       ),
-                      Center(child: Text("Page ")),
                     ],
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomButton(
-                    borderRadius: 12,
-                    onPressed: _goToPage,
-                    width: MediaQuery.sizeOf(context).width * 0.9,
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Continuer ",
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                !hideContinueButton
+                    ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomButton(
+                        borderRadius: 12,
+                        onPressed: _goToPage,
+                        width: MediaQuery.sizeOf(context).width * 0.9,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Continuer ",
+                              style: GoogleFonts.playfairDisplay(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: Icon(
+                                Icons.arrow_forward,
+                                size: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Icon(
-                            Icons.arrow_forward,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
+                    )
+                    : SizedBox.shrink(),
               ],
             ),
           ],

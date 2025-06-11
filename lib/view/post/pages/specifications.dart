@@ -100,8 +100,9 @@ class _Specifications extends State<Specifications> {
                               selectedItemRx:
                                   specificationController.selectedModel,
                               showError: specificationController.showModelError,
+                              showTouched: specificationController.modelTouched,
                             ),
-
+                             
                             buildLocalizationLabeledField(
                               label: "Stockage *",
                               onChanged: specificationController.filterStorage,
@@ -112,6 +113,7 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedStorage,
                               showError:
                                   specificationController.showStorageError,
+                                  showTouched:specificationController.storageTouched
                             ),
 
                             buildLocalizationLabeledField(
@@ -123,6 +125,7 @@ class _Specifications extends State<Specifications> {
                               selectedItemRx:
                                   specificationController.selectedColor,
                               showError: specificationController.showColorError,
+                              showTouched:specificationController.colorTouched
                             ),
 
                             buildLocalizationLabeledField(
@@ -135,6 +138,7 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedBateryState,
                               showError:
                                   specificationController.showBateryStateError,
+                                  showTouched:specificationController.bateryStateTouched
                             ),
 
                             buildLocalizationLabeledField(
@@ -148,7 +152,8 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedGuarantee,
                               showError:
                                   specificationController.showGuaranteeError,
-                                  showSearcharea: true
+                                  showSearcharea: true,
+                                  showTouched:specificationController.guaranteeTouched
                             ),
                             buildLocalizationLabeledField(
                               label: "Etat *",
@@ -161,8 +166,9 @@ class _Specifications extends State<Specifications> {
                                   specificationController.selectedCondition,
                               showError:
                                   specificationController.showConditionError,
-                                  showSearcharea: true
-                            ),
+                                  showSearcharea: true,
+                                  showTouched:specificationController.conditionTouched 
+                            ), 
                             const SizedBox(height: 8),
                           ],
                         ),
@@ -191,14 +197,13 @@ class _Specifications extends State<Specifications> {
     required Rx<String?> selectedItemRx,
     required Function(String)? onChanged,
     required RxBool showError,
-    bool showSearcharea = false
+    required RxBool showTouched,
+    bool showSearcharea = false,
   }) {
     final width = MediaQuery.sizeOf(Get.context!).width * 0.82;
     final height = MediaQuery.sizeOf(Get.context!).height / 22;
     return GestureDetector(
       onTap: () {
-        //locationController.resetSelection();
-        specificationController.resetSelectedModel();
         Get.dialog(
           cityDialog(
             onChanged: onChanged,
@@ -207,7 +212,8 @@ class _Specifications extends State<Specifications> {
             items: items,
             selectedItemRx: selectedItemRx,
             showError: showError,
-            showSearcharea:showSearcharea
+            showTouched: showTouched,
+            showSearcharea: showSearcharea,
           ),
           barrierDismissible: true,
           transitionDuration: Duration(milliseconds: 0),
@@ -254,7 +260,7 @@ class _Specifications extends State<Specifications> {
                   ],
                 ),
               ),
-              if (showError.value) ...[
+              if (showError.value && showTouched.value) ...[
                 const SizedBox(height: 4),
                 Row(
                   //mainAxisAlignment: MainAxisAlignment.end,
@@ -288,7 +294,8 @@ class _Specifications extends State<Specifications> {
     required List<String> items,
     required Rx<String?> selectedItemRx,
     required RxBool showError,
-    bool showSearcharea = false
+    required RxBool showTouched,
+    bool showSearcharea = false,
   }) {
     //specificationController.resetSelectedModel();
     return SingleChildScrollView(
@@ -395,6 +402,7 @@ class _Specifications extends State<Specifications> {
                                   onTap: () {
                                     selectedItemRx.value = item;
                                     showError.value = false;
+                                    showTouched.value = false;
                                     onChanged?.call(item);
                                     Get.back();
                                   },
@@ -433,4 +441,6 @@ class _Specifications extends State<Specifications> {
       ),
     );
   }
+
+
 }

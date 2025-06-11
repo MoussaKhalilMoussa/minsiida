@@ -7,4 +7,8 @@ class DeliveryController extends GetxController {
   void selectMethod(String method) {
     selectedMethod.value = method;
   }
+
+  void resetFields() {
+    selectedMethod.value = "";
+  }
 }

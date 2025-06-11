@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +7,11 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
+import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
+import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
+import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
+import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
+import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
 class SummaryPage extends StatefulWidget {
   final int currentPage;
@@ -24,6 +31,10 @@ class SummaryPage extends StatefulWidget {
 class _SummaryPage extends State<SummaryPage> {
   late int currentPage;
   final deliveryController = Get.find<DeliveryController>();
+  final locationController = Get.find<LocationController>();
+  final specificationController = Get.find<SpecificationController>();
+  final detailsController = Get.find<DetailsPageController>();
+  final photoController = Get.find<PhotosController>();
   @override
   void initState() {
     super.initState();
@@ -38,7 +49,7 @@ class _SummaryPage extends State<SummaryPage> {
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(Get.context!).width;
-    //final screenH = MediaQuery.sizeOf(Get.context!).height;
+    final screenH = MediaQuery.sizeOf(Get.context!).height;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -104,16 +115,44 @@ class _SummaryPage extends State<SummaryPage> {
                             children: [
                               // this container wil hold the image
                               Container(
-                                width: MediaQuery.sizeOf(Get.context!).width,
-                                height: 250,
+                                width: screenW,
+                                padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(12),
                                     topRight: Radius.circular(12),
                                   ),
-                                  color: greyColo1,
+                                  color: greyColo1.withValues(alpha: 0.1),
                                 ),
+                                child: Obx(() {
+                                  if (photoController.selectedImages.isEmpty) {
+                                    return const Center(
+                                      child: Text("No images selected"),
+                                    );
+                                  }
+                                  return Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children:
+                                        photoController.selectedImages.map((
+                                          image,
+                                        ) {
+                                          return ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                            child: Image.file(
+                                              File(image.path),
+                                              width: screenW / 4.19,
+                                              height: screenH / 10,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          );
+                                        }).toList(),
+                                  );
+                                }),
                               ),
+
                               Padding(
                                 padding: const EdgeInsets.only(
                                   left: 8.0,
@@ -231,24 +270,42 @@ class _SummaryPage extends State<SummaryPage> {
                               showItem(
                                 title1: "Modèle",
                                 title2: "Stockage",
-                                content1: "iPhone 16 pro Max",
-                                content2: "128 Go",
+                                content1:
+                                    specificationController
+                                        .filteredModels
+                                        .first,
+                                content2:
+                                    specificationController
+                                        .filteredStorage
+                                        .first,
                                 spacing: screenW,
                               ),
 
                               showItem(
                                 title1: "Couleur",
                                 title2: "État",
-                                content1: "Rouge",
-                                content2: "Pour pieces",
+                                content1:
+                                    specificationController
+                                        .filteredColors
+                                        .first,
+                                content2:
+                                    specificationController
+                                        .filteredConditions
+                                        .first,
                                 spacing: screenW,
                               ),
 
                               showItem(
                                 title1: "Garantie",
                                 title2: "Batterie",
-                                content1: "Sans garantie",
-                                content2: "Moins de 70%",
+                                content1:
+                                    specificationController
+                                        .filteredGuarantees
+                                        .first,
+                                content2:
+                                    specificationController
+                                        .filteredBateryStates
+                                        .first,
                                 spacing: screenW,
                               ),
 
@@ -380,20 +437,24 @@ class _SummaryPage extends State<SummaryPage> {
                                             children: [
                                               Text(
                                                 "Votre Nom",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  color: blackColor2,
-                                                ),
+                                                style:
+                                                    GoogleFonts.playfairDisplay(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12,
+                                                      color: blackColor2,
+                                                    ),
                                               ),
                                               SizedBox(height: 4),
                                               Text(
                                                 "Membre depuis 2023",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 10,
-                                                  color: greyColo1,
-                                                ),
+                                                style:
+                                                    GoogleFonts.playfairDisplay(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 10,
+                                                      color: greyColo1,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -403,14 +464,16 @@ class _SummaryPage extends State<SummaryPage> {
                                           width: 50,
                                           height: 20,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                             color: Colors.green.withValues(
                                               alpha: 0.1,
                                             ),
                                           ),
                                           child: Text(
                                             "Vérifié",
-                                            style: TextStyle(
+                                            style: GoogleFonts.playfairDisplay(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 10,
                                               color: Colors.green,
@@ -425,8 +488,81 @@ class _SummaryPage extends State<SummaryPage> {
                             ],
                           ),
                         ),
-
+                        SizedBox(height: 4),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: CustomButton(
+                            onPressed: () {
+                              
+                            },
+                            width: screenW * 0.83,
+                            height: screenH / 18,
+                            borderRadius: 8,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.print_outlined,
+                                  color: whiteColor,
+                                  size: 24,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  "Publier l'Anonce",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: whiteColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 16),
+                        Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.symmetric(horizontal: 8.0),
+                            decoration: BoxDecoration(
+                              color: greyColo1.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            alignment: Alignment.center,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "En publiant cette annonce, vous acceptez nos",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: blackColor2,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Text(
+                                  " Conditions d'Utilisation",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: purple_600,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Text(
+                                  "et",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: blackColor2,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Text(
+                                  "Règles de la Communauté",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: purple_600,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     );
                   }),

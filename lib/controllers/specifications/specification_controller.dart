@@ -14,7 +14,7 @@ class SpecificationController extends GetxController {
   final filteredModels = <String>[..._iPhoneModels].obs;
   final filteredStorage = <String>[..._storageOptions].obs;
   final filteredColors = <String>[..._colorsOptions].obs;
-  final filteredBateryStates = <String>[..._colorsOptions].obs;
+  final filteredBateryStates = <String>[..._bateryStateOptions].obs;
   final filteredGuarantees = <String>[..._guaranteeOptions].obs;
   final filteredConditions = <String>[..._conditionOptions].obs;
 
@@ -31,6 +31,13 @@ class SpecificationController extends GetxController {
   final RxBool showBateryStateError = false.obs;
   final RxBool showGuaranteeError = false.obs;
   final RxBool showConditionError = false.obs;
+
+  final RxBool modelTouched = false.obs;
+  final RxBool storageTouched = false.obs;
+  final RxBool colorTouched = false.obs;
+  final RxBool bateryStateTouched = false.obs;
+  final RxBool guaranteeTouched = false.obs;
+  final RxBool conditionTouched = false.obs;
 
   void filterModels(String query) {
     final results = _iPhoneModels;
@@ -110,13 +117,20 @@ class SpecificationController extends GetxController {
     }
   }
 
-  void resetSelectedModel() {
+  void resetSelection() {
     filteredModels.value = <String>[..._iPhoneModels];
     filteredStorage.value = <String>[..._storageOptions];
     filteredColors.value = <String>[..._colorsOptions];
     filteredBateryStates.value = <String>[..._bateryStateOptions];
     filteredGuarantees.value = <String>[..._guaranteeOptions];
     filteredConditions.value = <String>[..._conditionOptions];
+
+    selectedModel.value = null;
+    selectedStorage.value = null;
+    selectedColor.value = null;
+    selectedBateryState.value = null;
+    selectedGuarantee.value = null;
+    selectedCondition.value = null;
   }
 
   @override
