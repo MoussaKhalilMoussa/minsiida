@@ -39,10 +39,10 @@ class _CategorySelectionState extends State<CategorySelection> {
               height: 40,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.red.withOpacity(0.5),
+                  color: Colors.red.withValues(alpha: 0.5),
                   width: 1.5,
                 ),
-                color: Colors.red.withOpacity(0.1),
+                color: Colors.red.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
@@ -68,7 +68,7 @@ class _CategorySelectionState extends State<CategorySelection> {
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.of(context).size.width;
-    final screenH = MediaQuery.of(context).size.height;
+    //final screenH = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -81,7 +81,11 @@ class _CategorySelectionState extends State<CategorySelection> {
             children: [
               // Header section with title and progress bar parent
               // This section is fixed at the top of the screen
-              Breadcrump(title: "Categorie", currentPage: widget.currentPage, controller: widget.controller),
+              Breadcrump(
+                title: "Categorie",
+                currentPage: widget.currentPage,
+                controller: widget.controller,
+              ),
               const SizedBox(height: 30),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
@@ -130,9 +134,9 @@ class _CategorySelectionState extends State<CategorySelection> {
                             crossAxisSpacing: 10,
                             childAspectRatio: 1.2,
                           ),
-                      itemCount: categories1.length - 3,
+                      itemCount: categoriesSelection.length,
                       itemBuilder: (context, index) {
-                        final category = categories1[index];
+                        final category = categoriesSelection[index];
                         return Obx(() {
                           final isSelected =
                               controller.selectedCategoryIndex.value == index;
@@ -164,14 +168,20 @@ class _CategorySelectionState extends State<CategorySelection> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    Text(
+                                      category['icon'],
+                                      style: GoogleFonts.playfairDisplay(
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                    /* Icon(
                                       category['icon'],
                                       color:
                                           isSelected
                                               ? Colors.white
                                               : purple_600,
                                       size: 24,
-                                    ),
+                                    ), */
                                     const SizedBox(height: 8),
                                     Text(
                                       category['label'],
@@ -194,11 +204,11 @@ class _CategorySelectionState extends State<CategorySelection> {
                     const SizedBox(height: 12),
                     Obx(() {
                       final index = controller.selectedCategoryIndex.value;
-                      if (index < 0 || index >= categories1.length) {
+                      if (index < 0 || index >= categoriesSelection.length) {
                         return const SizedBox.shrink();
                       }
 
-                      final selectedCategory = categories1[index];
+                      final selectedCategory = categoriesSelection[index];
                       final subcategories = selectedCategory['subcategory'];
 
                       if (subcategories == null || subcategories.isEmpty) {

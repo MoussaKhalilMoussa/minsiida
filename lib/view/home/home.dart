@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/images.dart';
@@ -137,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen>
                         ElevatedButton.icon(
                           onPressed: () {},
                           icon: Icon(
-                            Icons.camera_alt_outlined,
+                            LucideIcons.camera,
                             color: whiteColor,
                           ),
                           label: Text(
@@ -454,15 +455,15 @@ class _HomeScreenState extends State<HomeScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         spacing:  MediaQuery.sizeOf(context).width / 7,
                         children: [
-                          _buildNavItem(Icons.menu, "Menu", 3),
+                          _buildNavItem(LucideIcons.menu, "Menu", 3),
                           _buildNavItem(
-                            Icons.favorite_border_outlined,
+                            LucideIcons.heart,
                             "Favorites",
                             1,
                           ),
                           // SizedBox(width: 60), // space for FAB
-                          _buildNavItem(Icons.grid_view, "Categories", 0),
-                          _buildNavItem(Icons.person_2_outlined, "Profile", 4),
+                          _buildNavItem(LucideIcons.grid, "Categories", 0),
+                          _buildNavItem(LucideIcons.user, "Profile", 4),
                         ],
                       ),
                     ),
@@ -501,7 +502,7 @@ class _HomeScreenState extends State<HomeScreen>
                         ],
                       ),
                       child: Icon(
-                        Icons.camera_alt_outlined,
+                        LucideIcons.camera,
                         color: Colors.white,
                         size: 30,
                       ),

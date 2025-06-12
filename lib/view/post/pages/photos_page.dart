@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -177,7 +178,7 @@ class _PhotosPageState extends State<PhotosPage> {
                                 child: IconButton(
                                   onPressed: _pickImages,
                                   icon: Icon(
-                                    Icons.camera_alt_outlined,
+                                    LucideIcons.camera,
                                     size: 28,
                                     color: Colors.purple.shade600,
                                   ),
@@ -215,11 +216,11 @@ class _PhotosPageState extends State<PhotosPage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.file_upload_outlined,
+                                      LucideIcons.upload,
                                       size: 16,
                                       color: Colors.white,
                                     ),
-                                    SizedBox(width: 4),
+                                    SizedBox(width: 6),
                                     Expanded(
                                       child: Text(
                                         'Choisir des photos',

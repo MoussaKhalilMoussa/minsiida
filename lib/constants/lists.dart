@@ -1,12 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+
+final List<Map<String, dynamic>> categoriesSelection = [
+  {'subcategory': null, 'label': "Véhicules", 'icon': "🚗"},
+  {
+    'subcategory': [
+      'Smartphones',
+      'Tablettes',
+      'Ordinateurs portables',
+      'Ordinateurs de bureau',
+      'Téléviseurs',
+      'Appareils photo',
+      'Accessoires',
+      'Consoles de jeux',
+      'Casques audio',
+      'Montres connectées',
+      'Imprimantes',
+      'Composants PC',
+      'Objets connectés',
+      'Électroménager',
+    ],
+    'label': "Électronique",
+    'icon': "📱",
+  },
+  {'subcategory': null, 'label': "Maison", 'icon': "🏠"},
+  {'subcategory': null, 'label': "Mode", 'icon': "👔"},
+  {'subcategory': null, 'label': "Beauté", 'icon': "💄"},
+  {'subcategory': null, 'label': "Enfants", 'icon': "🧸"},
+  {'subcategory': null, 'label': "Sports", 'icon': "⚽"},
+  {'subcategory': null, 'label': "Services", 'icon': "🛠️"},
+  {'subcategory': null, 'label': "Emplois", 'icon': "💼"},
+];
 
 final List<Map<String, dynamic>> categories1 = [
-  {'label': 'Tous', 'icon': Icons.grid_view, 'color': Colors.grey,'subcategory': null },
-  {'label': 'Véhicules', 'icon': Icons.directions_car, 'color': Colors.blue,'subcategory': null },
-  {'label': 'Immobilier', 'icon': Icons.home, 'color': Colors.green,'subcategory': null},
+  {
+    'label': 'Tous',
+    'icon': LucideIcons.layoutGrid,
+    'color': Colors.grey,
+    'subcategory': null,
+  },
+  {
+    'label': 'Véhicules',
+    'icon': LucideIcons.car,
+    'color': Colors.blue,
+    'subcategory': null,
+  },
+  {
+    'label': 'Immobilier',
+    'icon': LucideIcons.home,
+    'color': Colors.green,
+    'subcategory': null,
+  },
   {
     'label': 'Électronique',
-    'icon': Icons.smartphone,
+    'icon': LucideIcons.smartphone,
     'color': Colors.purple,
     'subcategory': [
       'Smartphones',
@@ -25,17 +72,164 @@ final List<Map<String, dynamic>> categories1 = [
       'Électroménager',
     ],
   },
-  {'label': 'Beaute', 'icon': Icons.card_giftcard_outlined, 'color': Colors.grey,'subcategory': null},
-  {'label': 'Sports', 'icon': Icons.sports_soccer, 'color': Colors.blue,'subcategory': null},
-  {'label': 'Immobilier', 'icon': Icons.miscellaneous_services_rounded, 'color': Colors.green,'subcategory': null},
-  {'label': 'Électronique', 'icon': Icons.smartphone, 'color': Colors.purple,'subcategory': null},
-  {'label': 'Tous', 'icon': Icons.grid_view, 'color': Colors.grey,'subcategory': null},
-  {'label': 'Véhicules', 'icon': Icons.directions_car, 'color': Colors.blue,'subcategory': null},
-  {'label': 'Immobilier', 'icon': Icons.home, 'color': Colors.green,'subcategory': null},
-  {'label': 'Électronique', 'icon': Icons.smartphone, 'color': Colors.purple,'subcategory': null},
-  
-  //{'label': 'Mode', 'icon': Icons.checkroom, 'color': Colors.pink},
+  {
+    'label': 'Mode',
+    'icon': LucideIcons.shirt,
+    'color': Colors.pink,
+    'subcategory': null,
+  },
+  {
+    'label': 'Meubles',
+    'icon': LucideIcons.sofa,
+    'color': Colors.amber,
+    'subcategory': null,
+  },
+  {
+    'label': 'Emplois',
+    'icon': LucideIcons.briefcase,
+    'color': Colors.blue,
+    'subcategory': null,
+  },
+  {
+    'label': 'Services',
+    'icon': LucideIcons.wrench,
+    'color': Colors.grey,
+    'subcategory': null,
+  },
+  {
+    'label': 'Loisirs',
+    'icon': LucideIcons.gamepad,
+    'color': Colors.indigo,
+    'subcategory': null,
+  },
+  {
+    'label': 'Animaux',
+    'icon': LucideIcons.heart,
+    'color': Colors.pinkAccent,
+    'subcategory': null,
+  },
+  {
+    'label': 'Livres',
+    'icon': LucideIcons.bookOpen,
+    'color': Colors.green,
+    'subcategory': null,
+  },
+  {
+    'label': 'Sports',
+    'icon': LucideIcons.dumbbell,
+    'color': Colors.orange,
+    'subcategory': null,
+  },
+  {
+    'label': 'Musique',
+    'icon': LucideIcons.music,
+    'color': Colors.deepPurple,
+    'subcategory': null,
+  },
+  {
+    'label': 'Art',
+    'icon': LucideIcons.paintbrush,
+    'color': Colors.yellow,
+    'subcategory': null,
+  },
+  {
+    'label': 'Jouets',
+    'icon': LucideIcons.baby,
+    'color': Colors.cyan,
+    'subcategory': null,
+  },
+  {
+    'label': 'Jardin',
+    'icon': LucideIcons.flower,
+    'color': Colors.green,
+    'subcategory': null,
+  },
+  {
+    'label': 'Beauté',
+    'icon': LucideIcons.scissors,
+    'color': Colors.pink,
+    'subcategory': null,
+  },
+  {
+    'label': 'Santé',
+    'icon': LucideIcons.stethoscope,
+    'color': Colors.red,
+    'subcategory': null,
+  },
+  {
+    'label': 'Alimentation',
+    'icon': LucideIcons.apple,
+    'color': Colors.lime,
+    'subcategory': null,
+  },
+  {
+    'label': 'Voyage',
+    'icon': LucideIcons.plane,
+    'color': Colors.lightBlue,
+    'subcategory': null,
+  },
+  {
+    'label': 'Éducation',
+    'icon': LucideIcons.graduationCap,
+    'color': Colors.blue,
+    'subcategory': null,
+  },
+  {
+    'label': 'Technologie',
+    'icon': LucideIcons.laptop,
+    'color': Colors.indigo,
+    'subcategory': null,
+  },
+  {
+    'label': 'Antiquités',
+    'icon': LucideIcons.clock,
+    'color': Colors.amber,
+    'subcategory': null,
+  },
+  {
+    'label': 'Bijoux',
+    'icon': LucideIcons.diamond,
+    'color': Colors.purple,
+    'subcategory': null,
+  },
+  {
+    'label': 'Photographie',
+    'icon': LucideIcons.camera,
+    'color': Colors.grey,
+    'subcategory': null,
+  },
+  {
+    'label': 'Outils',
+    'icon': LucideIcons.hammer,
+    'color': Colors.orange,
+    'subcategory': null,
+  },
+  {
+    'label': 'Bébé',
+    'icon': LucideIcons.baby,
+    'color': Colors.pink,
+    'subcategory': null,
+  },
+  {
+    'label': 'Bureau',
+    'icon': LucideIcons.printer,
+    'color': Colors.blue,
+    'subcategory': null,
+  },
+  {
+    'label': 'Extérieur',
+    'icon': LucideIcons.tent,
+    'color': Colors.green,
+    'subcategory': null,
+  },
+  {
+    'label': 'Bricolage',
+    'icon': LucideIcons.hammer,
+    'color': Colors.yellow,
+    'subcategory': null,
+  },
 ];
+
 
 final List<Map<String, String>> featuredAds = [
   {
