@@ -41,7 +41,7 @@ class _HoverableCategoryItemState extends State<HoverableCategoryItem> {
         width: 80,
         height: 80,
         decoration: BoxDecoration(
-          color: _isClicked ? blueColor.withOpacity(0.1) : Colors.transparent,
+          color: _isClicked ? blueColor.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -58,8 +58,9 @@ class _HoverableCategoryItemState extends State<HoverableCategoryItem> {
             const SizedBox(height: 4),
             Text(
               widget.label,
+              overflow: TextOverflow.clip,
               style: GoogleFonts.playfairDisplay(
-                fontSize: 12,
+                fontSize: 11,
                 color: greyColor,
               ),
             ),

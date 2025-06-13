@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
@@ -13,6 +14,7 @@ void main() {
   Get.lazyPut<DetailsPageController>(() => DetailsPageController());
   Get.lazyPut<SpecificationController>(() => SpecificationController());
   Get.lazyPut<DeliveryController>(() => DeliveryController());
+  Get.lazyPut<CategoryContorller>(() => CategoryContorller());
   runApp(MyApp());
 }
 
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.playfairDisplayTextTheme(),
         primarySwatch: Colors.purple,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(backgroundColor: Colors.white, elevation: 0),
       ),
       routes: {
         '/addPost': (context) => AddPostScreen(),

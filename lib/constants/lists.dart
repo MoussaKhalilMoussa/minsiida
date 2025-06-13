@@ -2,7 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 final List<Map<String, dynamic>> categoriesSelection = [
-  {'subcategory': null, 'label': "Véhicules", 'icon': "🚗"},
+  {
+    'subcategory': [
+      'Fiat',
+      'Renault',
+      'Volkswagen',
+      'Ford',
+      'Opel',
+      'Peugeot',
+      'Accessoires',
+      'Véhicules (İkinci El)',
+      'Elektrik',
+      'Motor & Mekanik',
+      'Yürüyen & Direksiyon',
+      'Isıtma & Havalandırma & Klima',
+      'Şanzıman & Vites',
+      'Ateşleme & Yakıt',
+      'Fren & Debriyaj',
+    ],
+    'label': "Véhicules",
+    'icon': "🚗",
+  },
   {
     'subcategory': [
       'Smartphones',
@@ -43,7 +63,23 @@ final List<Map<String, dynamic>> categories1 = [
     'label': 'Véhicules',
     'icon': LucideIcons.car,
     'color': Colors.blue,
-    'subcategory': null,
+    'subcategory': [
+      'Fiat',
+      'Renault',
+      'Volkswagen',
+      'Ford',
+      'Opel',
+      'Peugeot',
+      'Accessoires',
+      'Véhicules (İkinci El)',
+      'Elektrik',
+      'Motor & Mekanik',
+      'Yürüyen & Direksiyon',
+      'Isıtma & Havalandırma & Klima',
+      'Şanzıman & Vites',
+      'Ateşleme & Yakıt',
+      'Fren & Debriyaj',
+    ],
   },
   {
     'label': 'Immobilier',
@@ -229,7 +265,6 @@ final List<Map<String, dynamic>> categories1 = [
     'subcategory': null,
   },
 ];
-
 
 final List<Map<String, String>> featuredAds = [
   {

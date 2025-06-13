@@ -5,6 +5,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
+import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
 import 'package:simple_nav_bar/view/home/widgets/hoverable_category_item_widget.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 import 'package:simple_nav_bar/view/menu/widgets/menu_drawer.dart';
@@ -20,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
   bool _isDrawerOpen = false;
+  bool _isCategoriesOpen = false;
+
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   var currentPage = 0;
@@ -69,13 +72,21 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _onItemTapped(int index) {
-    if (index == 3) {
+    if (index == 0) {
+      _selectedIndex = index;
       setState(() => _isDrawerOpen = true);
+      _controller.forward();
+    } else if (index == 1) {
+      _selectedIndex = index;
+      setState(() {
+        _isCategoriesOpen = true;
+      });
       _controller.forward();
     } else {
       setState(() {
         _selectedIndex = index;
         _isDrawerOpen = false;
+        _isCategoriesOpen = false;
         _controller.reverse();
       });
     }
@@ -86,21 +97,31 @@ class _HomeScreenState extends State<HomeScreen>
     _controller.reverse();
   }
 
-  final List<Widget> _pages = [
-    Center(child: Text('Categories')),
-    Center(child: Text('Favorites')),
-    Center(child: Text('FAB Action Camera')),
-    Center(child: Text('Drawer Trigger')),
-    Center(child: Text('Profile')),
-  ];
+  void _closeCategories() {
+    setState(() => _isCategoriesOpen = false);
+    _controller.reverse();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var width =  MediaQuery.sizeOf(context).width;
-    var height =  MediaQuery.sizeOf(context).height;
+    var width = MediaQuery.sizeOf(context).width;
+    var height = MediaQuery.sizeOf(context).height;
     final double itemWidth = width * 0.30;
     final double spacing = 14.0;
     itemWidthWithSpacing = itemWidth + spacing;
+
+    final List<Widget> widgets = [
+      menuDrawer(
+        context: context,
+        closeDrawer: _closeDrawer,
+        offsetAnimation: _offsetAnimation,
+      ),
+      CategoriesPage(
+        //context: context,
+        closeCategories: _closeCategories,
+        offsetAnimation: _offsetAnimation,
+      ),
+    ];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -137,10 +158,7 @@ class _HomeScreenState extends State<HomeScreen>
                         SizedBox(height: 12),
                         ElevatedButton.icon(
                           onPressed: () {},
-                          icon: Icon(
-                            LucideIcons.camera,
-                            color: whiteColor,
-                          ),
+                          icon: Icon(LucideIcons.camera, color: whiteColor),
                           label: Text(
                             'Déposer une annonce',
                             style: GoogleFonts.playfairDisplay(
@@ -174,8 +192,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   icon: cat['icon'],
                                   label: cat['label'],
                                   color: cat['color'],
-                                  onTap: () {
-                                  },
+                                  onTap: () {},
                                 ),
                               );
                             }).toList(),
@@ -453,17 +470,13 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        spacing:  MediaQuery.sizeOf(context).width / 7,
+                        spacing: MediaQuery.sizeOf(context).width / 7,
                         children: [
-                          _buildNavItem(LucideIcons.menu, "Menu", 3),
-                          _buildNavItem(
-                            LucideIcons.heart,
-                            "Favorites",
-                            1,
-                          ),
+                          _buildNavItem(LucideIcons.menu, "Menu", 0),
+                          _buildNavItem(LucideIcons.heart, "Favorites", 2),
                           // SizedBox(width: 60), // space for FAB
-                          _buildNavItem(LucideIcons.grid, "Categories", 0),
-                          _buildNavItem(LucideIcons.user, "Profile", 4),
+                          _buildNavItem(LucideIcons.grid, "Categories", 1),
+                          _buildNavItem(LucideIcons.user, "Profile", 3),
                         ],
                       ),
                     ),
@@ -479,9 +492,9 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             Positioned(
               bottom: 25,
-              left:  MediaQuery.sizeOf(context).width / 2 - 40,
+              left: MediaQuery.sizeOf(context).width / 2 - 40,
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, '/addPost');
                 },
                 child: Column(
@@ -519,12 +532,11 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
             ),
+
             // Slide-in drawer
-            menuDrawer(
-              context: context,
-              closeDrawer: _closeDrawer,
-              offsetAnimation: _offsetAnimation,
-            ),
+            for (int i = 0; i < widgets.length; i++)
+              if (i != _selectedIndex)
+                widgets[_selectedIndex], // Always last = on top
           ],
         ),
       ),
@@ -532,7 +544,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildNavItem(IconData icon, String label, int index) {
-    final isSelected = _selectedIndex == index && !_isDrawerOpen;
+    //final isSelected = _selectedIndex == index && !_isDrawerOpen;
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: Column(
@@ -556,8 +568,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _horizontalGrid({required controller}) {
     // Width of one item + horizontal margin
-    var width =  MediaQuery.sizeOf(context).width;
-    var height =  MediaQuery.sizeOf(context).height;
+    var width = MediaQuery.sizeOf(context).width;
+    var height = MediaQuery.sizeOf(context).height;
     final double itemWidth = width * 0.45;
     final double spacing = 14.0;
     final double itemWidthWithSpacing = itemWidth + spacing;
@@ -720,7 +732,7 @@ class _HomeScreenState extends State<HomeScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                spacing:  MediaQuery.sizeOf(context).width / 1.9,
+                spacing: MediaQuery.sizeOf(context).width / 1.9,
                 children: [
                   //backword button
                   InkWell(
