@@ -48,6 +48,14 @@ class _PhotosPageState extends State<PhotosPage> {
     }
   }
 
+  Future<void> _takePhoto() async {
+    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    if (photo != null) {
+      controller.isError.value = false;
+      controller.selectedImages.add(File(photo.path));
+    }
+  }
+
   // error message for no images selected
   Widget _errorMessage() {
     return Obx(() {
@@ -57,7 +65,7 @@ class _PhotosPageState extends State<PhotosPage> {
 
             child: Container(
               alignment: Alignment.center,
-              width:  MediaQuery.sizeOf(context).width * 0.8,
+              width: MediaQuery.sizeOf(context).width * 0.8,
               height: 40,
               decoration: BoxDecoration(
                 border: Border.all(
@@ -89,12 +97,10 @@ class _PhotosPageState extends State<PhotosPage> {
     currentPage = widget.currentPage;
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final screenW =  MediaQuery.sizeOf(context).width;
-    final screenH =  MediaQuery.sizeOf(context).height;
-
+    final screenW = MediaQuery.sizeOf(context).width;
+    final screenH = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -107,15 +113,18 @@ class _PhotosPageState extends State<PhotosPage> {
             children: [
               // Header section with title and progress bar parent
               // This section is fixed at the top of the screen
-
-              Breadcrump(title: "Photos", currentPage: widget.currentPage, controller: widget.controller),
+              Breadcrump(
+                title: "Photos",
+                currentPage: widget.currentPage,
+                controller: widget.controller,
+              ),
               const SizedBox(height: 30),
 
               Obx(() {
                 final images = controller.selectedImages;
                 final rows = (images.length / 3).ceil();
                 final imageHeight = rows * 108.0; // 100px + 8px spacing
-                final pickerHeight =  MediaQuery.sizeOf(context).height * 0.35;
+                final pickerHeight = MediaQuery.sizeOf(context).height * 0.35;
                 final totalHeight =
                     pickerHeight + imageHeight + 100; // + extra spacing
 
@@ -142,7 +151,6 @@ class _PhotosPageState extends State<PhotosPage> {
                     children: [
                       // — your dotted picker section
                       DottedBorder(
-                        
                         options: RoundedRectDottedBorderOptions(
                           radius: Radius.circular(8),
                           color: Colors.grey.shade400,
@@ -176,7 +184,7 @@ class _PhotosPageState extends State<PhotosPage> {
                                   ],
                                 ),
                                 child: IconButton(
-                                  onPressed: _pickImages,
+                                  onPressed: _takePhoto,
                                   icon: Icon(
                                     LucideIcons.camera,
                                     size: 28,
@@ -208,7 +216,7 @@ class _PhotosPageState extends State<PhotosPage> {
                               CustomButton(
                                 borderRadius: 50,
                                 onPressed: _pickImages,
-                                width:  MediaQuery.sizeOf(context).width * 0.45,
+                                width: MediaQuery.sizeOf(context).width * 0.45,
                                 height: 45,
                                 child: Row(
                                   //spacing: 4,
