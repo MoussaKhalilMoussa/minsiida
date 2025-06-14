@@ -5,5 +5,11 @@ class HomeController extends GetxController {
   var isFilterDrawerOpen = false.obs;
   var selectedIndex = 0.obs;
 
+  var isSelected = true.obs;
+
+  void toggle() {
+    isSelected.value = !isSelected.value;
+  }
+
   //RxInt categoryIndex = 1.obs;
 }

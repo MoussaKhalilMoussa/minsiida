@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
+import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 
 Widget sectionHeader(String title) {
   return Container(
@@ -45,11 +47,64 @@ Widget footerSections() {
     "DES QUESTIONS ?",
   ];
 
+  final homeController = Get.find<HomeController>();
   return Column(
     children: [
       Column(
         children:
             sections.map((title) {
+              if (title == "NOTRE SITE") {
+                return Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Column with two Text widgets
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Title Text',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Subtitle Text',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Toggle Button
+                      // Toggle Button with GetX
+                      Obx(
+                        () => Switch(
+                          trackOutlineWidth: WidgetStateProperty.all(0),
+                          activeTrackColor: primaryColor,
+                          inactiveThumbColor: Colors.white,
+                          inactiveTrackColor: primaryColor.withValues(
+                            alpha: 0.1,
+                          ),
+                          //activeColor: primaryColor,
+                          value: homeController.isSelected.value,
+                          //isSelected: [homeController.isSelected.value],
+                          onChanged: (_) => homeController.toggle(),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return ExpansionTile(
                 expandedAlignment: Alignment.centerLeft,
                 expandedCrossAxisAlignment: CrossAxisAlignment.start,

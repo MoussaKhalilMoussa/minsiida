@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -9,10 +8,8 @@ import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
-import 'package:simple_nav_bar/view/home/screen/category_main_content.dart';
-import 'package:simple_nav_bar/view/home/screen/home_main_content.dart';
-import 'package:simple_nav_bar/view/home/widgets/hoverable_category_item_widget.dart';
-import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
+import 'package:simple_nav_bar/view/home/pages/category_main_content.dart';
+import 'package:simple_nav_bar/view/home/pages/home_main_content.dart';
 import 'package:simple_nav_bar/view/menu/widgets/menu_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -111,10 +108,6 @@ class _HomeScreenState extends State<HomeScreen>
     _controller.reverse();
   }
 
-  void _closeFilter() {
-    setState(() => homeController.isFilterDrawerOpen.value = false);
-    _controller.reverse();
-  }
 
   @override
   Widget build(BuildContext context) {
