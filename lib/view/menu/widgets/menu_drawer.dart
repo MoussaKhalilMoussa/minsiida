@@ -35,7 +35,7 @@ Widget menuDrawer({
             ),
           ],
         ),
-        body:SafeArea (
+        body: SafeArea(
           bottom: true,
           child: Column(
             children: [
@@ -59,7 +59,7 @@ Widget menuDrawer({
               Divider(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                
+
                 children: [
                   const SizedBox(height: 20),
                   Row(
@@ -172,6 +172,3 @@ Widget menuDrawer({
     ),
   );
 }
-
-
-

@@ -5,5 +5,4 @@ class CategoryContorller extends GetxController {
   RxBool showCategoryError = false.obs;
   var selectedSubcategory = ''.obs;
   var isSelected = false.obs;
-  
 }

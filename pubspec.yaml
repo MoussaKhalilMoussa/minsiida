@@ -41,6 +41,7 @@ dependencies:
   dotted_border: ^3.0.1
   get: ^4.7.2
   lucide_icons:
+  dropdown_button2:
   # amicons: ^1.0.1
 
 dev_dependencies:
