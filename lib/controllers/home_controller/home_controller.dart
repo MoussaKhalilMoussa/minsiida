@@ -6,6 +6,7 @@ class HomeController extends GetxController {
   var selectedIndex = 0.obs;
 
   var isSelected = true.obs;
+  var selectedSubCategory = ''.obs;
 
   void toggle() {
     isSelected.value = !isSelected.value;
