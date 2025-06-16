@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
+import 'package:simple_nav_bar/view/home/widgets/filter_elements.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
-import 'package:simple_nav_bar/view/menu/widgets/sub_title.dart';
 
 class FilterPage extends StatelessWidget {
   const FilterPage({super.key});
@@ -49,7 +49,7 @@ class FilterPage extends StatelessWidget {
               ],
             ),
 
-            SliverToBoxAdapter(child: footerSections()),
+            SliverToBoxAdapter(child: filterElements()),
           ],
         ),
       ),
