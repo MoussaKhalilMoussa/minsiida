@@ -108,3 +108,9 @@ fonts:
   - family: sans_bold
     fonts:
       - asset: assets/fonts/sans_bold.ttf
+  - family: PlayfairDisplay-Italic-VariableFont_wght
+    fonts:
+      - asset: assets/fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf
+  - family: PlayfairDisplay-VariableFont_wght
+    fonts:
+      - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf

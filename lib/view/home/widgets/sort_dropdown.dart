@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class SortDropdown extends StatefulWidget {
+  const SortDropdown({super.key});
+
   @override
   _SortDropdownState createState() => _SortDropdownState();
 }

@@ -36,7 +36,7 @@ class _PhotosPageState extends State<PhotosPage> {
   var controller = Get.put(PhotosController());
 
   Future<void> _pickImages() async {
-    final List<XFile>? selected = await _picker.pickMultiImage();
+    final List<XFile> selected = await _picker.pickMultiImage();
     if (selected != null) {
       controller.isError.value = false;
       setState(() {

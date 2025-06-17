@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Simple Nav Bar',
       theme: ThemeData(
+        
         textTheme: GoogleFonts.playfairDisplayTextTheme(),
         primarySwatch: Colors.purple,
         scaffoldBackgroundColor: Colors.white,
