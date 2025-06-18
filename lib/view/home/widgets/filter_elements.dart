@@ -7,7 +7,6 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/view/home/pages/select_city_for_filtering_page.dart';
-import 'package:simple_nav_bar/view/home/widgets/sort_dropdown.dart';
 
 Widget filterElements() {
   final categoryItems = [
@@ -19,9 +18,8 @@ Widget filterElements() {
     {"model": "Telephones Fixes", "number": "5.547"},
   ];
 
-  final homeController = Get.find<HomeController>();
-  final locationController = Get.find<LocationController>();
-
+  final homeController = Get.put(HomeController());
+  final locationController = Get.put(LocationController());
   return Obx(() {
     final isSelected = homeController.selectedSubCategory.value == "Telephones";
     final isCitySelected = locationController.selectedCity.value != null;
@@ -40,7 +38,7 @@ Widget filterElements() {
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               title: Text(
                 "Categories",
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
               ),
               children: [
                 Padding(
@@ -124,7 +122,7 @@ Widget filterElements() {
                                                     .selectedSubCategory
                                                     .value ==
                                                 item["model"]
-                                            ? Colors.blue
+                                            ? primaryColor
                                             : blackColor2,
                                   ),
                                 ),
@@ -151,7 +149,7 @@ Widget filterElements() {
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               title: Text(
                 "Lieu",
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
               ),
               children: [
                 Padding(
@@ -290,6 +288,7 @@ Widget filterElements() {
                               dropdownStyleData: DropdownStyleData(
                                 elevation: 2,
                                 decoration: BoxDecoration(
+                                  color: greyColo1.withValues(alpha: 5),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
@@ -347,7 +346,7 @@ Widget filterElements() {
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               title: Text(
                 "Prix",
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
               ),
               children: [
                 Padding(
@@ -370,7 +369,7 @@ Widget filterElements() {
                               border: Border.all(
                                 color:
                                     homeController.isFocusedLeftField.value
-                                        ? Colors.blue
+                                        ? primaryColor
                                         : Colors.transparent,
                               ),
                               color: Colors.grey.withValues(alpha: 0.1),
@@ -411,7 +410,9 @@ Widget filterElements() {
                                   ),
                                   border: InputBorder.none,
                                 ),
-                                style: TextStyle(fontSize: 28),
+                                style: GoogleFonts.playfairDisplay(
+                                  fontSize: 28,
+                                ),
                               ),
                             ),
                           ),
@@ -434,7 +435,7 @@ Widget filterElements() {
                               border: Border.all(
                                 color:
                                     homeController.isFocusedRightField.value
-                                        ? Colors.blue
+                                        ? primaryColor
                                         : Colors.transparent,
                               ),
                               color: Colors.grey.withValues(alpha: 0.1),
@@ -480,7 +481,9 @@ Widget filterElements() {
                                   ),
                                   border: InputBorder.none,
                                 ),
-                                style: TextStyle(fontSize: 28),
+                                style: GoogleFonts.playfairDisplay(
+                                  fontSize: 28,
+                                ),
                               ),
                             ),
                           ),
@@ -509,7 +512,9 @@ Widget filterElements() {
                                   decoration: BoxDecoration(
                                     color:
                                         isSelected
-                                            ? Colors.blue.withValues(alpha: 0.2)
+                                            ? primaryColor.withValues(
+                                              alpha: 0.2,
+                                            )
                                             : Colors.grey.withValues(
                                               alpha: 0.1,
                                             ),
@@ -517,7 +522,7 @@ Widget filterElements() {
                                     border: Border.all(
                                       color:
                                           isSelected
-                                              ? Colors.blue
+                                              ? primaryColor
                                               : Colors.transparent,
                                     ),
                                   ),
@@ -528,7 +533,7 @@ Widget filterElements() {
                                       fontSize: 18,
                                       color:
                                           isSelected
-                                              ? Colors.blue
+                                              ? primaryColor
                                               : Colors.black87,
                                       fontWeight:
                                           isSelected
@@ -545,13 +550,13 @@ Widget filterElements() {
                 ),
               ],
             ),
-
+            // Date de publication
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               title: Text(
                 "Date de publication",
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
               ),
               children: [
                 Padding(
@@ -586,7 +591,7 @@ Widget filterElements() {
                                                       .selectedDayFilter
                                                       .value ==
                                                   item
-                                              ? Colors.blue
+                                              ? primaryColor
                                               : blackColor2,
                                     ),
                                   ),
@@ -601,7 +606,7 @@ Widget filterElements() {
                                           value;
                                     }
                                   },
-                                  activeColor: Colors.blue,
+                                  activeColor: primaryColor,
                                 ),
                               ],
                             ),
@@ -611,13 +616,13 @@ Widget filterElements() {
                 ),
               ],
             ),
-
+            //Filtrer par mot-clé
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               title: Text(
                 "Filtrer par mot-clé",
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
               ),
               children: [
                 Padding(
@@ -658,7 +663,9 @@ Widget filterElements() {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Colors.blue),
+                          borderSide: BorderSide(
+                            color: primaryColor.withValues(alpha: 0.5),
+                          ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -670,7 +677,7 @@ Widget filterElements() {
                 ),
               ],
             ),
-
+            //Vendeur vérifié
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -686,14 +693,17 @@ Widget filterElements() {
                     children: [
                       Text(
                         'Vendeur vérifié',
-                        style: TextStyle(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         'Voir uniquement les annonces des vendeurs vérifiés',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 12,
+                          color: Colors.grey[700],
+                        ),
                       ),
                     ],
                   ),
@@ -705,7 +715,7 @@ Widget filterElements() {
                       trackOutlineWidth: WidgetStateProperty.all(0),
                       activeTrackColor: primaryColor,
                       inactiveThumbColor: Colors.white,
-                      inactiveTrackColor: primaryColor.withValues(alpha: 0.1),
+                      inactiveTrackColor: greyColo1.withValues(alpha: 0.3),
                       //activeColor: primaryColor,
                       value: homeController.isSelected.value,
                       //isSelected: [homeController.isSelected.value],
@@ -715,13 +725,13 @@ Widget filterElements() {
                 ],
               ),
             ),
-
+            //Note vendeur
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               title: Text(
                 "Note vendeur",
-                style: const TextStyle(fontWeight: FontWeight.w600),
+                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
               ),
               children: [
                 Padding(
@@ -753,7 +763,7 @@ Widget filterElements() {
                                       color:
                                           homeController.selectedVendor.value ==
                                                   item
-                                              ? Colors.blue
+                                              ? primaryColor
                                               : blackColor2,
                                     ),
                                   ),
@@ -768,7 +778,7 @@ Widget filterElements() {
                                           value;
                                     }
                                   },
-                                  activeColor: Colors.blue,
+                                  activeColor: primaryColor,
                                 ),
                               ],
                             ),

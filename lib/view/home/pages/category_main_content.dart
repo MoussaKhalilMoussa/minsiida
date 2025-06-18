@@ -76,68 +76,87 @@ class _CategoryMainContent extends State<CategoryMainContent> {
             duration: Duration(),
             margin: EdgeInsets.symmetric(horizontal: 6),
             padding: EdgeInsets.symmetric(vertical: 18, horizontal: 0),
-            decoration: BoxDecoration(color: Color(0xFFF4EDF8)),
+            decoration: BoxDecoration(color: greyColo1.withValues(alpha: 0.2)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 80,
+                  height: 100,
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(color: whiteColor),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Get.to(
-                            () => FilterPage(),
-                            transition:
-                                Transition.leftToRight, // Slide like a drawer
-                            duration: const Duration(
-                              milliseconds: 200,
-                            ), // Speed up transition
-                            curve:
-                                Curves
-                                    .easeInOut, // Optional: smoother animation
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: greyColo1.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.all(Radius.circular(60)),
-                          ),
-                          width: 120,
-                          height: 40,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(LucideIcons.listFilter, size: 20),
-                              Text("Filtres"),
-                              Container(
-                                alignment: Alignment.topCenter,
-                                width: 20,
-                                height: 20,
-                                padding: EdgeInsets.only(bottom: 4),
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Text(
-                                  "8",
-                                  style: GoogleFonts.playfairDisplay(
-                                    color: whiteColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.to(
+                                () => FilterPage(),
+                                transition:
+                                    Transition
+                                        .leftToRight, // Slide like a drawer
+                                duration: const Duration(
+                                  milliseconds: 200,
+                                ), // Speed up transition
+                                curve:
+                                    Curves
+                                        .easeInOut, // Optional: smoother animation
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: greyColo1.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(60),
                                 ),
                               ),
-                            ],
+                              width: 120,
+                              height: 40,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(LucideIcons.listFilter, size: 20),
+                                  Text("Filtres"),
+                                  Container(
+                                    alignment: Alignment.topCenter,
+                                    width: 20,
+                                    height: 20,
+                                    padding: EdgeInsets.only(bottom: 4),
+                                    decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      "8",
+                                      style: GoogleFonts.playfairDisplay(
+                                        color: whiteColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
+
+                          SortDropdown(),
+                        ],
+                      ),
+                      SizedBox(height: 12),
+                      Text(
+                        "Telephones - 405.146 annonces trouvees",
+                        style: GoogleFonts.playfairDisplay(
+                          color: blackColor2,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-
-                      SortDropdown(),
                     ],
                   ),
                 ),

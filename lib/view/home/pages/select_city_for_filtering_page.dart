@@ -144,7 +144,9 @@ class SelectCityForFilteringPage extends StatelessWidget {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Colors.blue),
+                            borderSide: BorderSide(
+                              color: primaryColor.withValues(alpha: 0.5),
+                            ),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,

@@ -108,7 +108,6 @@ class _HomeScreenState extends State<HomeScreen>
     _controller.reverse();
   }
 
-
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
@@ -254,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen>
                           border: Border(
                             top: BorderSide(
                               style: BorderStyle.solid,
+                              // this gives us the effect of shadow on top of navbars box under FAB
                               color: Colors.grey.withValues(alpha: 0.7),
                             ),
                           ),

@@ -73,7 +73,6 @@ class HomeController extends GetxController {
       });
     });
 
-
     cityKeywordController.addListener(() {
       final text = cityKeywordController.text;
       cityKeywordText.value = text;
@@ -119,11 +118,35 @@ class HomeController extends GetxController {
   void toggle() {
     isSelected.value = !isSelected.value;
   }
- 
+
   void selectPresetValue(String value) {
     rightController.text = value;
     leftController.clear();
     selectedPreset.value = value;
+  }
+
+  /// Resets all declared variables to their default values.
+  void resetAllFields() {
+    homeIndex.value = 0;
+    isFilterDrawerOpen.value = false;
+    selectedIndex.value = 0;
+    isSelected.value = false;
+    selectedSubCategory.value = '';
+    leftController.clear();
+    rightController.clear();
+    selectedPreset.value = '';
+    isFocusedLeftField.value = false;
+    isFocusedRightField.value = false;
+    selectedDayFilter.value = '';
+    selectedVendor.value = '';
+    keywordFocus.unfocus();
+    isKeywordFocused.value = false;
+    keywordController.clear();
+    keywordText.value = '';
+    cityKeywordController.clear();
+    cityKeywordText.value = '';
+    cityKeywordFocus.unfocus();
+    isCityKeywordFocused.value = false;
   }
 
   final List<String> daysItems = [
