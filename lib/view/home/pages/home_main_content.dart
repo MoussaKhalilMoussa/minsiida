@@ -235,7 +235,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                       ),
                       SizedBox(height: 8),
                       Text(
+                        maxLines: 2,
                         ad['location']!,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.playfairDisplay(
                           fontSize: 12,
                           color: greyColor,

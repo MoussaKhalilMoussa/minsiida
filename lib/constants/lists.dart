@@ -269,32 +269,32 @@ final List<Map<String, dynamic>> categories1 = [
 final List<Map<String, String>> featuredAds = [
   {
     'image':
-        'https://cdn.pixabay.com/photo/2017/08/05/13/06/girl-2583442_1280.jpg',
+        'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
     'name': 'Adam_djiane',
     'description':
-        'The iPhone 16 Pro \nand iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
-    'price': '60 €',
-    'location': 'Paris',
-    'date': '2024-06-10',
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '160 €',
+    'location': "N'Djamena /\nN'Djamena-Centre",
+    'date': 'HIER',
   },
   {
     'image':
         'https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg',
     'name': 'LP ⭐ 5 (253)',
     'description':
-        'The iPhone 16 Pro \nand iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
-    'price': '40 €',
-    'location': 'Paris',
-    'date': '2024-06-10',
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '2540 €',
+    'location': 'Moundou /\nBébalem',
+    'date': "AUJOUR'DHUI",
   },
   {
     'image':
-        'https://cdn.pixabay.com/photo/2016/04/15/11/50/hotel-1330854_1280.jpg',
+        'https://cdn.pixabay.com/photo/2020/02/20/06/24/sofa-4864034_1280.jpg',
     'name': 'L82 ⭐ 5 (41)',
     'description':
-        'The iPhone 16 Pro \nand iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
-    'price': '30 €',
-    'location': 'Paris',
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '3330 €',
+    'location': 'Sarh /\nDanamadji',
     'date': '2024-06-10',
   },
   {
@@ -302,9 +302,9 @@ final List<Map<String, String>> featuredAds = [
         'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
     'name': 'Nelle',
     'description':
-        'The iPhone 16 Pro \nand iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
-    'price': '50 €',
-    'location': 'Paris',
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '10250 €',
+    'location': 'Abeché /\nBiltine',
     'date': '2024-06-10',
   },
   {
@@ -312,9 +312,9 @@ final List<Map<String, String>> featuredAds = [
         'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
     'name': 'Nelle',
     'description':
-        'The iPhone 16 Pro \nand iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
-    'price': '50 €',
-    'location': 'Paris',
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '599 €',
+    'location': 'Mongo /\nBitkine',
     'date': '2024-06-10',
   },
   {
@@ -322,9 +322,305 @@ final List<Map<String, String>> featuredAds = [
         'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
     'name': 'Nelle',
     'description':
-        'The iPhone 16 Pro \nand iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
-    'price': '50 €',
-    'location': 'Paris',
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '799 €',
+    'location': 'Am-Timan /\nHaraze Mangueigne',
+    'date': '2024-06-10',
+  },
+];
+
+final List<Map<String, dynamic>> productsList = [
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+      'https://media.istockphoto.com/id/636878304/tr/foto%C4%9Fraf/womans-hands-on-a-computer-keyboard.jpg?s=1024x1024&w=is&k=20&c=8T9e6lRWJMWpuIMWwEdYAkFx6YPvh14w2BGpnnRaiX8=',
+      'https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg',
+      'https://media.istockphoto.com/id/895053440/tr/foto%C4%9Fraf/eller-klavyede-yazmak-yak%C4%B1n-%C3%A7ekim.jpg?s=1024x1024&w=is&k=20&c=4Z1k6XScoNukla51s3AYDpCoGKVCN7l345JiYEbZsck=',
+      'https://media.istockphoto.com/id/1327291540/tr/foto%C4%9Fraf/close-up-hands-of-unrecognizable-business-woman-working-typing-on-laptop-notebook-keyboard.jpg?s=1024x1024&w=is&k=20&c=-Qic87Gg5Y6letWsE0YkDF4kl-40A-r6g4G6fpqipPE=',
+      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+      'https://cdn.pixabay.com/photo/2023/07/28/02/00/model-8154290_1280.png',
+    ],
+    'name': 'Adam_djiane',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '160 €',
+    'location': "N'Djamena /\nN'Djamena-Centre",
+    'date': 'HIER',
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg',
+      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+    ],
+    'name': 'LP ⭐ 5 (253)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '2540 €',
+    'location': 'Moundou /\nBébalem',
+    'date': "AUJOUR'DHUI",
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2020/02/20/06/24/sofa-4864034_1280.jpg',
+    ],
+    'name': 'L82 ⭐ 5 (41)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '3330 €',
+    'location': 'Sarh /\nDanamadji',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '10250 €',
+    'location': 'Abeché /\nBiltine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '599 €',
+    'location': 'Mongo /\nBitkine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '799 €',
+    'location': 'Am-Timan /\nHaraze Mangueigne',
+     'date': "AUJOUR'DHUI",
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+    ],
+    'name': 'Adam_djiane',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '160 €',
+    'location': "N'Djamena /\nN'Djamena-Centre",
+    'date': 'HIER',
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg',
+    ],
+    'name': 'LP ⭐ 5 (253)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '2540 €',
+    'location': 'Moundou /\nBébalem',
+    'date': "AUJOUR'DHUI",
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2020/02/20/06/24/sofa-4864034_1280.jpg',
+    ],
+    'name': 'L82 ⭐ 5 (41)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '3330 €',
+    'location': 'Sarh /\nDanamadji',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '10250 €',
+    'location': 'Abeché /\nBiltine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '599 €',
+    'location': 'Mongo /\nBitkine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '799 €',
+    'location': 'Am-Timan /\nHaraze Mangueigne',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+    ],
+    'name': 'Adam_djiane',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '160 €',
+    'location': "N'Djamena /\nN'Djamena-Centre",
+    'date': 'HIER',
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg',
+    ],
+    'name': 'LP ⭐ 5 (253)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '2540 €',
+    'location': 'Moundou /\nBébalem',
+    'date': "AUJOUR'DHUI",
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2020/02/20/06/24/sofa-4864034_1280.jpg',
+    ],
+    'name': 'L82 ⭐ 5 (41)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '3330 €',
+    'location': 'Sarh /\nDanamadji',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '10250 €',
+    'location': 'Abeché /\nBiltine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '599 €',
+    'location': 'Mongo /\nBitkine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '799 €',
+    'location': 'Am-Timan /\nHaraze Mangueigne',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+    ],
+    'name': 'Adam_djiane',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '160 €',
+    'location': "N'Djamena /\nN'Djamena-Centre",
+    'date': 'HIER',
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2015/05/15/02/07/computer-767781_1280.jpg',
+    ],
+    'name': 'LP ⭐ 5 (253)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '2540 €',
+    'location': 'Moundou /\nBébalem',
+    'date': "AUJOUR'DHUI",
+  },
+  {
+    'image': [
+      'https://cdn.pixabay.com/photo/2020/02/20/06/24/sofa-4864034_1280.jpg',
+    ],
+    'name': 'L82 ⭐ 5 (41)',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '3330 €',
+    'location': 'Sarh /\nDanamadji',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '10250 €',
+    'location': 'Abeché /\nBiltine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '599 €',
+    'location': 'Mongo /\nBitkine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '799 €',
+    'location': 'Am-Timan /\nHaraze Mangueigne',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '599 €',
+    'location': 'Mongo /\nBitkine',
+    'date': '2024-06-10',
+  },
+  {
+    'image': [
+      'https://media.istockphoto.com/id/949087660/tr/foto%C4%9Fraf/%C3%A7e%C5%9Fmede-kompleks-daire-konut-%C3%BC%C3%A7-ayl%C4%B1k-d%C3%B6nem.jpg?s=1024x1024&w=is&k=20&c=IZ_ItMYQqPL8Neosuu9Rnh23bA6BFPyor8Cka_XppN8=',
+    ],
+    'name': 'Nelle',
+    'description':
+        'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
+    'price': '799 €',
+    'location': 'Am-Timan /\nHaraze Mangueigne',
     'date': '2024-06-10',
   },
 ];

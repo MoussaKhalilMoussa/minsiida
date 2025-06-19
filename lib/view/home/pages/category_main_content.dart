@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/product_controller/product_controller.dart';
 import 'package:simple_nav_bar/view/home/pages/filter_page.dart';
+import 'package:simple_nav_bar/view/home/pages/product_details.dart';
 import 'package:simple_nav_bar/view/home/widgets/sort_dropdown.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
@@ -39,7 +42,7 @@ class CategoryMainContent extends StatefulWidget {
 
 class _CategoryMainContent extends State<CategoryMainContent> {
   final homeController = Get.find<HomeController>();
-
+  final productController = Get.put(ProductController());
   late ScrollController scrollController, scrollController1, scrollController2;
   late double width, height;
   late int currentPage;
@@ -160,14 +163,74 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                     ],
                   ),
                 ),
-                Text(
-                  'Categori Main content!',
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                SizedBox(height: 16),
+                Obx(() {
+                  final visibleItems =
+                      productController.products
+                          .take(productController.visibleCount.value)
+                          .toList();
+
+                  return Column(
+                    children: [
+                      GridView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        itemCount: visibleItems.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 0.7,
+                        ),
+                        itemBuilder: (_, index) {
+                          return porductCard(
+                            visibleItems: visibleItems,
+                            index: index,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      if (!productController.isAllVisible)
+                        ElevatedButton(
+                          onPressed:
+                              productController.isLoadingMore.value
+                                  ? null
+                                  : productController.showMore,
+                          style: ButtonStyle(
+                            //maximumSize: WidgetStatePropertyAll(Size.fromWidth(250)),
+                            //foregroundColor: WidgetStatePropertyAll(whiteColor),
+                            backgroundColor: WidgetStatePropertyAll(
+                              primaryColor,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (productController.isLoadingMore.value) ...[
+                                SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                              SizedBox(width: 10),
+                              Text(
+                                "Voir plus",
+                                style: GoogleFonts.playfairDisplay(
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ],
             ),
           ),
@@ -176,6 +239,141 @@ class _CategoryMainContent extends State<CategoryMainContent> {
 
           //const SizedBox(height: 25),
         ],
+      ),
+    );
+  }
+
+  Widget porductCard({
+    required List<Map<String, dynamic>> visibleItems,
+    required int index,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => ProductDetails(), arguments: [visibleItems, index]);
+      },
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: blackColor2.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: primaryColor.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    child: Image.network(
+                      visibleItems[index]['image'][0]!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: InkWell(
+                    onTap: () {
+                      productController.isFavorite.value =
+                          !productController.isFavorite.value;
+                    },
+                    child: Obx(
+                      () => CircleAvatar(
+                        backgroundColor:
+                            productController.isFavorite.value
+                                ? Colors.red
+                                : Colors.white,
+                        radius: 15,
+                        child: Icon(
+                          size: 20,
+                          productController.isFavorite.value
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color:
+                              productController.isFavorite.value
+                                  ? Colors.white
+                                  : Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            //SizedBox(height: 4),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+              child: Text(
+                visibleItems[index]['price']!,
+                style: GoogleFonts.playfairDisplay(
+                  color: blackColor2,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+              child: Text(
+                maxLines: 1,
+                visibleItems[index]['description']!,
+                style: GoogleFonts.playfairDisplay(
+                  color: blackColor2,
+                  fontWeight: FontWeight.w500,
+                  textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      maxLines: 2,
+                      visibleItems[index]['location']!,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.playfairDisplay(
+                        color: blackColor2,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        //textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                  ),
+
+                  Text(
+                    visibleItems[index]['date']!,
+                    style: GoogleFonts.playfairDisplay(
+                      color: greyColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

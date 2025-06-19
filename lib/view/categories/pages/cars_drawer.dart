@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
-import 'package:simple_nav_bar/view/menu/widgets/sub_title.dart';
 
 Widget CarsDrawer({
   required VoidCallback? closeDrawer,
@@ -19,7 +18,6 @@ Widget CarsDrawer({
       backgroundColor: Colors.white,
       body: SafeArea(
         child: CustomScrollView(
-
           slivers: [
             SliverAppBar(
               pinned: true,
@@ -48,23 +46,32 @@ Widget CarsDrawer({
 
             // List of subcategories
             Obx(() {
-              final cat = categories1[categoryController.selectedCategoryIndex.value];
+              final cat =
+                  categories1[categoryController.selectedCategoryIndex.value];
               final subcat = cat['subcategory'];
-
-              return SliverFixedExtentList(
-                itemExtent: 36,
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final sub = subcat[index];
-                    return InkWell(
-                      onTap: () {
-                        print(sub);
-                      },
-                      child: subTitle(title: sub),
-                    );
-                  },
-                  childCount: subcat.length,
-                ),
+              return SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final sub = subcat[index];
+                  return InkWell(
+                    onTap: () {
+                      print(sub);
+                    },
+                    child: Container(
+                      height: 36,
+                      width: double.infinity,
+                      // or only on selection
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        sub,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  );
+                }, childCount: subcat.length),
               );
             }),
           ],
