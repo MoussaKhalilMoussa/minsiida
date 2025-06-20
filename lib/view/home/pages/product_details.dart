@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -186,7 +187,7 @@ class ProductDetails extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 20,
+                      height: 24.h,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
@@ -195,7 +196,7 @@ class ProductDetails extends StatelessWidget {
                             style: GoogleFonts.playfairDisplay(
                               fontWeight: FontWeight.w400,
                               color: greyColor,
-                              fontSize: 16,
+                              fontSize: 14.sp,
                             ),
                           ),
                         ],
@@ -206,7 +207,7 @@ class ProductDetails extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
                       width: double.infinity,
-                      height: 20,
+                      height: 25,
                       child: Row(
                         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -558,7 +559,7 @@ class ProductDetails extends StatelessWidget {
             style: GoogleFonts.playfairDisplay(
               fontWeight: FontWeight.bold,
               color: blackColor2,
-              fontSize: 16,
+              fontSize: 14.sp,
             ),
           ),
           InkWell(
@@ -571,15 +572,15 @@ class ProductDetails extends StatelessWidget {
                   style: GoogleFonts.playfairDisplay(
                     fontWeight: FontWeight.bold,
                     color: greyColor,
-                    fontSize: 12,
+                    fontSize: 10.sp,
                   ),
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Padding(
                   padding: EdgeInsetsGeometry.only(top: 3),
                   child: Icon(
                     Icons.arrow_forward_ios,
-                    size: 10,
+                    size: 10.sp,
                     color: greyColor,
                   ),
                 ),

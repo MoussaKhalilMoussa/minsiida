@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
@@ -26,21 +27,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Simple Nav Bar',
-      theme: ThemeData(
-        
-        textTheme: GoogleFonts.playfairDisplayTextTheme(),
-        primarySwatch: Colors.purple,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white, elevation: 0),
-      ),
-      routes: {
-        '/addPost': (context) => AddPostScreen(),
-        '': (context) => HomeScreen(),
+    return ScreenUtilInit(
+      designSize: Size(375, 812), // base design screen size
+      builder: (_, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Simple Nav Bar',
+          theme: ThemeData(
+            textTheme: GoogleFonts.playfairDisplayTextTheme(),
+            primarySwatch: Colors.purple,
+            scaffoldBackgroundColor: Colors.white,
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+          ),
+          routes: {
+            '/addPost': (context) => AddPostScreen(),
+            '': (context) => HomeScreen(),
+          },
+          home: HomeScreen(),
+        );
       },
-      home: HomeScreen(),
     );
   }
 }
