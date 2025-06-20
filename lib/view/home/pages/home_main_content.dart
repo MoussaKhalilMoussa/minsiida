@@ -273,6 +273,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
               },
             ),
           ),
+
           const SizedBox(height: 20),
           SizedBox(
             child: Row(

@@ -3,13 +3,19 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/constants/constant_values.dart';
+import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/product_controller/product_details_controller.dart';
+import 'package:simple_nav_bar/view/home/widgets/feature_ads.dart';
+import 'package:simple_nav_bar/view/home/widgets/profile_summary.dart';
 import 'package:simple_nav_bar/view/home/widgets/shipping_method.dart';
+import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
 class ProductDetails extends StatelessWidget {
   ProductDetails({super.key});
 
   final PageController _pageController = PageController();
+  final scrollController = ScrollController(initialScrollOffset: 0);
   final productDetailsController = Get.put(ProductDetailsController());
 
   @override
@@ -462,11 +468,125 @@ class ProductDetails extends StatelessWidget {
                       price: "7,35 €",
                     ),
                   ),
+                  SizedBox(height: 4),
+                  Padding(padding: EdgeInsets.all(8), child: ProfleSummary()),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _sectionHeader(
+                      "Autres annonces interessantes",
+                      "Voir plus d'annonces",
+                    ),
+                  ),
+                  FeaturedAdsListView(
+                    ads: featuredAds,
+                    //controller: scrollController,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                  ),
+                  SizedBox(height: 16),
                 ],
               ),
             ),
           ],
         ),
+      ),
+
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+
+              style: ButtonStyle(
+                foregroundColor: WidgetStatePropertyAll(whiteColor),
+                backgroundColor: WidgetStatePropertyAll(Colors.orange.shade700),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(8),
+                  ),
+                ),
+                fixedSize: WidgetStatePropertyAll(Size(190, 50)),
+              ),
+
+              child: Text(
+                "Profile",
+                style: GoogleFonts.playfairDisplay(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                //elevation: WidgetStatePropertyAll(0),
+                foregroundColor: WidgetStatePropertyAll(whiteColor),
+                backgroundColor: WidgetStatePropertyAll(primaryColor),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(8),
+                  ),
+                ),
+                fixedSize: WidgetStatePropertyAll(Size(190, 50)),
+              ),
+              child: Text(
+                "Message",
+                style: GoogleFonts.playfairDisplay(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionHeader(String title, String text) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: mainMargin),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.playfairDisplay(
+              fontWeight: FontWeight.bold,
+              color: blackColor2,
+              fontSize: 16,
+            ),
+          ),
+          InkWell(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  style: GoogleFonts.playfairDisplay(
+                    fontWeight: FontWeight.bold,
+                    color: greyColor,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(width: 8),
+                Padding(
+                  padding: EdgeInsetsGeometry.only(top: 3),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 10,
+                    color: greyColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
