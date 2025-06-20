@@ -140,6 +140,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         backgroundColor: whiteColor,
         shadowColor: Colors.grey.withValues(alpha: 1),
@@ -221,45 +222,45 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     ],
                   ),
                 ),
-
-                !hideContinueButton
-                    ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomButton(
-                        borderRadius: 12,
-                        onPressed: _goToPage,
-                        width: MediaQuery.sizeOf(context).width * 0.9,
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Continuer ",
-                              style: GoogleFonts.playfairDisplay(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Icon(
-                                Icons.arrow_forward,
-                                size: 18,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                    : SizedBox.shrink(),
               ],
             ),
           ],
         ),
       ),
+      bottomNavigationBar:
+          !hideContinueButton
+              ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomButton(
+                  borderRadius: 12,
+                  onPressed: _goToPage,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Continuer ",
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Icon(
+                          Icons.arrow_forward,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+              : SizedBox.shrink(),
     );
   }
 }
