@@ -8,9 +8,11 @@ import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
+import 'package:simple_nav_bar/view/favorites/screen/favorites.dart';
 import 'package:simple_nav_bar/view/home/pages/category_main_content.dart';
 import 'package:simple_nav_bar/view/home/pages/home_main_content.dart';
 import 'package:simple_nav_bar/view/menu/widgets/menu_drawer.dart';
+import 'package:simple_nav_bar/view/profile/screen/profile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
   bool _isDrawerOpen = false;
-  bool _isCategoriesOpen = false;
+  //bool _isCategoriesOpen = false;
+  bool isProfileOpen = false;
 
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -84,15 +87,21 @@ class _HomeScreenState extends State<HomeScreen>
       _controller.forward();
     } else if (index == 1) {
       _selectedIndex = index;
-      setState(() {
-        _isCategoriesOpen = true;
-      });
+      setState(() {});
+      _controller.forward();
+    } else if (index == 2) {
+      _selectedIndex = index;
+      setState(() {});
+      _controller.forward();
+    } else if (index == 3) {
+      _selectedIndex = index;
+      setState(() {});
       _controller.forward();
     } else {
       setState(() {
         _selectedIndex = index;
         _isDrawerOpen = false;
-        _isCategoriesOpen = false;
+        //_isCategoriesOpen = false;
         _controller.reverse();
       });
     }
@@ -104,7 +113,15 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   void _closeCategories() {
-    setState(() => _isCategoriesOpen = false);
+    //setState(() => _isCategoriesOpen = false);
+    _controller.reverse();
+  }
+
+  void _closeFavorites() {
+    _controller.reverse();
+  }
+
+  void _closeProfile() {
     _controller.reverse();
   }
 
@@ -122,11 +139,17 @@ class _HomeScreenState extends State<HomeScreen>
         closeDrawer: _closeDrawer,
         offsetAnimation: _offsetAnimation,
       ),
+
+      Favorites(
+        closeFavorites: _closeFavorites,
+        offsetAnimation: _offsetAnimation,
+      ),
       CategoriesPage(
         //context: context,
         closeCategories: _closeCategories,
         offsetAnimation: _offsetAnimation,
       ),
+      Profile(closeProfile: _closeProfile, offsetAnimation: _offsetAnimation),
     ];
 
     final List<Widget> widgets1 = [
@@ -263,9 +286,9 @@ class _HomeScreenState extends State<HomeScreen>
                           spacing: MediaQuery.sizeOf(context).width / 7,
                           children: [
                             _buildNavItem(LucideIcons.menu, "Menu", 0),
-                            _buildNavItem(LucideIcons.heart, "Favorites", 2),
+                            _buildNavItem(LucideIcons.heart, "Favorites", 1),
                             // SizedBox(width: 60), // space for FAB
-                            _buildNavItem(LucideIcons.grid, "Categories", 1),
+                            _buildNavItem(LucideIcons.grid, "Categories", 2),
                             _buildNavItem(LucideIcons.user, "Profile", 3),
                           ],
                         ),

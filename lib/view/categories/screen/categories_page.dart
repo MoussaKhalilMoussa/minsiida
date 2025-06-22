@@ -42,9 +42,6 @@ class _CategoriesPageState extends State<CategoriesPage>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
-  void _closeCarsDrawer() {
-    _controller.reverse();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,73 +126,4 @@ class _CategoriesPageState extends State<CategoriesPage>
       ),
     );
   }
-
-  /* 
-  @override
-  Widget build(BuildContext context) {
-    return SlideTransition(
-      position: widget.offsetAnimation,
-      child: Material(
-        color: Colors.white,
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                pinned: true,
-                backgroundColor: Colors.white,
-                elevation: 0,
-                automaticallyImplyLeading: false,
-                title: Text(
-                  "Categories",
-                  style: GoogleFonts.playfairDisplay(
-                    fontWeight: FontWeight.bold,
-                    color: blackColor2,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    icon: Icon(Icons.close, color: blackColor2),
-                    onPressed: widget.closeCategories,
-                  ),
-                ],
-              ),
-              const SliverToBoxAdapter(child: Divider(height: 1)),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: mainMargin,
-                  vertical: 8,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    final cat = categories1[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: ScrollingVerticalItems(
-                        icon: cat['icon'],
-                        label: cat['label'],
-                        color: cat['color'],
-                        onTap: () {
-                          // Optional: add logic if needed
-                          cat['label'] == "Véhicules"
-                              ? CarsDrawer(
-                                closeDrawer: _closeCarsDrawer,
-                                offsetAnimation: _offsetAnimation,
-                              )
-                              : null;
-
-                          print(cat['label']);
-                        },
-                      ),
-                    );
-                  }, childCount: categories1.length),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
- */
 }
