@@ -139,7 +139,117 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-                    
+                    ),
+                  ),
+
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          child: Row(
+                            children: [
+                              Badge(
+                                offset: Offset(-8, -8),
+                                alignment: Alignment.bottomCenter,
+                                backgroundColor: CupertinoColors.systemYellow,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 3,
+                                  horizontal: 6,
+                                ),
+                                label: Text(
+                                  "Premium",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: whiteColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 70.w,
+                                  height: 70.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40.w),
+                                    color: blueColor.withValues(alpha: 0.30),
+                                  ),
+                                  child: Text(
+                                    "J",
+                                    style: GoogleFonts.playfairDisplay(
+                                      color: blueColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Jessica Anderson",
+                                    style: GoogleFonts.playfairDisplay(
+                                      color: blackColor2,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.sp,
+                                    ),
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        "0",
+                                        style: GoogleFonts.playfairDisplay(
+                                          color: greyColor,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        "Takip",
+                                        style: GoogleFonts.playfairDisplay(
+                                          color: greyColor,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Text(
+                                        "0",
+                                        style: GoogleFonts.playfairDisplay(
+                                          color: greyColor,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        "Takipçi",
+                                        style: GoogleFonts.playfairDisplay(
+                                          color: greyColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "Düzen",
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                      ],
                     ),
                   ),
                 ],
