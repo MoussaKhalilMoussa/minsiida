@@ -8,11 +8,11 @@ class FeaturedAdCard extends StatelessWidget {
   final double height;
 
   const FeaturedAdCard({
-    Key? key,
+    super.key,
     required this.ad,
     required this.width,
     required this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,12 +134,12 @@ class FeaturedAdsListView extends StatefulWidget {
   final double margin;
 
   const FeaturedAdsListView({
-    Key? key,
+    super.key,
     required this.ads,
     required this.width,
     required this.height,
     this.margin = 8.0,
-  }) : super(key: key);
+  });
 
   @override
   State<FeaturedAdsListView> createState() => _FeaturedAdsListViewState();

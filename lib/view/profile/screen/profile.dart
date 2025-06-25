@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/view/profile/widgets/authentication_steps.dart';
 
 class Profile extends StatefulWidget {
   final VoidCallback? closeProfile;
@@ -249,6 +250,11 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Divider(),
+                        AuthenticationSteps(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          currentStep: 3, // or any dynamic value
+                        ),
                       ],
                     ),
                   ),
