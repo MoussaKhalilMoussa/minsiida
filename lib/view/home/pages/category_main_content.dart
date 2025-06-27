@@ -78,7 +78,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
             duration: Duration(),
             margin: EdgeInsets.symmetric(horizontal: 6),
             padding: EdgeInsets.symmetric(vertical: 18, horizontal: 0),
-            decoration: BoxDecoration(color: greyColo1.withValues(alpha: 0.2)),
+            decoration: BoxDecoration(color: greyColo1.withValues(alpha: 0.1)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

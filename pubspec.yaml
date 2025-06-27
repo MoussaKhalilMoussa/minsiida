@@ -43,6 +43,7 @@ dependencies:
   lucide_icons:
   dropdown_button2:
   flutter_screenutil: ^5.9.3
+  ionicons: ^0.2.2
   # amicons: ^1.0.1
 
 dev_dependencies:

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/view/profile/widgets/authentication_steps.dart';
+import 'package:simple_nav_bar/view/profile/widgets/list_title.dart';
 
 class Profile extends StatefulWidget {
   final VoidCallback? closeProfile;
@@ -52,6 +54,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
             Scaffold(
               backgroundColor: Colors.white,
               body: CustomScrollView(
+                physics: NeverScrollableScrollPhysics(),
                 slivers: [
                   SliverAppBar(
                     pinned: true,
@@ -258,6 +261,117 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 400, // Set height to allow scrolling
+                      child: ListView(
+                        ///physics: BouncingScrollPhysics(),
+                        children: [
+                          listTitle(
+                            title: "Tableau de bord",
+                            leadingIcon: Ionicons.home_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Profile",
+                            leadingIcon: Ionicons.person_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Publier une annonce",
+                            leadingIcon: Ionicons.add_circle_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Mes annonces",
+                            leadingIcon: Ionicons.megaphone_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+
+                          listTitle(
+                            title: 'Favoris',
+                            leadingIcon: Ionicons.heart_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: 'Messages',
+                            leadingIcon: Ionicons.chatbubble_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: 'Notifications',
+                            leadingIcon: Ionicons.notifications_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: 'Mes Commandes',
+                            leadingIcon: Ionicons.cart_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: 'Offres',
+                            leadingIcon: Ionicons.document_text_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Gains",
+                            leadingIcon: Ionicons.briefcase_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: 'Avis',
+                            leadingIcon: Ionicons.star_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: 'Reseau',
+                            leadingIcon: Ionicons.people_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Paramètres",
+                            leadingIcon: Ionicons.settings_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Assistance",
+                            leadingIcon: Ionicons.help_circle_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                          listTitle(
+                            title: "Déconnexion",
+                            leadingIcon: Ionicons.exit_outline,
+                            trailingIcon: Ionicons.chevron_forward_outline,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  /* 
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return ListTile(
+                          leading: Icon(LucideIcons.user, color: blackColor2),
+                          title: Text(
+                            "Hesap Ayarları",
+                            style: GoogleFonts.playfairDisplay(
+                              color: blackColor2,
+                            ),
+                          ),
+                          trailing: Icon(
+                            LucideIcons.chevronRight,
+                            color: blackColor2,
+                          ),
+                          onTap: () {
+                            // Handle tap
+                          },
+                        );
+                      },
+                      childCount: 10, // Example item count
+                    ),
+                  ),
+                 */
                 ],
               ),
             ),
