@@ -9,16 +9,24 @@ ListTile listTitle({
   required IconData trailingIcon,
   Color color = greyColo1,
   Function()? onTap,
+  bool selected = false,
 }) {
   return ListTile(
-    leading: Icon(leadingIcon, color: color),
-    title: Text(title, style: GoogleFonts.playfairDisplay(
-      fontWeight: FontWeight.w600,
-      fontSize: 14,
-      color: blackColor2)),
-    //subtitle: Text(subtitle!),
-    trailing: Icon(trailingIcon, color:color),
-    //contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+    selected: selected,
+    selectedTileColor: greyColo1.withValues(
+      alpha: 0.1,
+    ), // Optional background on select
+    iconColor: selected ? blueColor : color,
+    textColor: selected ? blueColor : blackColor2,
+    leading: Icon(leadingIcon),
+    title: Text(
+      title,
+      style: GoogleFonts.playfairDisplay(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+      ),
+    ),
+    trailing: Icon(trailingIcon),
     onTap: onTap,
   );
 }

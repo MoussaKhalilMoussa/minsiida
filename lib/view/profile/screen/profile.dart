@@ -7,6 +7,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/view/profile/pages/mes_annonces.dart';
+import 'package:simple_nav_bar/view/profile/pages/profile_page.dart';
 import 'package:simple_nav_bar/view/profile/widgets/authentication_steps.dart';
 import 'package:simple_nav_bar/view/profile/widgets/list_title.dart';
 
@@ -28,6 +30,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
   var isVehiculesOpen = false;
+  int selectedIndex = 0;
 
   final categoryController = Get.find<CategoryContorller>();
   @override
@@ -267,81 +270,193 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                       child: ListView(
                         ///physics: BouncingScrollPhysics(),
                         children: [
-                          listTitle(
+                          /* listTitle(
+                            selected: selectedIndex == 1,
                             title: "Tableau de bord",
                             leadingIcon: Ionicons.home_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
-                          ),
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 1;
+                              });
+                              Get.to(() => TableauDeBoard(),
+                                  transition: Transition.rightToLeft,
+                                  duration: const Duration(milliseconds: 150));
+                            },
+                          ), */
                           listTitle(
+                            selected: selectedIndex == 2,
                             title: "Profile",
                             leadingIcon: Ionicons.person_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 2;
+                              });
+                              Get.to(
+                                () => ProfilePage(),
+                                transition: Transition.rightToLeft,
+                                duration: const Duration(milliseconds: 150),
+                              );
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 3,
                             title: "Publier une annonce",
                             leadingIcon: Ionicons.add_circle_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 3;
+                              });
+                              Navigator.pushNamed(context, '/addPost');
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 4,
                             title: "Mes annonces",
                             leadingIcon: Ionicons.megaphone_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 4;
+                              });
+                              Get.to(() => MesAnnonces());
+                            },
                           ),
 
                           listTitle(
+                            selected: selectedIndex == 5,
                             title: 'Favoris',
                             leadingIcon: Ionicons.heart_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 5;
+                              });
+                              print("Favoris tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 6,
                             title: 'Messages',
                             leadingIcon: Ionicons.chatbubble_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 6;
+                              });
+                              print("Messages tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 7,
                             title: 'Notifications',
                             leadingIcon: Ionicons.notifications_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 7;
+                              });
+                              print("Notifications tapped");
+                            },
                           ),
+                          /* 
                           listTitle(
+                            selected: selectedIndex == 8,
                             title: 'Mes Commandes',
                             leadingIcon: Ionicons.cart_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 8;
+                              });
+                              print("Mes Commandes tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 9,
                             title: 'Offres',
                             leadingIcon: Ionicons.document_text_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 9;
+                              });
+                              print("Offres tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 10,
                             title: "Gains",
                             leadingIcon: Ionicons.briefcase_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 10;
+                              });
+                              print("Gains tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 11,
                             title: 'Avis',
                             leadingIcon: Ionicons.star_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 11;
+                              });
+                              print("Avis tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 12,
                             title: 'Reseau',
                             leadingIcon: Ionicons.people_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
-                          ),
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 12;
+                              });
+                              print("Reseau tapped");
+                            },
+                          ), */
                           listTitle(
+                            selected: selectedIndex == 13,
                             title: "Paramètres",
                             leadingIcon: Ionicons.settings_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 13;
+                              });
+                              print("Paramètres tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 14,
                             title: "Assistance",
                             leadingIcon: Ionicons.help_circle_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 14;
+                              });
+                              print("Assistance tapped");
+                            },
                           ),
                           listTitle(
+                            selected: selectedIndex == 15,
                             title: "Déconnexion",
                             leadingIcon: Ionicons.exit_outline,
                             trailingIcon: Ionicons.chevron_forward_outline,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = 15;
+                              });
+                              print("Déconnexion tapped");
+                            },
                           ),
                         ],
                       ),
