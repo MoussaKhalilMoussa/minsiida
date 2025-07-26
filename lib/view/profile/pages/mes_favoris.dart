@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/view/profile/widgets/product_card.dart';
 
-class MesAnnonces extends StatelessWidget {
-  const MesAnnonces({super.key});
+class MesFavoris extends StatelessWidget {
+  const MesFavoris({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class MesAnnonces extends StatelessWidget {
             ),
             centerTitle: true,
             title: Text(
-              'My Ads',
+              'Mes Favoris',
               style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
             ),
             floating: true,
@@ -37,7 +36,7 @@ class MesAnnonces extends StatelessWidget {
             delegate: SliverChildListDelegate([
               Container(
                 width: MediaQuery.sizeOf(Get.context!).width,
-                margin: EdgeInsets.only( right: 12, left: 12, top: 20),
+                margin: EdgeInsets.only(right: 12, left: 12, top: 20),
                 child: Row(
                   children: [
                     SizedBox(
@@ -45,10 +44,18 @@ class MesAnnonces extends StatelessWidget {
                       width: MediaQuery.sizeOf(Get.context!).width * 0.79,
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: "Recherche...",
+                          //focusColor: greyColor,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: greyColor, width: 1),
+                          ),
+                          filled: true,
+                          fillColor: whiteColor,
+                          hintText: "Rechercher des favoris...",
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
@@ -57,22 +64,35 @@ class MesAnnonces extends StatelessWidget {
                     IconButton.filled(
                       iconSize: 33,
                       style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(8),
-                            side: BorderSide(),
-                          ),
-                        ),
+                        iconColor: WidgetStateProperty.all(greyColor),
+                        backgroundColor: WidgetStateProperty.all(whiteColor),
+                        shape: WidgetStateProperty.resolveWith<OutlinedBorder>((
+                          Set<WidgetState> states,
+                        ) {
+                          final isPressed = states.contains(
+                            WidgetState.pressed,
+                          );
+                          return RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              color:
+                                  isPressed ? Colors.grey : Colors.transparent,
+                              width: 2,
+                            ),
+                          );
+                        }),
                       ),
-                      color: blueColor,
-                      onPressed: () {},
-                      icon: Icon(Ionicons.add_outline, color: whiteColor),
+                      onPressed: () {
+                        // Implement filter functionality here
+                        print("Filter button pressed");
+                      },
+                      icon: Icon(Ionicons.filter_outline, color: greyColor),
                     ),
                   ],
                 ),
               ),
               Container(
-                margin: EdgeInsets.only( left:12, right: 12),
+                margin: EdgeInsets.only(left: 12, right: 12),
                 width: MediaQuery.sizeOf(Get.context!).width,
                 child: ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(height: 10),
