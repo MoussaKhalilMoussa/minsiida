@@ -10,7 +10,6 @@ import 'package:simple_nav_bar/controllers/product_controller/product_details_co
 import 'package:simple_nav_bar/view/home/widgets/feature_ads.dart';
 import 'package:simple_nav_bar/view/home/widgets/profile_summary.dart';
 import 'package:simple_nav_bar/view/home/widgets/shipping_method.dart';
-import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
 class ProductDetails extends StatelessWidget {
   ProductDetails({super.key});
@@ -18,6 +17,7 @@ class ProductDetails extends StatelessWidget {
   final PageController _pageController = PageController();
   final scrollController = ScrollController(initialScrollOffset: 0);
   final productDetailsController = Get.put(ProductDetailsController());
+  var buttonSize = Size(MediaQuery.sizeOf(Get.context!).width / 2.2, 50);
 
   @override
   Widget build(BuildContext context) {
@@ -509,7 +509,7 @@ class ProductDetails extends StatelessWidget {
                     borderRadius: BorderRadiusGeometry.circular(8),
                   ),
                 ),
-                fixedSize: WidgetStatePropertyAll(Size(190, 50)),
+                fixedSize: WidgetStatePropertyAll(buttonSize),
               ),
 
               child: Text(
@@ -531,7 +531,7 @@ class ProductDetails extends StatelessWidget {
                     borderRadius: BorderRadiusGeometry.circular(8),
                   ),
                 ),
-                fixedSize: WidgetStatePropertyAll(Size(190, 50)),
+                fixedSize: WidgetStatePropertyAll(buttonSize),
               ),
               child: Text(
                 "Message",
