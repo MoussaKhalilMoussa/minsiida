@@ -9,6 +9,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_favoris.dart';
+import 'package:simple_nav_bar/view/profile/pages/messages_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/profile_page.dart';
 import 'package:simple_nav_bar/view/profile/widgets/authentication_steps.dart';
 import 'package:simple_nav_bar/view/profile/widgets/list_title.dart';
@@ -347,7 +348,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               setState(() {
                                 selectedIndex = 6;
                               });
-                              print("Messages tapped");
+                              Get.to(() => MessagesPage());
                             },
                           ),
                           listTitle(
