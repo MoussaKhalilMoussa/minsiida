@@ -7,7 +7,7 @@ import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
 import 'view/home/screen/home.dart';
 
 void main() {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 

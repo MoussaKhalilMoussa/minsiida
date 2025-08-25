@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/view/profile/widgets/product_card.dart';
+import 'package:simple_nav_bar/view/profile/widgets/favori_product_card.dart';
 
 class MesFavoris extends StatelessWidget {
   const MesFavoris({super.key});
@@ -11,7 +11,7 @@ class MesFavoris extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.grey[200],
       body: CustomScrollView(
         //physics: BouncingScrollPhysics(),
         shrinkWrap: true,
@@ -94,13 +94,18 @@ class MesFavoris extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 12, right: 12),
                 width: MediaQuery.sizeOf(Get.context!).width,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 10),
+                child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 10,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.60,
+                  ),
                   itemBuilder: (context, index) {
-                    return ProductCard();
+                    return const FavoriProductCard();
                   },
                 ),
               ),

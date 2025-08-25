@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/view/profile/widgets/product_card.dart';
 
@@ -12,7 +11,7 @@ class MesAnnonces extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.grey[200],
       body: CustomScrollView(
         //physics: BouncingScrollPhysics(),
         shrinkWrap: true,
@@ -37,7 +36,7 @@ class MesAnnonces extends StatelessWidget {
             delegate: SliverChildListDelegate([
               Container(
                 width: MediaQuery.sizeOf(Get.context!).width,
-                margin: EdgeInsets.only( right: 12, left: 12, top: 20),
+                margin: EdgeInsets.only(right: 12, left: 12, top: 20),
                 child: Row(
                   children: [
                     SizedBox(
@@ -72,7 +71,7 @@ class MesAnnonces extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only( left:12, right: 12),
+                margin: EdgeInsets.only(left: 12, right: 12),
                 width: MediaQuery.sizeOf(Get.context!).width,
                 child: ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(height: 10),
