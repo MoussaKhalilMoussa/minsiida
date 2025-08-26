@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:simple_nav_bar/controllers/notifications_controller.dart/notifications_controller.dart';
 import '../controllers/location_controller/location_controller.dart';
 import '../controllers/details_page_controller/details_page_controller.dart';
 import '../controllers/specifications/specification_controller.dart';
@@ -15,5 +16,6 @@ class InitialBinding extends Bindings {
     Get.put<DeliveryController>(DeliveryController());
     Get.put<CategoryContorller>(CategoryContorller());
     Get.put<HomeController>(HomeController());
+    Get.put<NotificationsController>(NotificationsController());
   }
 }

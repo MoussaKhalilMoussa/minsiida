@@ -9,6 +9,7 @@ const blackColor = Color(0xff1f1f1f);
 const blackColor2 = Color.fromARGB(255, 0, 0, 0);
 const lightGrey = Color.fromARGB(255, 239, 239, 239);
 const greenColor = Color.fromARGB(255, 0, 255, 0);
+const redColor = Color.fromARGB(255, 255, 0, 0);
 
 const purple_600 = Color(0xFF8B5CF6); // purple-600
 const indigo_600 = Color(0xFF4F46E5);
