@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/view/profile/widgets/chat_screen_profile.dart';
 import 'package:simple_nav_bar/view/profile/widgets/favori_product_card.dart';
 
 class MessagesPage extends StatelessWidget {
@@ -63,49 +64,17 @@ class MessagesPage extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 10),
               Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 20),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 width: MediaQuery.sizeOf(Get.context!).width,
+                color: Colors.transparent,
                 child: ListView.builder(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(
-                          'assets/images/profile_image_joya_ahsan.jpg',
-                        ),
-                      ),
-                      title: Text(
-                        'Utilisateur $index',
-                        style: GoogleFonts.playfairDisplay(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      subtitle: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Dernier message de l\'utilisateur $index',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.playfairDisplay(
-                              color: greyColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text('12:34 PM'),
-                          CircleAvatar(radius: 4, backgroundColor: blueColor),
-                        ],
-                      ),
-                      onTap: () {
-                        // Action lors du tap sur un message
-                      },
-                    );
+                    return const ChatScreenProfile();
                   },
                   itemCount: 10,
                   shrinkWrap: true,

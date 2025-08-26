@@ -7,9 +7,13 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/view/profile/pages/assistance_page.dart';
+import 'package:simple_nav_bar/view/profile/pages/deconnection_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_favoris.dart';
 import 'package:simple_nav_bar/view/profile/pages/messages_page.dart';
+import 'package:simple_nav_bar/view/profile/pages/notifications_page.dart';
+import 'package:simple_nav_bar/view/profile/pages/parametres_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/profile_page.dart';
 import 'package:simple_nav_bar/view/profile/widgets/authentication_steps.dart';
 import 'package:simple_nav_bar/view/profile/widgets/list_title.dart';
@@ -360,7 +364,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               setState(() {
                                 selectedIndex = 7;
                               });
-                              print("Notifications tapped");
+                              Get.to(() => NotificationsPage());
                             },
                           ),
                           /* 
@@ -433,7 +437,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               setState(() {
                                 selectedIndex = 13;
                               });
-                              print("Paramètres tapped");
+                              Get.to(() => ParametresPage());
                             },
                           ),
                           listTitle(
@@ -445,7 +449,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               setState(() {
                                 selectedIndex = 14;
                               });
-                              print("Assistance tapped");
+                              Get.to(() => AssistancePage());
                             },
                           ),
                           listTitle(
@@ -457,7 +461,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               setState(() {
                                 selectedIndex = 15;
                               });
-                              print("Déconnexion tapped");
+                              Get.to(() => DeconnectionPage());
                             },
                           ),
                         ],
