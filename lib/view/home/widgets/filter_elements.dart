@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -72,7 +73,7 @@ Widget filterElements() {
                             size: 20,
                           ),
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: 8.w),
                         InkWell(
                           onTap: () {
                             homeController.selectedSubCategory.value =
@@ -187,7 +188,7 @@ Widget filterElements() {
                                     size: 20,
                                     color: greyColo1,
                                   ),
-                                  SizedBox(width: 8),
+                                  SizedBox(width: 8.w),
                                   Text(
                                     isCitySelected ? city!.name : "city",
                                     style: GoogleFonts.playfairDisplay(
@@ -206,7 +207,7 @@ Widget filterElements() {
                           ),
                         ),
                       ),
-                      SizedBox(height: 0.5),
+                      SizedBox(height: 0.5.h),
                       isCitySelected
                           ? DropdownButtonHideUnderline(
                             child: DropdownButton2<String>(
@@ -228,7 +229,7 @@ Widget filterElements() {
                                           size: 20,
                                           color: greyColo1,
                                         ),
-                                        SizedBox(width: 8),
+                                        SizedBox(width: 8.w),
                                         Text(
                                           locationController
                                                   .selectedSubPrefecture
@@ -303,7 +304,7 @@ Widget filterElements() {
                           )
                           : SizedBox.shrink(),
 
-                      SizedBox(height: 0.5),
+                      SizedBox(height: 0.5.h),
                       Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 12,
@@ -322,7 +323,7 @@ Widget filterElements() {
                                   size: 20,
                                   color: primaryColor,
                                 ),
-                                SizedBox(width: 8),
+                                SizedBox(width: 8.w),
                                 Text(
                                   "Utiliser ma position",
                                   style: GoogleFonts.playfairDisplay(
@@ -362,8 +363,8 @@ Widget filterElements() {
                       Row(
                         children: [
                           Container(
-                            width: 150,
-                            height: 50,
+                            width: 140.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
@@ -417,19 +418,19 @@ Widget filterElements() {
                             ),
                           ),
 
-                          SizedBox(width: 4),
+                          SizedBox(width: 4.w),
 
                           Container(
-                            width: 30,
-                            height: 2,
+                            width: 30.w,
+                            height: 2.h,
                             decoration: BoxDecoration(color: greyColo1),
                           ),
 
-                          SizedBox(width: 4),
+                          SizedBox(width: 4.w),
 
                           Container(
-                            width: 150,
-                            height: 50,
+                            width: 140.w,
+                            height: 50.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
@@ -489,7 +490,7 @@ Widget filterElements() {
                           ),
                         ],
                       ),
-                      SizedBox(height: 0.5),
+                      SizedBox(height: 0.5.h),
                       Wrap(
                         spacing: 8,
                         children:
@@ -790,7 +791,7 @@ Widget filterElements() {
             ),
           ],
         ),
-        SizedBox(height: 24),
+        SizedBox(height: 24.h),
       ],
     );
   });
