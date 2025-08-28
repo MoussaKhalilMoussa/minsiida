@@ -271,8 +271,13 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 400, // Set height to allow scrolling
+                  
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      //height: MediaQuery.sizeOf(Get.context!).height, // Set height to allow scrolling
+                      height: 440.h,
                       child: ListView(
                         ///physics: BouncingScrollPhysics(),
                         children: [

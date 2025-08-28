@@ -7,6 +7,13 @@ class NotificationsController extends GetxController {
   var isOffresTabSelected = false.obs;
   var isNotificationRead = false.obs;
   var notificationText = "7 Notifications".obs;
+  var isRead = false.obs;
+
+  void isReadFunc() {
+    isRead.value = !isRead.value;
+    update();
+  }
+
   void isTousTabSelectedFunc() {
     isTousTabSelected.value = true;
     notificationText.value = "7 Notifications";

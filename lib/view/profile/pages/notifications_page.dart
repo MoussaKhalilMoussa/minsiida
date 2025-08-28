@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/notifications_controller.dart/notifications_controller.dart';
+import 'package:simple_nav_bar/view/profile/widgets/notification_card.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
@@ -51,6 +52,7 @@ class NotificationsPage extends StatelessWidget {
                       notificationController.isOffresTabSelected.value;
                   var notificationText =
                       notificationController.notificationText.value;
+                  var isRead = notificationController.isRead.value;
                   return Column(
                     children: [
                       Row(
@@ -166,7 +168,7 @@ class NotificationsPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -216,6 +218,27 @@ class NotificationsPage extends StatelessWidget {
                             backgroundColor: redColor.withValues(alpha: 0.1),
                           ),
                         ],
+                      ),
+
+                      //SizedBox(height:8),
+                      // List of notifications
+                      ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 10,
+                        separatorBuilder:
+                            (context, index) => SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          return buildNotificationCard(
+                            onTap: () {
+                              notificationController.isReadFunc();
+                            },
+                            title: "Notification",
+                            time: "2 hours ago",
+                            description: "This is a sample notification.",
+                            isRead: isRead,
+                          );
+                        },
                       ),
                     ],
                   );

@@ -56,6 +56,7 @@ class MesAnnonces extends StatelessWidget {
                     IconButton.filled(
                       iconSize: 33,
                       style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(primaryColor),
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadiusGeometry.circular(8),
@@ -63,7 +64,7 @@ class MesAnnonces extends StatelessWidget {
                           ),
                         ),
                       ),
-                      color: blueColor,
+                      //color: primaryColor,
                       onPressed: () {},
                       icon: Icon(Ionicons.add_outline, color: whiteColor),
                     ),

@@ -11,9 +11,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.grey[200],
       //appBar: AppBar(title: const Text('Profile'), centerTitle: true),
       body: CustomScrollView(
-        physics: const ClampingScrollPhysics(), // disables bounce
+        //physics: const ClampingScrollPhysics(), // disables bounce
         shrinkWrap: true,
         slivers: [
           SliverAppBar(
@@ -30,13 +31,7 @@ class ProfilePage extends StatelessWidget {
             floating: true,
             snap: true,
           ),
-          SliverToBoxAdapter(
-            child: Divider(
-              thickness: 1,
-              color: Colors.grey.withValues(alpha: 0.2),
-            ),
-          ),
-
+          const SliverToBoxAdapter(child: Divider(height: 1)),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(

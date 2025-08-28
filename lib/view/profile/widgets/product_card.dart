@@ -114,11 +114,11 @@ class ProductCard extends StatelessWidget {
               IconButton(
                 icon: Row(
                   children: [
-                    Icon(Ionicons.eye_outline, color: Colors.blue),
+                    Icon(Ionicons.eye_outline, color: primaryColor),
                     SizedBox(width: 5),
                     Text(
                       'View',
-                      style: GoogleFonts.playfairDisplay(color: Colors.blue),
+                      style: GoogleFonts.playfairDisplay(color: primaryColor),
                     ),
                   ],
                 ),
