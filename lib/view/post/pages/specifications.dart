@@ -6,7 +6,7 @@ import 'package:simple_nav_bar/common_widgets/custom_title.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
-import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
+import 'package:simple_nav_bar/controllers/specifications_controller/specification_controller.dart';
 
 class Specifications extends StatefulWidget {
   final int currentPage;

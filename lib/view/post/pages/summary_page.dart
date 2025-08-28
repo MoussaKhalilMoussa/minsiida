@@ -10,7 +10,7 @@ import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controll
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
-import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
+import 'package:simple_nav_bar/controllers/specifications_controller/specification_controller.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 
 class SummaryPage extends StatefulWidget {
@@ -492,9 +492,7 @@ class _SummaryPage extends State<SummaryPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: CustomButton(
-                            onPressed: () {
-                              
-                            },
+                            onPressed: () {},
                             width: screenW * 0.83,
                             height: screenH / 18,
                             borderRadius: 8,

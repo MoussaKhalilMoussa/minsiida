@@ -7,7 +7,7 @@ import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controll
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
-import 'package:simple_nav_bar/controllers/specifications/specification_controller.dart';
+import 'package:simple_nav_bar/controllers/specifications_controller/specification_controller.dart';
 import 'package:simple_nav_bar/view/post/pages/category_selection.dart';
 import 'package:simple_nav_bar/view/post/pages/delivery_page.dart';
 import 'package:simple_nav_bar/view/post/pages/details_page.dart';
@@ -140,7 +140,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: whiteColor,
         shadowColor: Colors.grey.withValues(alpha: 1),

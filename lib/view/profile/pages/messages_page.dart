@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/view/profile/widgets/chat_screen_profile.dart';
-import 'package:simple_nav_bar/view/profile/widgets/favori_product_card.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/chat_screen_profile.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/favori_product_card.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({super.key});
@@ -67,7 +67,12 @@ class MessagesPage extends StatelessWidget {
               SizedBox(height: 10),
               Container(
                 alignment: Alignment.topCenter,
-                margin: EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 20),
+                margin: EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                  top: 0,
+                  bottom: 20,
+                ),
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 width: MediaQuery.sizeOf(Get.context!).width,
                 color: Colors.transparent,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/view/profile/widgets/product_card.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/product_card.dart';
 
 class MesAnnonces extends StatelessWidget {
   const MesAnnonces({super.key});

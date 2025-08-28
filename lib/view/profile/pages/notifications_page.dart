@@ -4,14 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/notifications_controller.dart/notifications_controller.dart';
-import 'package:simple_nav_bar/view/profile/widgets/notification_card.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/notification_card.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/notification_tab.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var notificationController = Get.find<NotificationsController>();
+    final notificationController = Get.find<NotificationsController>();
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -55,119 +56,77 @@ class NotificationsPage extends StatelessWidget {
                   var isRead = notificationController.isRead.value;
                   return Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              notificationController.isTousTabSelectedFunc();
-                            },
-                            child: Chip(
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              label: Text(
-                                'Tous',
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      isTousTabSelected
-                                          ? whiteColor
-                                          : blackColor2,
-                                ),
-                              ),
+                      Container(
+                        height: 36,
+                        alignment: Alignment.centerLeft,
+                        width: MediaQuery.sizeOf(context).width,
+                        child: ListView(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          //mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            notificationTab(
+                              onTap: () {
+                                notificationController.isTousTabSelectedFunc();
+                              },
+                              label: 'Tous',
+                              color:
+                                  isTousTabSelected ? whiteColor : blackColor2,
                               backgroundColor:
                                   isTousTabSelected ? primaryColor : whiteColor,
                             ),
-                          ),
-
-                          SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () {
-                              notificationController.isNonLusTabSelectedFunc();
-                            },
-                            child: Chip(
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              label: Text(
-                                'Non lus',
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      isNonLusTabSelected
-                                          ? whiteColor
-                                          : blackColor2,
-                                ),
-                              ),
+                            SizedBox(width: 8),
+                            notificationTab(
+                              onTap: () {
+                                notificationController
+                                    .isNonLusTabSelectedFunc();
+                              },
+                              label: 'Non lus',
+                              color:
+                                  isNonLusTabSelected
+                                      ? whiteColor
+                                      : blackColor2,
                               backgroundColor:
                                   isNonLusTabSelected
                                       ? primaryColor
                                       : whiteColor,
                             ),
-                          ),
-                          SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () {
-                              notificationController
-                                  .isMessagesTabSelectedFunc();
-                            },
-                            child: Chip(
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              label: Text(
-                                'Messages',
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      isMessagesTabSelected
-                                          ? whiteColor
-                                          : blackColor2,
-                                ),
-                              ),
+                            SizedBox(width: 8),
+                            notificationTab(
+                              onTap: () {
+                                notificationController
+                                    .isMessagesTabSelectedFunc();
+                              },
+                              label: 'Messages',
+                              color:
+                                  isMessagesTabSelected
+                                      ? whiteColor
+                                      : blackColor2,
                               backgroundColor:
                                   isMessagesTabSelected
                                       ? primaryColor
                                       : whiteColor,
                             ),
-                          ),
-                          SizedBox(width: 8),
-
-                          GestureDetector(
-                            onTap: () {
-                              notificationController.isOffresTabSelectedFunc();
-                            },
-                            child: Chip(
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              label: Text(
-                                'Offres',
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      isOffresTabSelected
-                                          ? whiteColor
-                                          : blackColor2,
-                                ),
-                              ),
+                            SizedBox(width: 8),
+                            notificationTab(
+                              onTap: () {
+                                notificationController
+                                    .isOffresTabSelectedFunc();
+                              },
+                              label: 'Offres',
+                              color:
+                                  isOffresTabSelected
+                                      ? whiteColor
+                                      : blackColor2,
                               backgroundColor:
                                   isOffresTabSelected
                                       ? primaryColor
                                       : whiteColor,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

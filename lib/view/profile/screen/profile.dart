@@ -15,8 +15,8 @@ import 'package:simple_nav_bar/view/profile/pages/messages_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/notifications_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/parametres_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/profile_page.dart';
-import 'package:simple_nav_bar/view/profile/widgets/authentication_steps.dart';
-import 'package:simple_nav_bar/view/profile/widgets/list_title.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/authentication_steps.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/list_title.dart';
 
 class Profile extends StatefulWidget {
   final VoidCallback? closeProfile;
@@ -271,11 +271,8 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                     ),
                   ),
                   SliverToBoxAdapter(
-                  
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
+                      decoration: BoxDecoration(color: Colors.white),
                       //height: MediaQuery.sizeOf(Get.context!).height, // Set height to allow scrolling
                       height: 440.h,
                       child: ListView(
