@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           initialBinding: InitialBinding(),
           debugShowCheckedModeBanner: false,
-          title: 'Simple Nav Bar',
+          title: 'Minsida',
           theme: ThemeData(
             textTheme: GoogleFonts.playfairDisplayTextTheme(),
             primarySwatch: Colors.purple,

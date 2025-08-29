@@ -17,7 +17,7 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
               margin: const EdgeInsets.only(right: 0, left: 0),
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: blueColor.withValues(alpha: .1),
+                color: purple_600.withValues(alpha: .1),
                 //borderRadius: BorderRadius.circular(8),
                 shape: BoxShape.circle,
               ),
@@ -25,7 +25,7 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
               child: const Icon(
                 Ionicons.lock_closed_outline,
                 size: 20,
-                color: blueColor,
+                color: purple_600,
               ),
             ),
             title: Text(
@@ -48,7 +48,11 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
           ListTile(
             title: Text(
               'Ajoutez une couche de sécurité supplémentaire à votre compte en activant l\'authentification à deux facteurs.',
-              style: GoogleFonts.poppins(fontSize: 10, color: greyColor),
+              style: GoogleFonts.poppins(
+                fontSize: 10,
+                color: greyColor,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             horizontalTitleGap: 8,
             contentPadding: const EdgeInsets.symmetric(
@@ -68,7 +72,11 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(Ionicons.alert_circle_outline, size: 10),
+                    child: Icon(
+                      Ionicons.alert_circle_outline,
+                      size: 10,
+                      color: primaryColor,
+                    ),
                   ),
                   const SizedBox(width: 4),
                   Expanded(

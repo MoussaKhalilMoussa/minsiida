@@ -17,12 +17,16 @@ class ParaDesConfiNotContainer extends StatelessWidget {
               margin: const EdgeInsets.only(right: 0, left: 0),
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: greenColor.withValues(alpha: .1),
+                color: darkGreen.withValues(alpha: 0.1),
                 //borderRadius: BorderRadius.circular(8),
                 shape: BoxShape.circle,
               ),
 
-              child: const Icon(Ionicons.eye_outline, size: 20,color: greenColor,),
+              child: const Icon(
+                Ionicons.eye_outline,
+                size: 20,
+                color: darkGreen,
+              ),
             ),
             title: Text(
               'Paramètres de confidentialité',
@@ -136,8 +140,5 @@ class ParaDesConfiNotContainer extends StatelessWidget {
         ],
       ),
     );
-
-
-
   }
 }
