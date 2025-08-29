@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 
-class AssistancePage extends StatelessWidget {
-  const AssistancePage({super.key});
+class AideEtSupport extends StatelessWidget {
+  const AideEtSupport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +36,13 @@ class AssistancePage extends StatelessWidget {
               Container(
                 width: MediaQuery.sizeOf(Get.context!).width,
                 margin: EdgeInsets.only(right: 12, left: 12, top: 20),
-                child: Row(
-                  children: [ ],
+                child: Row(children: [ ],
                 ),
-              ),]),
+              ),
+            ]),
           ),
         ],
       ),
     );
-  
   }
 }

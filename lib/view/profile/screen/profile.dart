@@ -7,7 +7,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
-import 'package:simple_nav_bar/view/profile/pages/assistance_page.dart';
+import 'package:simple_nav_bar/view/profile/pages/aide_et_support.dart';
 import 'package:simple_nav_bar/view/profile/pages/deconnection_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_favoris.dart';
@@ -451,7 +451,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               setState(() {
                                 selectedIndex = 14;
                               });
-                              Get.to(() => AssistancePage());
+                              Get.to(() => AideEtSupport());
                             },
                           ),
                           listTitle(
