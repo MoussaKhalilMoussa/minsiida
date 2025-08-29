@@ -12,6 +12,8 @@ import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
 class CategoryMainContent extends StatefulWidget {
   final ScrollController scrollController, scrollController1, scrollController2;
+  final AnimationController controller;
+  final Animation<Offset> offsetAnimation;
   final double width, height;
   final double itemWidthWithSpacing;
   final int currentStartIndex;
@@ -33,6 +35,8 @@ class CategoryMainContent extends StatefulWidget {
     required this.currentStartIndex1,
     required this.currentPage,
     required this.currentPage1,
+    required this.controller,
+    required this.offsetAnimation,
   });
 
   @override
@@ -42,6 +46,8 @@ class CategoryMainContent extends StatefulWidget {
 class _CategoryMainContent extends State<CategoryMainContent> {
   final homeController = Get.find<HomeController>();
   final productController = Get.put(ProductController());
+  //final filterController = Get.find<FilterController>();
+  //var isVehiculesOpen = false;
   late ScrollController scrollController, scrollController1, scrollController2;
   late double width, height;
   late int currentPage;
@@ -64,11 +70,17 @@ class _CategoryMainContent extends State<CategoryMainContent> {
     currentStartIndex1 = widget.currentStartIndex1;
     currentPage = widget.currentPage;
     currentPage1 = widget.currentPage1;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final visibleItems =
+        productController.products
+            .take(productController.visibleCount.value)
+            .toList();
+
     return Positioned.fill(
       child: ListView(
         physics: ClampingScrollPhysics(),
@@ -95,6 +107,9 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                         children: [
                           InkWell(
                             onTap: () {
+                              //homeController.selectedIndex.value = 4;
+                              //widget.controller.forward();
+                              //filterController.openFilter();
                               Get.to(
                                 () => FilterPage(),
                                 transition:
@@ -103,9 +118,9 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                                 duration: const Duration(
                                   milliseconds: 200,
                                 ), // Speed up transition
-                                curve:
-                                    Curves
-                                        .easeInOut, // Optional: smoother animation
+                                curve: Curves.easeInOut,
+
+                                // Optional: smoother animation
                               );
                             },
                             child: Container(
@@ -164,11 +179,6 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                 ),
                 SizedBox(height: 16),
                 Obx(() {
-                  final visibleItems =
-                      productController.products
-                          .take(productController.visibleCount.value)
-                          .toList();
-
                   return Column(
                     children: [
                       GridView.builder(

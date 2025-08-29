@@ -13,12 +13,18 @@ class FilterController extends GetxController
     super.onInit();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 200),
     );
     _offsetAnimation = Tween<Offset>(
       begin: Offset(-1.0, 0.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  
+
+  void openFilter() {
+    _controller.forward();
   }
 
   void closeFilter() {

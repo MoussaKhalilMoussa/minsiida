@@ -4,20 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
-import 'package:simple_nav_bar/controllers/filter_controller/filter_controller.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/view/home/widgets/filter_elements.dart';
 
 class FilterPage extends StatelessWidget {
-  FilterPage({super.key});
+  const FilterPage({super.key});
 
-  final homeController = Get.find<HomeController>();
-  final locationController = Get.find<LocationController>();
-  final filterController = Get.find<FilterController>();
-
+  //final filterController = Get.find<FilterController>();
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.find<HomeController>();
+
+    final locationController = Get.find<LocationController>();
     final cat = categories1[1];
     final subcat = cat['subcategory'];
     return Scaffold(
@@ -49,10 +48,9 @@ class FilterPage extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () {
-                    //homeController.homeIndex.value = 1;
-                    //filterController.closeFilter();
                     Get.back();
-                    homeController.resetAllFields();
+                    //widget.controller.reverse();
+                    //homeController.resetAllFields();
                     locationController.resetSelection();
                   },
                   icon: Icon(Icons.close, color: blackColor2),

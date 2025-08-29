@@ -713,9 +713,10 @@ Widget filterElements() {
                   // Toggle Button with GetX
                   Obx(
                     () => Switch(
+                    
                       trackOutlineWidth: WidgetStateProperty.all(0),
                       activeTrackColor: primaryColor,
-                      inactiveThumbColor: Colors.white,
+                      inactiveThumbColor: whiteColor,
                       inactiveTrackColor: greyColo1.withValues(alpha: 0.3),
                       //activeColor: primaryColor,
                       value: homeController.isSelected.value,

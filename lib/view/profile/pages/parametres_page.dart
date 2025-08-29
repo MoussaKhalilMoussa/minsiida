@@ -5,6 +5,9 @@ import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/parametres_controller/parametres_controller.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/notification_tab.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/auth_a_deux_facteur_not_container.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/email_notification_container.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/para_des_confi_not_container.dart';
 
 class ParametresPage extends StatelessWidget {
   const ParametresPage({super.key});
@@ -193,7 +196,14 @@ class ParametresPage extends StatelessWidget {
                       ListView(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        children: [],
+                        children: [
+                          
+                          EmailNotificationContainer(),
+                          const SizedBox(height: 12),
+                          ParaDesConfiNotContainer(),
+                          const SizedBox(height: 12),
+                          AuthADeuxFacteurNotContainer(),
+                          ],
                       ),
                     ],
                   );

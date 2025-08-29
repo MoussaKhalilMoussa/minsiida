@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
+  //int homeController.selectedIndex.value = 0;
   bool _isDrawerOpen = false;
   //bool _isCategoriesOpen = false;
   bool isProfileOpen = false;
@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    //_selectedIndex = homeController.selectedIndex.value;
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -82,24 +81,24 @@ class _HomeScreenState extends State<HomeScreen>
 
   void _onItemTapped(int index) {
     if (index == 0) {
-      _selectedIndex = index;
+      homeController.selectedIndex.value = index;
       setState(() => _isDrawerOpen = true);
       _controller.forward();
     } else if (index == 1) {
-      _selectedIndex = index;
+      homeController.selectedIndex.value = index;
       setState(() {});
       _controller.forward();
     } else if (index == 2) {
-      _selectedIndex = index;
+      homeController.selectedIndex.value = index;
       setState(() {});
       _controller.forward();
     } else if (index == 3) {
-      _selectedIndex = index;
+      homeController.selectedIndex.value = index;
       setState(() {});
       _controller.forward();
     } else {
       setState(() {
-        _selectedIndex = index;
+        homeController.selectedIndex.value = index;
         _isDrawerOpen = false;
         //_isCategoriesOpen = false;
         _controller.reverse();
@@ -168,6 +167,8 @@ class _HomeScreenState extends State<HomeScreen>
       ),
 
       CategoryMainContent(
+        controller: _controller,
+        offsetAnimation: _offsetAnimation,
         scrollController: scrollController,
         scrollController1: scrollController1,
         scrollController2: scrollController2,
@@ -189,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: Obx(() {
           return Stack(
             children: [
-              //_pages[_selectedIndex],
+              //_pages[homeController.selectedIndex.value],
               //NB: because of layout issue the top header section come second element of this stack widget
               widgets1[homeController.homeIndex.value],
 
@@ -338,7 +339,9 @@ class _HomeScreenState extends State<HomeScreen>
                         "",
                         style: TextStyle(
                           color:
-                              _selectedIndex == 2 ? Colors.blue : Colors.grey,
+                              homeController.selectedIndex.value == 2
+                                  ? Colors.blue
+                                  : Colors.grey,
                           fontSize: 12,
                         ),
                       ),
@@ -348,7 +351,8 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               // Slide-in drawer
               for (int i = 0; i < widgets.length; i++)
-                if (i == _selectedIndex) widgets[_selectedIndex],
+                if (i == homeController.selectedIndex.value)
+                  widgets[homeController.selectedIndex.value],
               // Always last = on top
             ],
           );
@@ -358,7 +362,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildNavItem(IconData icon, String label, int index) {
-    //final isSelected = _selectedIndex == index && !_isDrawerOpen;
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: Column(
