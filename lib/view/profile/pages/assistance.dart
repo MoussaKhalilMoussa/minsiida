@@ -4,18 +4,19 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/base_de_connaissances.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/contacter_le_support.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/questions_frequantes.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/soumettre_un_ticket_de_support.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/auth_a_deux_facteur_not_container.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/comptes_connecte_not_container.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/email_notification_container.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/para_des_confi_not_container.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/supprimer_le_compte_not_container.dart';
 
-class AideEtSupport extends StatelessWidget {
+class AideEtSupport extends StatefulWidget {
   const AideEtSupport({super.key});
 
+  @override
+  State<AideEtSupport> createState() => _AideEtSupportState();
+}
+
+class _AideEtSupportState extends State<AideEtSupport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,21 +48,16 @@ class AideEtSupport extends StatelessWidget {
                 margin: EdgeInsets.only(right: 12, left: 12, top: 12),
                 child: Column(
                   children: [
-                    ListView(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: [
-                        const QuestionsFrequantes(),
-                        SizedBox(height: 12.h),
-                        const ContacterLeSupport(),
-                        SizedBox(height: 12.h),
-                        const SoumettreUnTicketDeSupport(),
-                        SizedBox(height: 12.h),
-                        const ComptesConnecteNotContainer(),
-                        SizedBox(height: 12.h),
-                        const SupprimerLeCompteNotContainer(),
-                      ],
-                    ),
+                    QuestionsFrequantes(),
+                    SizedBox(height: 12.h),
+                    ContacterLeSupport(),
+                    SizedBox(height: 12.h),
+                    SoumettreUnTicketDeSupport(),
+                    SizedBox(height: 12.h),
+                    //footerSections(),
+                    BaseDeConnaissances(),
+                    //footerSections(),
+                    SizedBox(height: 12.h),
                   ],
                 ),
               ),

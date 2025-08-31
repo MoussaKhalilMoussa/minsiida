@@ -37,7 +37,7 @@ class _PhotosPageState extends State<PhotosPage> {
 
   Future<void> _pickImages() async {
     final List<XFile> selected = await _picker.pickMultiImage();
-    if (selected != null) {
+    if (selected.isNotEmpty) {
       controller.isError.value = false;
       setState(() {
         //_images.addAll(selected.map((xfile) => File(xfile.path)));

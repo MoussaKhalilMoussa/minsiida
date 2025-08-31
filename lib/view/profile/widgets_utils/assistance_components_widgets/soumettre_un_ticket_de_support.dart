@@ -1,9 +1,14 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/base_de_connaissances.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/selectionButton.dart';
 
 class SoumettreUnTicketDeSupport extends StatelessWidget {
@@ -55,9 +60,11 @@ class SoumettreUnTicketDeSupport extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 2.0,
-                      vertical: 8,
+                    padding: const EdgeInsets.only(
+                      left: 2.0,
+                      right: 2.0,
+                      top: 8,
+                      bottom: 4,
                     ),
                     child: Text(
                       'Sujet',
@@ -117,9 +124,11 @@ class SoumettreUnTicketDeSupport extends StatelessWidget {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 2.0,
-                      vertical: 8,
+                    padding: const EdgeInsets.only(
+                      left: 2.0,
+                      right: 2.0,
+                      top: 12,
+                      bottom: 4,
                     ),
                     child: Text(
                       "Catégorie",
@@ -134,9 +143,11 @@ class SoumettreUnTicketDeSupport extends StatelessWidget {
                   Selectionbutton(),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 2.0,
-                      vertical: 8,
+                    padding: const EdgeInsets.only(
+                      left: 2.0,
+                      right: 2.0,
+                      top: 12,
+                      bottom: 4,
                     ),
                     child: Text(
                       'Description',
@@ -180,6 +191,141 @@ class SoumettreUnTicketDeSupport extends StatelessWidget {
                         borderSide: BorderSide(
                           color: greyColor.withValues(alpha: 0.2),
                           width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 2.0,
+                      right: 2.0,
+                      top: 12,
+                      bottom: 4,
+                    ),
+                    child: Text(
+                      'Pièces jointes (Optionnel)',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: blackColor2,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  DottedBorder(
+                    options: RoundedRectDottedBorderOptions(
+                      radius: Radius.circular(8),
+                      color: Colors.grey.shade400,
+                      strokeWidth: 1.5,
+                      dashPattern: const [8, 4],
+                    ),
+                    child: Container(
+                      height: 180.h,
+                      width: double.maxFinite.w,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: greyColor.withValues(alpha: 0.09),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Ionicons.cloud_upload_outline,
+                            color: greyColor.withValues(alpha: 0.8),
+                          ),
+
+                          SizedBox(height: 12.h),
+                          Text(
+                            'Glissez et déposez des fichiers ici, ou cliquez pour parcourir',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: greyColor,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Maximum 5 fichiers, 2Mo chacun',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 14,
+                              //fontWeight: FontWeight.bold,
+                              color: greyColor.withValues(alpha: 0.8),
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              visualDensity: VisualDensity.comfortable,
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    8,
+                                  ),
+                                ),
+                              ),
+                              /* fixedSize: WidgetStatePropertyAll(
+                                Size(double.maxFinite, 30.h),
+                              ), */
+                              //fixedSize:   ,
+                              backgroundColor: WidgetStatePropertyAll(
+                                greyColo1.withValues(alpha: 0.1),
+                              ),
+                              shadowColor: WidgetStatePropertyAll(
+                                Colors.transparent,
+                              ),
+                              padding: WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 10,
+                                ),
+                              ),
+                              foregroundColor: WidgetStatePropertyAll(
+                                greyColor,
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              "Parcourir les fichiers",
+                              style: GoogleFonts.playfairDisplay(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        visualDensity: VisualDensity.comfortable,
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(8),
+                          ),
+                        ),
+                        fixedSize: WidgetStatePropertyAll(Size(150.w, 40.h)),
+                        //fixedSize:   ,
+                        backgroundColor: WidgetStatePropertyAll(primaryColor),
+                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(whiteColor),
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        "Soumettre le ticket",
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
