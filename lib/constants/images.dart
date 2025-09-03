@@ -57,7 +57,7 @@ const minsiidaLogo1 = "assets/images/minsiida_logo_1.jpeg";
 const minsiidaLogo2 = "assets/images/minsiida_logo_2.jpeg";
 const minsiidaLogo3 = "assets/images/minsiida_logo_3.jpeg";
 const minsiidaLogo4 = "assets/images/minsiida_logo_4.jpeg";
-
+const minsiidaSplash = "assets/images/minsiida_splash.png";
 //images
 
 const imgBackground = "assets/icons/bg.png";

@@ -16,7 +16,7 @@ class SplashScren extends StatefulWidget {
 }
 
 class _SplashScrenState extends State<SplashScren> {
-  bool fakeUser = false;
+  bool fakeUser = true;
   void changeScreen() {
     Future.delayed(const Duration(seconds: 3), () {
       if (!fakeUser && mounted) {
@@ -33,47 +33,41 @@ class _SplashScrenState extends State<SplashScren> {
     super.initState();
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: whiteColor,
       body: Center(
-        child: Column(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
             Align(
-              alignment: Alignment.topLeft,
-              child: Image.asset(icSplashBg, width: 300),
+              alignment: Alignment.center,
+              child: Image.asset(minsiidaSplash, width: double.maxFinite,fit:BoxFit.cover ,),
             ),
             SizedBox(height: 20.h),
-            Container(
-              height: 77.h,
-              width: 77.w,
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Image.asset(minsiidaLogo),
+            Column(
+              children: [
+                const Spacer(),
+                CircularProgressIndicator(
+                  color: primaryColor,
+                ),
+                SizedBox(height: 200.h, ),
+                Text(
+                  credits,
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 30.h),
+              ],
             ),
-            Text(
-              appname,
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: whiteColor,
-              ),
-            ),
-            SizedBox(height: 5.h),
-            Text(appversion, style: TextStyle(color: whiteColor)),
-            const Spacer(),
-            Text(
-              credits,
-              style: TextStyle(color: whiteColor, fontWeight: FontWeight.w400),
-            ),
-            SizedBox(height: 30.h),
           ],
         ),
       ),
     );
   }
+
+
 }
