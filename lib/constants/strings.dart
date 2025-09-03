@@ -1,5 +1,6 @@
 const appname = "Minsiida";
 const appversion = "Version 1.0.0";
+const credits = "@Minsiida Team";
 const email = "Email";
 const emailHint = "admin@admin.com";
 const password = "Password";

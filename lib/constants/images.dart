@@ -38,7 +38,8 @@ const icProfile = "assets/icons/profile.png";
 const icRefund = "assets/icons/refund.png";
 const icSearch = "assets/icons/search.png";
 const icShop = "assets/icons/shop.png";
-const icSplashBg = "assets/icons/splash_login_registration_background_image.png";
+const icSplashBg =
+    "assets/icons/splash_login_registration_background_image.png";
 const icSquareLogo = "assets/icons/square_logo.png";
 const icTodaysDeal = "assets/icons/todays_deal.png";
 const icTopCategories = "assets/icons/top_categories.png";
@@ -52,6 +53,10 @@ const minsiidaLogo = "assets/icons/minsiidaLogo.png";
 const minsiidaLogoSvg = "assets/icons/minsiidaLogo.svg";
 const minsiidaLogoBigSvg = "assets/icons/minsiidaLogoBig.svg";
 const minsiidaLogoSmallSvg = "assets/icons/minsiidaLogoBig.svg";
+const minsiidaLogo1 = "assets/images/minsiida_logo_1.jpeg";
+const minsiidaLogo2 = "assets/images/minsiida_logo_2.jpeg";
+const minsiidaLogo3 = "assets/images/minsiida_logo_3.jpeg";
+const minsiidaLogo4 = "assets/images/minsiida_logo_4.jpeg";
 
 //images
 

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/controllers/initail_bindings.dart';
 import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
+import 'package:simple_nav_bar/view/splash/splash_scren.dart';
 import 'view/home/screen/home.dart';
 
 void main() {
@@ -34,9 +35,9 @@ class MyApp extends StatelessWidget {
           ),
           routes: {
             '/addPost': (context) => AddPostScreen(),
-            '': (context) => HomeScreen(),
+            //'': (context) => SplashScren(),
           },
-          home: HomeScreen(),
+          home: SplashScren(),
         );
       },
     );
