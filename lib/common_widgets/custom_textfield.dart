@@ -17,9 +17,13 @@ Widget customeTextField({String? title, String? hint, controller, isPass}) {
           isDense: true,
           fillColor: lightGrey,
           filled: true,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: greyColo1),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
         ),
       ),

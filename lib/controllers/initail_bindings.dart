@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:simple_nav_bar/controllers/auth/auth_controller.dart';
+import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
 import 'package:simple_nav_bar/controllers/filter_controller/filter_controller.dart';
 import 'package:simple_nav_bar/controllers/notifications_controller.dart/notifications_controller.dart';
 import 'package:simple_nav_bar/controllers/parametres_controller/parametres_controller.dart';
@@ -22,6 +22,6 @@ class InitialBinding extends Bindings {
     Get.put<NotificationsController>(NotificationsController());
     Get.put<ParametresController>(ParametresController());
     Get.put<FilterController>(FilterController());
-    Get.put<AuthController>(AuthController());
+    Get.put<AuthLoginController>(AuthLoginController());
   }
 }

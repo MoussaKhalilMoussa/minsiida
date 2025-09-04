@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
@@ -33,7 +32,7 @@ class _SplashScrenState extends State<SplashScren> {
     super.initState();
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
@@ -43,16 +42,18 @@ class _SplashScrenState extends State<SplashScren> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Image.asset(minsiidaSplash, width: double.maxFinite,fit:BoxFit.cover ,),
+              child: Image.asset(
+                minsiidaSplash,
+                width: double.maxFinite,
+                fit: BoxFit.cover,
+              ),
             ),
             SizedBox(height: 20.h),
             Column(
               children: [
                 const Spacer(),
-                CircularProgressIndicator(
-                  color: primaryColor,
-                ),
-                SizedBox(height: 200.h, ),
+                CircularProgressIndicator(color: primaryColor),
+                SizedBox(height: 200.h),
                 Text(
                   credits,
                   style: TextStyle(
@@ -68,6 +69,4 @@ class _SplashScrenState extends State<SplashScren> {
       ),
     );
   }
-
-
 }

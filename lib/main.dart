@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/controllers/initail_bindings.dart';
+import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
 import 'package:simple_nav_bar/view/splash/splash_scren.dart';
-import 'view/home/screen/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  DioApiClient.setup();
   runApp(MyApp());
 }
 

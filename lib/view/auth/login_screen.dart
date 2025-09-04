@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/common_widgets/applogo.dart';
 import 'package:simple_nav_bar/common_widgets/bg_widget.dart';
 import 'package:simple_nav_bar/common_widgets/custom_textfield.dart';
@@ -7,7 +9,7 @@ import 'package:simple_nav_bar/common_widgets/ourbuttton.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
-import 'package:simple_nav_bar/controllers/auth/auth_controller.dart';
+import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
 import 'package:simple_nav_bar/view/auth/sign_up_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -16,7 +18,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.find<AuthController>();
+    var controller = Get.find<AuthLoginController>();
     return bgWidget(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -52,48 +54,67 @@ class LoginScreen extends StatelessWidget {
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () {},
-                                child: forgetPass.text.make(),
+                                child:
+                                    forgetPass.text
+                                        .color(
+                                          blackColor2.withValues(alpha: 0.8),
+                                        )
+                                        .make(),
                               ),
                             ),
                             5.heightBox,
-                            controller.isLoading.value
-                                ? const CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(
-                                    primaryColor,
-                                  ),
-                                )
-                                : ourButton(
-                                  onPress: () async {
-                                    /* controller.isLoading(true);
-                                    await controller
-                                        .loginMethod(context: context)
-                                        .then((value) {
-                                          if (value != null) {
-                                            VxToast.show(
-                                              context,
-                                              msg: loggedin,
-                                            );
-                                            Get.offAll(() => const Home());
-                                          } else {
-                                            controller.isLoading(false);
-                                          }
-                                        }); */
-                                  },
+                            ourButton(
                                   color: primaryColor,
-                                  textColor: whiteColor,
-                                  title: login,
-                                ).box.width(context.screenWidth - 50).make(),
+
+                                  onPressed:
+                                      controller.isLoading.value
+                                          ? null
+                                          : () async {
+                                            await controller.loginMethod(
+                                              context: context,
+                                            );
+                                          },
+                                  child:
+                                      controller.isLoading.value
+                                          ? CircularProgressIndicator(
+                                            constraints: BoxConstraints.tight(
+                                              Size.fromRadius(8.r),
+                                            ),
+                                            valueColor: AlwaysStoppedAnimation(
+                                              whiteColor,
+                                            ),
+                                          )
+                                          : Text(
+                                            login,
+                                            style: GoogleFonts.playfairDisplay(
+                                              color: whiteColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                ).box
+                                .width(context.screenWidth - 50)
+                                .height(context.screenWidth / 9)
+                                .make(),
                             5.heightBox,
                             createNewAccount.text.color(greyColo1).make(),
                             5.heightBox,
                             ourButton(
-                              onPress: () {
-                                Get.to(() => const SignupScreen());
-                              },
-                              color: whiteColor,
-                              textColor: blackColor2,
-                              title: signup,
-                            ).box.width(context.screenWidth - 50).make(),
+                                  onPressed: () {
+                                    Get.to(() => const SignupScreen());
+                                  },
+                                  color: greyColo1.withValues(alpha: 0.1),
+
+                                  child: Text(
+                                    signup,
+                                    style: GoogleFonts.playfairDisplay(
+                                      color: greyColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ).box
+                                .width(context.screenWidth - 50)
+                                .height(context.screenWidth / 9)
+                                .make(),
                             10.heightBox,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

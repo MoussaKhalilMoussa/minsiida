@@ -6,7 +6,7 @@ import 'package:simple_nav_bar/common_widgets/custom_textfield.dart';
 import 'package:simple_nav_bar/common_widgets/ourbuttton.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
-import 'package:simple_nav_bar/controllers/auth/auth_controller.dart';
+import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool? isCheck = false;
-  var controller = Get.find<AuthController>();
+  var controller = Get.find<AuthLoginController>();
 
   var nameController = TextEditingController();
   var emailController = TextEditingController();
@@ -73,7 +73,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           alignment: Alignment.centerLeft,
                           child: TextButton(
                             onPressed: () {},
-                            child: forgetPass.text.make(),
+                            child:
+                                forgetPass.text
+                                    .color(blackColor2)
+                                    .fontWeight(FontWeight.bold)
+                                    .make(),
                           ),
                         ),
                         Row(
@@ -133,7 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               valueColor: AlwaysStoppedAnimation(primaryColor),
                             )
                             : ourButton(
-                              onPress: () async {
+                              onPressed: () async {
                                 if (isCheck != false) {
                                   controller.isLoading(true);
                                   try {
@@ -163,9 +167,16 @@ class _SignupScreenState extends State<SignupScreen> {
                                 }
                               },
                               color: isCheck == true ? primaryColor : lightGrey,
-                              textColor:
-                                  isCheck == true ? whiteColor : greyColor,
-                              title: signup,
+
+                              child:
+                                  signup.text
+                                      .color(
+                                        isCheck == true
+                                            ? whiteColor
+                                            : greyColor,
+                                      )
+                                      .fontWeight(FontWeight.bold)
+                                      .make(),
                             ).box.width(context.screenWidth - 50).make(),
                         10.heightBox,
 
