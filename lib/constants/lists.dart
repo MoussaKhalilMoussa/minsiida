@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:simple_nav_bar/constants/images.dart';
+
+const socialIconList = [icFacebookLogo, icGoogleLogo, icTwitterLogo];
 
 final List<Map<String, dynamic>> categoriesSelection = [
   {
@@ -401,7 +404,7 @@ final List<Map<String, dynamic>> productsList = [
         'The iPhone 16 Pro and iPhone 16 Pro Max are high-end smartphones developed and marketed by Apple Inc. Alongside the iPhone 16 and iPhone 16 Plus, they form the eighteenth generation of the iPhone, succeeding the iPhone 15 Pro and iPhone 15 Pro Max, and were announced on September 9, 2024, and released on September 22, 2024.',
     'price': '799 €',
     'location': 'Am-Timan /\nHaraze Mangueigne',
-     'date': "AUJOUR'DHUI",
+    'date': "AUJOUR'DHUI",
   },
   {
     'image': [

@@ -53,10 +53,10 @@ const minsiidaLogo = "assets/icons/minsiidaLogo.png";
 const minsiidaLogoSvg = "assets/icons/minsiidaLogo.svg";
 const minsiidaLogoBigSvg = "assets/icons/minsiidaLogoBig.svg";
 const minsiidaLogoSmallSvg = "assets/icons/minsiidaLogoBig.svg";
-const minsiidaLogo1 = "assets/images/minsiida_logo_1.jpeg";
-const minsiidaLogo2 = "assets/images/minsiida_logo_2.jpeg";
-const minsiidaLogo3 = "assets/images/minsiida_logo_3.jpeg";
-const minsiidaLogo4 = "assets/images/minsiida_logo_4.jpeg";
+const minsiidaLogo1 = "assets/images/minsiida_logo_1.png";
+const minsiidaLogo2 = "assets/images/minsiida_logo_2.png";
+const minsiidaLogo3 = "assets/images/minsiida_logo_3.png";
+const minsiidaLogo4 = "assets/images/minsiida_logo_4.png";
 const minsiidaSplash = "assets/images/minsiida_splash.png";
 //images
 
