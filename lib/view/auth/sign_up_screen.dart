@@ -189,7 +189,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         controller.isLoading.value
                                             ? null
                                             : () {
-                                              controller.checkLogin();
+                                              controller.register();
                                             },
                                     child:
                                         controller.isLoading.value

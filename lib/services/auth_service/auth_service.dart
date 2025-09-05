@@ -12,7 +12,11 @@ abstract class AuthService {
     required String userName,
     required String email,
     required String password,
-    required String retypePassword,
+    required BuildContext context,
+  });
+
+  Future<dynamic> otpVerification({
+    required String otpCode,
     required BuildContext context,
   });
 }

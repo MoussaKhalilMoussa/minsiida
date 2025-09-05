@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/initail_bindings.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
 import 'package:simple_nav_bar/view/splash/splash_scren.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Minsida',
           theme: ThemeData(
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: greyColor, // cursor color
+              selectionColor: greyColo1, // highlighted selection
+              selectionHandleColor: greyColo1, // circular handles
+            ),
             textTheme: GoogleFonts.playfairDisplayTextTheme(),
             primarySwatch: Colors.purple,
             scaffoldBackgroundColor: Colors.white,

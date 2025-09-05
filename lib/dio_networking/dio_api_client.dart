@@ -69,13 +69,15 @@ class DioApiClient {
   // POST - Create
   Future<Response> createData(
     String endpoint,
-    Map<String, dynamic> data,
-  ) async {
+    Map<String, dynamic> data, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final response = await dio.post(
         endpoint,
         data: jsonEncode(data),
         cancelToken: cancelToken,
+        queryParameters: queryParameters,
       );
       return response;
     } catch (e) {

@@ -65,7 +65,6 @@ class AuthServiceImple implements AuthService {
     required String userName,
     required String email,
     required String password,
-    required String retypePassword,
     required BuildContext context,
   }) async {
     try {
@@ -75,9 +74,66 @@ class AuthServiceImple implements AuthService {
         "email": email,
         "password": password,
       });
+      return responce.data;
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
 
-      return responce.data['body'];
-    } catch (e) {}
-    return "";
+      Get.snackbar(
+        maxWidth: context.screenWidth - 50,
+        duration: Duration(seconds: 3),
+        "Signup Failed",
+        e.response?.data.toString() ?? e.message ?? "Unknown error",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundGradient: LinearGradient(
+          colors: [redColor, redColor.withBrightness],
+        ),
+      );
+
+      return "";
+    } catch (e) {
+      print("❌ Unexpected error: $e");
+      VxToast.show(
+        context,
+        msg: "Unexpected error occurred",
+        bgColor: redColor,
+      );
+      return "";
+    }
+  }
+
+  @override
+  Future<String> otpVerification({
+    required String otpCode,
+    required BuildContext context,
+  }) async {
+    try {
+      final response = await _dio.createData(
+        "/api/auth/verify",
+        {},
+        queryParameters: {"code": otpCode},
+      );
+      return response.data;
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      Get.snackbar(
+        maxWidth: context.screenWidth - 50,
+        duration: Duration(seconds: 3),
+        "Error",
+        e.response?.data.toString() ?? e.message ?? "Unknown error",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundGradient: LinearGradient(
+          colors: [redColor, redColor.withBrightness],
+        ),
+      );
+      return "";
+    } catch (e) {
+      print("❌ Unexpected error: $e");
+      VxToast.show(
+        context,
+        msg: "Unexpected error occurred",
+        bgColor: redColor,
+      );
+      return "";
+    }
   }
 }

@@ -1,12 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
+import 'package:simple_nav_bar/view/auth/login_screen.dart';
+import 'package:simple_nav_bar/view/auth/otp_verification_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AuthSignupController extends GetxController {
   var isLoading = false.obs;
   RxBool isCheckPrivacyTermAndConditions = false.obs;
+  RxBool activeButton = true.obs;
+
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final authService = Get.put<AuthServiceImple>(AuthServiceImple());
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
@@ -28,19 +37,13 @@ class AuthSignupController extends GetxController {
   var password = "";
   var retypePassword = "";
 
-  final RxBool nameTouched = false.obs;
-  final RxBool userNameTouched = false.obs;
-  final RxBool emailTouched = false.obs;
-  final RxBool passwordTouched = false.obs;
-  final RxBool retypePasswordTouched = false.obs;
-
-  final RxBool showNameError = false.obs;
-  final RxBool showUserNameError = false.obs;
-  final RxBool showEmailError = false.obs;
-  final RxBool showPasswordError = false.obs;
-  final RxBool showRetypePasswordError = false.obs;
-
-  Future<void> signupMethod({email, password, context}) async {}
+  // Controllers for OTP fields
+  final otp1Controller = TextEditingController();
+  final otp2Controller = TextEditingController();
+  final otp3Controller = TextEditingController();
+  final otp4Controller = TextEditingController();
+  final otp5Controller = TextEditingController();
+  final otp6Controller = TextEditingController();
 
   String? validateName(String value) {
     if (value.length < 8) {
@@ -89,33 +92,110 @@ class AuthSignupController extends GetxController {
     }
   }
 
-  void checkLogin() async {
-    await Future.delayed(Duration(seconds: 2));
-    final isValid = loginFormKey.currentState!.validate();
+  void register() async {
+    //await Future.delayed(Duration(seconds: 2));
+    try {
+      final isValid = loginFormKey.currentState!.validate();
 
-    if (!isCheckPrivacyTermAndConditions.value) {
-      Get.snackbar(
-        maxWidth: Get.context!.screenWidth - 60,
-        duration: Duration(seconds: 3),
-        "Missing Field",
-        "Please Accepte the terms and conditions",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundGradient: LinearGradient(
-          colors: [Vx.yellow400, Vx.yellow400.withBrightness],
-        ),
+      if (!isCheckPrivacyTermAndConditions.value) {
+        Get.snackbar(
+          maxWidth: Get.context!.screenWidth - 60,
+          duration: Duration(seconds: 3),
+          "Missing Field",
+          "Please Accepte the terms and conditions",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundGradient: LinearGradient(
+            colors: [Vx.yellow400, Vx.yellow400.withBrightness],
+          ),
+        );
+        return;
+      }
+
+      if (!isValid) {
+        return;
+      }
+      loginFormKey.currentState!.save();
+
+      isLoading.value = true;
+      var response = await authService.registerUser(
+        context: Get.context!,
+        name: name,
+        userName: userName,
+        email: email,
+        password: password,
       );
-      return;
-    }
 
-    if (!isValid) {
-      return;
+      Get.off(() => OtpVerificationScreen(), arguments: response);
+    } catch (e) {
+      print("❌ AuthController error: $e");
+      Get.snackbar("Error", "Something went wrong");
+    } finally {
+      isLoading.value = false;
     }
-    loginFormKey.currentState!.save();
-    print(name);
-    print(userName);
-    print(email);
-    print(password);
-    print(retypePassword);
+  }
+
+  // Function to collect OTP
+  String getOtp() {
+    var otpCode =
+        otp1Controller.text +
+        otp2Controller.text +
+        otp3Controller.text +
+        otp4Controller.text +
+        otp5Controller.text +
+        otp6Controller.text;
+    if (otpCode.length == 6) {
+      activeButton.value = false;
+    } else {
+      activeButton.value = true;
+    }
+    return otpCode;
+  }
+
+  void verifyOtp() async {
+    try {
+      final otpCode = getOtp();
+      isLoading.value = true;
+      var response = await authService.otpVerification(
+        otpCode: otpCode,
+        context: Get.context!,
+      );
+      Get.snackbar(
+        icon: Icon(Ionicons.checkbox, color: greenColor),
+        maxWidth: Get.context!.screenWidth - 60,
+        backgroundGradient: LinearGradient(
+          colors: [primaryColor, primaryColor],
+        ),
+        colorText: blackColor2,
+        duration: Duration(seconds: 3),
+        "Verification Success",
+        response,
+        snackPosition: SnackPosition.TOP,
+      );
+
+      Get.off(() => LoginScreen());
+    } catch (e) {
+      print("❌ AuthController error: $e");
+      Get.snackbar("Error", "Something went wrong");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Timer variables
+  var remainingSeconds = 60.obs; // default 60 seconds
+  Timer? _timer;
+
+  // Start countdown
+  void startTimer([int seconds = 60]) {
+    remainingSeconds.value = seconds;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (remainingSeconds.value > 0) {
+        remainingSeconds.value--;
+      } else {
+        timer.cancel();
+      }
+    });
   }
 
   @override
@@ -125,6 +205,13 @@ class AuthSignupController extends GetxController {
     emailController.dispose();
     passwordController.dispose();
     retypePasswordController.dispose();
+    otp1Controller.dispose();
+    otp2Controller.dispose();
+    otp3Controller.dispose();
+    otp4Controller.dispose();
+    otp5Controller.dispose();
+    otp6Controller.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -134,17 +221,12 @@ class AuthSignupController extends GetxController {
     emailController.clear();
     passwordController.clear();
     retypePasswordController.clear();
-
-    nameTouched.value = false;
-    userNameTouched.value = false;
-    emailTouched.value = false;
-    passwordTouched.value = false;
-    retypePasswordTouched.value = false;
-
-    showNameError.value = false;
-    showUserNameError.value = false;
-    showEmailError.value = false;
-    showPasswordError.value = false;
-    showRetypePasswordError.value = false;
+    otp1Controller.clear();
+    otp2Controller.clear();
+    otp3Controller.clear();
+    otp4Controller.clear();
+    otp5Controller.clear();
+    otp6Controller.clear();
+    isCheckPrivacyTermAndConditions.value = false;
   }
 }
