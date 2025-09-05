@@ -5,6 +5,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
 import 'package:simple_nav_bar/view/home/screen/home.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class AuthLoginController extends GetxController {
   var isLoading = false.obs;
@@ -25,20 +26,12 @@ class AuthLoginController extends GetxController {
       );
 
       if (token.isNotEmpty) {
-        // ✅ Save token locally
         await storage.write(authToken, token);
-
-        print("✅ Token saved: $token");
+        print(" Token saved: $token");
 
         // Navigate to home/dashboard
-        /* VxToast.show(
-          context,
-          msg: loggedin,
-          bgColor: primaryColor,
-          textColor: whiteColor,
-          position: VxToastPosition.top,
-        ); */
         Get.snackbar(
+          maxWidth: Get.context!.screenWidth - 60,
           backgroundGradient: LinearGradient(
             colors: [primaryColor, primaryColor],
           ),
@@ -51,11 +44,12 @@ class AuthLoginController extends GetxController {
         Get.off(() => HomeScreen());
       } else {
         // ⚠️ Show error
-        /*  Get.snackbar(
+        Get.snackbar(
+          maxWidth: Get.context!.screenWidth - 60,
           "Login Failed",
           "Invalid username or password",
           snackPosition: SnackPosition.BOTTOM,
-        ); */
+        );
       }
     } catch (e) {
       print("❌ AuthController error: $e");
@@ -73,19 +67,6 @@ class AuthLoginController extends GetxController {
   }
 
   //signup method
-
-  Future<void> signupMethod({email, password, context}) async {
-    /* UserCredential? userCredential;
-    try {
-      userCredential = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      VxToast.show(context, msg: e.toString());
-    }
-    return userCredential; */
-  }
 
   // storing data method
   storeUserData({name, password, email}) async {

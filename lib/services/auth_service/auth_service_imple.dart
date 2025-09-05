@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:get_it/get_it.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
@@ -58,5 +57,27 @@ class AuthServiceImple implements AuthService {
       );
       return "";
     }
+  }
+
+  @override
+  Future<String> registerUser({
+    required String name,
+    required String userName,
+    required String email,
+    required String password,
+    required String retypePassword,
+    required BuildContext context,
+  }) async {
+    try {
+      final responce = await _dio.createData("/api/auth/register", {
+        "name": name,
+        "username": userName,
+        "email": email,
+        "password": password,
+      });
+
+      return responce.data['body'];
+    } catch (e) {}
+    return "";
   }
 }

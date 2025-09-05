@@ -2,15 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-Widget customeTextField({String? title, String? hint, controller, isPass}) {
+Widget customeTextField({
+  String? title,
+  String? hint,
+  AutovalidateMode? autovalidateMode,
+  String? Function(String?)? validator,
+  void Function(String?)? onSaved,
+  void Function(String)? onChanged,
+  controller,
+  isPass,
+}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       title!.text.color(greyColor).fontWeight(FontWeight.w500).size(16).make(),
       5.heightBox,
       TextFormField(
+        onChanged: onChanged,
         obscureText: isPass,
         controller: controller,
+        autovalidateMode: autovalidateMode,
+        validator: validator,
+        onSaved: onSaved,
         decoration: InputDecoration(
           hintStyle: TextStyle(fontWeight: FontWeight.bold, color: greyColo1),
           hintText: hint,

@@ -6,4 +6,13 @@ abstract class AuthService {
     required String password,
     required BuildContext context,
   });
+
+  Future<dynamic> registerUser({
+    required String name,
+    required String userName,
+    required String email,
+    required String password,
+    required String retypePassword,
+    required BuildContext context,
+  });
 }
