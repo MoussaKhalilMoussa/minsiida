@@ -19,4 +19,6 @@ abstract class AuthService {
     required String otpCode,
     required BuildContext context,
   });
+
+  Future<dynamic> profile();
 }

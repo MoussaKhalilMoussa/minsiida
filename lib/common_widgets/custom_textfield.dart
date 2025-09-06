@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -41,6 +42,47 @@ Widget customeTextField({
         ),
       ),
       5.heightBox,
+    ],
+  );
+}
+
+Widget customeTextFiled1({
+  required String labelText,
+  TextEditingController? controller,
+  void Function(String)? onChanged,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        labelText,
+        style: GoogleFonts.playfairDisplay(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: greyColor,
+        ),
+      ),
+      const SizedBox(height: 8),
+      TextFormField(
+        onChanged: onChanged,
+        controller: controller,
+        style: GoogleFonts.playfairDisplay(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: blackColor2,
+        ),
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: primaryColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          enabled: true,
+        ),
+      ),
     ],
   );
 }

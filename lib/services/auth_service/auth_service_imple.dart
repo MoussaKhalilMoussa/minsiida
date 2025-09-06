@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AuthServiceImple implements AuthService {
@@ -134,6 +135,20 @@ class AuthServiceImple implements AuthService {
         bgColor: redColor,
       );
       return "";
+    }
+  }
+
+  @override
+  Future<dynamic> profile() async {
+    print("profile() called");
+    try {
+      final response = await _dio.readData("/api/auth/profile");
+      var profile = UserProfile.fromJson(response.data);
+      return profile;
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+    } catch (e) {
+      print("❌ Unexpected error: $e");
     }
   }
 }

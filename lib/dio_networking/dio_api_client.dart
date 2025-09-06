@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 
@@ -10,6 +12,7 @@ final getIt = GetIt.instance;
 class DioApiClient {
   final Dio dio;
   final CancelToken cancelToken = CancelToken();
+  final storage = GetStorage();
   factory DioApiClient() => DioApiClient._internal();
 
   DioApiClient._internal()
@@ -71,13 +74,21 @@ class DioApiClient {
     String endpoint,
     Map<String, dynamic> data, {
     Map<String, dynamic>? queryParameters,
+    Options? options,
   }) async {
+    Options requestOptions = options ?? Options();
+    requestOptions.headers = requestOptions.headers ?? {};
+    Map<String, dynamic> authorization = getAuthorizationHeader();
+
+    requestOptions.headers!.addAll(authorization);
+
     try {
       final response = await dio.post(
         endpoint,
         data: jsonEncode(data),
         cancelToken: cancelToken,
         queryParameters: queryParameters,
+        options: requestOptions,
       );
       return response;
     } catch (e) {
@@ -86,10 +97,28 @@ class DioApiClient {
     }
   }
 
+  Map<String, dynamic> getAuthorizationHeader() {
+    var headers = <String, dynamic>{};
+    String accessToken = storage.read(authToken);
+    if (accessToken.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $accessToken';
+    }
+    return headers;
+  }
+
   // GET - Read
-  Future<Response> readData(String endpoint) async {
+  Future<Response> readData(String endpoint, {Options? options}) async {
+    Options requestOptions = options ?? Options();
+    requestOptions.headers = requestOptions.headers ?? {};
+    Map<String, dynamic> authorization = getAuthorizationHeader();
+
+    requestOptions.headers!.addAll(authorization);
     try {
-      final response = await dio.get(endpoint, cancelToken: cancelToken);
+      final response = await dio.get(
+        endpoint,
+        cancelToken: cancelToken,
+        options: requestOptions,
+      );
       return response;
     } catch (e) {
       print('Error reading data: $e');

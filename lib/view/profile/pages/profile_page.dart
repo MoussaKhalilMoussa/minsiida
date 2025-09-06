@@ -2,14 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:simple_nav_bar/common_widgets/custom_textfield.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/controllers/profile_controller/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+  final profileController = Get.put<ProfileController>(ProfileController());
 
   @override
   Widget build(BuildContext context) {
+    UserProfile? profile = profileController.userProfile.value;
+
+    profileController.nameController.text = profile!.name!;
+    profileController.emailController.text = profile.email!;
+    profileController.userNameController.text = profile.username!;
+    if (profile.phone == null) {
+      profileController.phoneController.text = "0123456789";
+    }
+    // profile.phone!;
+
     return Scaffold(
       //backgroundColor: Colors.grey[200],
       //appBar: AppBar(title: const Text('Profile'), centerTitle: true),
@@ -72,19 +86,25 @@ class ProfilePage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width * 0.64,
                           margin: const EdgeInsets.only(top: 16),
                           //padding: const EdgeInsets.all(10),
-                          child: TextField(
+                          child: TextFormField(
                             style: GoogleFonts.playfairDisplay(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: blackColor2,
                             ),
                             textAlign: TextAlign.start,
-                            controller: TextEditingController(text: "Nour"),
+                            controller: profileController.nameController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.grey.withValues(alpha: 0.2),
                                 ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              //focusColor: primaryColor,
+                              enabled: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: primaryColor),
                                 borderRadius: BorderRadius.circular(20),
                               ),
 
@@ -128,7 +148,7 @@ class ProfilePage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.64,
                   margin: const EdgeInsets.only(top: 16),
                   //padding: const EdgeInsets.all(10),
-                  child: TextField(
+                  child: TextFormField(
                     maxLines: 3,
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 14,
@@ -148,7 +168,12 @@ class ProfilePage extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: primaryColor),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
+                    enabled: true,
                   ),
                 ),
               ),
@@ -245,34 +270,16 @@ class ProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Numero de téléphone",
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: greyColor,
-                      ),
+                    customeTextFiled1(
+                      labelText: "Username",
+                      controller: profileController.userNameController,
                     ),
-
-                    SizedBox(height: 8),
-                    TextFormField(
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: blackColor2,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Téléphone',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.withValues(alpha: 0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
+                    const SizedBox(height: 12),
+                    customeTextFiled1(
+                      labelText: "Numero de téléphone",
+                      controller: profileController.phoneController,
                     ),
-
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     Text(
                       "Ce numéro est utilisé pour les contacts, les rappels et autres notifications.",
                       style: GoogleFonts.playfairDisplay(
@@ -283,65 +290,17 @@ class ProfilePage extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 16),
-                    Text(
-                      "Adresse e-mail",
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: greyColor,
-                      ),
+                    customeTextFiled1(
+                      labelText: "Adresse e-mail",
+                      controller: profileController.emailController,
                     ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: blackColor2,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.withValues(alpha: 0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     Text(
                       "Nous ne partagerons jamais votre adresse e-mail avec personne.",
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: greyColor,
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-                    Text(
-                      "Localisation",
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: greyColor,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: blackColor2,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Los Angeles, West America',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.withValues(alpha: 0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
                       ),
                     ),
                   ],
@@ -393,6 +352,11 @@ class ProfilePage extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        enabled: true,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -418,6 +382,11 @@ class ProfilePage extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        enabled: true,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -443,6 +412,11 @@ class ProfilePage extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primaryColor),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        enabled: true,
                       ),
                     ),
                   ],

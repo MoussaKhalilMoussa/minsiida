@@ -7,6 +7,7 @@ import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controller/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
 import 'package:simple_nav_bar/view/favorites/screen/favorites.dart';
 import 'package:simple_nav_bar/view/home/pages/category_main_content.dart';
@@ -44,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
   var scrollController2 = ScrollController(initialScrollOffset: 0);
   //var homeController = Get.put(HomeController());
   final homeController = Get.find<HomeController>();
+  final profileController = Get.put<ProfileController>(ProfileController());
 
   late double itemWidthWithSpacing;
 
@@ -94,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen>
       _controller.forward();
     } else if (index == 3) {
       homeController.selectedIndex.value = index;
+      profileController.loadProfile();
       setState(() {});
       _controller.forward();
     } else {
