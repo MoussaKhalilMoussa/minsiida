@@ -11,16 +11,16 @@ class AuthLoginController extends GetxController {
   var isLoading = false.obs;
   // textControllers
   final authService = Get.put<AuthServiceImple>(AuthServiceImple());
-  var emailController = TextEditingController();
+  var userNameController = TextEditingController();
   var passwordController = TextEditingController();
   final storage = GetStorage(); // local storage for token
 
   Future<void> loginMethod({context}) async {
     try {
       isLoading.value = true;
-
+      //await storage.remove(authToken);
       final token = await authService.userLogin(
-        userName: emailController.text.trim(),
+        userName: userNameController.text.trim(),
         password: passwordController.text.trim(),
         context: context,
       );
@@ -31,9 +31,9 @@ class AuthLoginController extends GetxController {
 
         // Navigate to home/dashboard
         Get.snackbar(
-          maxWidth: Get.context!.screenWidth - 60,
+          maxWidth: Get.context!.screenWidth - 40,
           backgroundGradient: LinearGradient(
-            colors: [primaryColor, primaryColor],
+            colors: [greenColor, greenColor.withBrightness],
           ),
           colorText: blackColor2,
           duration: Duration(seconds: 3),
@@ -42,14 +42,6 @@ class AuthLoginController extends GetxController {
           snackPosition: SnackPosition.TOP,
         );
         Get.off(() => HomeScreen());
-      } else {
-        // ⚠️ Show error
-        Get.snackbar(
-          maxWidth: Get.context!.screenWidth - 60,
-          "Login Failed",
-          "Invalid username or password",
-          snackPosition: SnackPosition.BOTTOM,
-        );
       }
     } catch (e) {
       print("❌ AuthController error: $e");
@@ -61,9 +53,14 @@ class AuthLoginController extends GetxController {
 
   @override
   void onClose() {
-    emailController.dispose();
+    userNameController.dispose();
     passwordController.dispose();
     super.onClose();
+  }
+
+  void clearFields() {
+    userNameController.clear();
+    passwordController.clear();
   }
 
   //signup method

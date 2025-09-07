@@ -4,9 +4,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/constants/strings.dart';
+import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
+import 'package:simple_nav_bar/view/auth/login_screen.dart';
 
 class DeconnectionPage extends StatelessWidget {
-  const DeconnectionPage({super.key});
+  DeconnectionPage({super.key});
+  final authController = Get.find<AuthLoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +112,11 @@ class DeconnectionPage extends StatelessWidget {
                             ),
                             foregroundColor: WidgetStatePropertyAll(whiteColor),
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await authController.storage.remove(authToken);
+                            authController.clearFields();
+                            Get.to(() => LoginScreen());
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

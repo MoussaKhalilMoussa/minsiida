@@ -304,20 +304,6 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                         child: ListView(
                           ///physics: BouncingScrollPhysics(),
                           children: [
-                            /* listTitle(
-                                selected: selectedIndex == 1,
-                                title: "Tableau de bord",
-                                leadingIcon: Ionicons.home_outline,
-                                trailingIcon: Ionicons.chevron_forward_outline,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = 1;
-                                  });
-                                  Get.to(() => TableauDeBoard(),
-                                      transition: Transition.rightToLeft,
-                                      duration: const Duration(milliseconds: 150));
-                                },
-                              ), */
                             listTitle(
                               selected: selectedIndex == 2,
                               title: "Profile",
@@ -395,67 +381,6 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 Get.to(() => NotificationsPage());
                               },
                             ),
-                            /* 
-                              listTitle(
-                                selected: selectedIndex == 8,
-                                title: 'Mes Commandes',
-                                leadingIcon: Ionicons.cart_outline,
-                                trailingIcon: Ionicons.chevron_forward_outline,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = 8;
-                                  });
-                                  print("Mes Commandes tapped");
-                                },
-                              ),
-                              listTitle(
-                                selected: selectedIndex == 9,
-                                title: 'Offres',
-                                leadingIcon: Ionicons.document_text_outline,
-                                trailingIcon: Ionicons.chevron_forward_outline,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = 9;
-                                  });
-                                  print("Offres tapped");
-                                },
-                              ),
-                              listTitle(
-                                selected: selectedIndex == 10,
-                                title: "Gains",
-                                leadingIcon: Ionicons.briefcase_outline,
-                                trailingIcon: Ionicons.chevron_forward_outline,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = 10;
-                                  });
-                                  print("Gains tapped");
-                                },
-                              ),
-                              listTitle(
-                                selected: selectedIndex == 11,
-                                title: 'Avis',
-                                leadingIcon: Ionicons.star_outline,
-                                trailingIcon: Ionicons.chevron_forward_outline,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = 11;
-                                  });
-                                  print("Avis tapped");
-                                },
-                              ),
-                              listTitle(
-                                selected: selectedIndex == 12,
-                                title: 'Reseau',
-                                leadingIcon: Ionicons.people_outline,
-                                trailingIcon: Ionicons.chevron_forward_outline,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = 12;
-                                  });
-                                  print("Reseau tapped");
-                                },
-                              ), */
                             listTitle(
                               selected: selectedIndex == 13,
                               title: "Paramètres",
@@ -496,31 +421,6 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    /* 
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return ListTile(
-                              leading: Icon(LucideIcons.user, color: blackColor2),
-                              title: Text(
-                                "Hesap Ayarları",
-                                style: GoogleFonts.playfairDisplay(
-                                  color: blackColor2,
-                                ),
-                              ),
-                              trailing: Icon(
-                                LucideIcons.chevronRight,
-                                color: blackColor2,
-                              ),
-                              onTap: () {
-                                // Handle tap
-                              },
-                            );
-                          },
-                          childCount: 10, // Example item count
-                        ),
-                      ),
-                     */
                   ],
                 ),
               ),

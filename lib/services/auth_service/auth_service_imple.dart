@@ -18,7 +18,7 @@ class AuthServiceImple implements AuthService {
     required BuildContext context,
   }) async {
     try {
-      final response = await _dio.createData("/api/auth/login", {
+      final response = await _dio.createDtaWitoutAuth("/api/auth/login", {
         "username": userName,
         "password": password,
       });
@@ -26,38 +26,43 @@ class AuthServiceImple implements AuthService {
       // Ensure we got a token
       final token = response.data?['token'];
       if (token == null || token.toString().isEmpty) {
-        VxToast.show(
-          context,
-          msg: "No token returned from server",
-          bgColor: redColor,
-        );
+        print("No token returned from server");
         return "";
       }
       return token.toString();
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
+      if (e.type == DioExceptionType.badResponse) {
+        Get.snackbar(
+          maxWidth: context.screenWidth - 60,
+          duration: Duration(seconds: 3),
+          "Login Failed",
+          "Invalid Credential",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundGradient: LinearGradient(
+            colors: [redColor, redColor.withBrightness],
+          ),
+        );
+
+        return "";
+      }
+    } catch (e) {
+      print("❌ Unexpected error: $e");
 
       Get.snackbar(
-        maxWidth: context.screenWidth - 50,
+        maxWidth: context.screenWidth - 60,
         duration: Duration(seconds: 3),
         "Login Failed",
-        e.response?.data.toString() ?? e.message ?? "Unknown error",
+        "Unexpected error occurred",
         snackPosition: SnackPosition.BOTTOM,
         backgroundGradient: LinearGradient(
           colors: [redColor, redColor.withBrightness],
         ),
       );
-
-      return "";
-    } catch (e) {
-      print("❌ Unexpected error: $e");
-      VxToast.show(
-        context,
-        msg: "Unexpected error occurred",
-        bgColor: redColor,
-      );
       return "";
     }
+    // Ensure a return statement at the end
+    return "";
   }
 
   @override
@@ -69,7 +74,7 @@ class AuthServiceImple implements AuthService {
     required BuildContext context,
   }) async {
     try {
-      final responce = await _dio.createData("/api/auth/register", {
+      final responce = await _dio.createDtaWitoutAuth("/api/auth/register", {
         "name": name,
         "username": userName,
         "email": email,
@@ -108,12 +113,12 @@ class AuthServiceImple implements AuthService {
     required BuildContext context,
   }) async {
     try {
-      final response = await _dio.createData(
+      final response = await _dio.createDtaWitoutAuth(
         "/api/auth/verify",
         {},
         queryParameters: {"code": otpCode},
       );
-      return response.data;
+      return response.data.toString();
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
       Get.snackbar(

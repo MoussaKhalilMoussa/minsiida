@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -89,6 +88,25 @@ class DioApiClient {
         cancelToken: cancelToken,
         queryParameters: queryParameters,
         options: requestOptions,
+      );
+      return response;
+    } catch (e) {
+      print('Error creating data: $e');
+      rethrow;
+    }
+  }
+
+  Future<Response> createDtaWitoutAuth(
+    String endpoint,
+    Map<String, dynamic> data, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await dio.post(
+        endpoint,
+        data: jsonEncode(data),
+        cancelToken: cancelToken,
+        queryParameters: queryParameters,
       );
       return response;
     } catch (e) {

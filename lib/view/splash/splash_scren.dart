@@ -21,7 +21,7 @@ class _SplashScrenState extends State<SplashScren> {
       if (!fakeUser && mounted) {
         Get.to(() => HomeScreen());
       } else {
-        Get.to(() => const LoginScreen());
+        Get.to(() => LoginScreen());
       }
     });
   }

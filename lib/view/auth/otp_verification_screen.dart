@@ -135,8 +135,12 @@ class OtpVerificationScreen extends StatelessWidget {
                                       controller.isLoading.value
                                           ? null
                                           : () {
-                                            controller.verifyOtp();
-                                            controller.restFields();
+                                            if (!controller
+                                                .activeButton
+                                                .value) {
+                                              controller.verifyOtp();
+                                              controller.restFields();
+                                            }
                                           },
                                   child:
                                       controller.isLoading.value

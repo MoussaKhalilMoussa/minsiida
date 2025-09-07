@@ -159,20 +159,59 @@ class AuthSignupController extends GetxController {
         otpCode: otpCode,
         context: Get.context!,
       );
-      Get.snackbar(
-        icon: Icon(Ionicons.checkbox, color: greenColor),
-        maxWidth: Get.context!.screenWidth - 60,
-        backgroundGradient: LinearGradient(
-          colors: [primaryColor, primaryColor],
-        ),
-        colorText: blackColor2,
-        duration: Duration(seconds: 3),
-        "Verification Success",
-        response,
-        snackPosition: SnackPosition.TOP,
-      );
 
-      Get.off(() => LoginScreen());
+      // ✅ Show success dialog
+      Get.dialog(
+        Dialog(
+          backgroundColor: whiteColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Ionicons.checkbox, color: greenColor, size: 48),
+                const SizedBox(height: 16),
+                Text(
+                  "Verification Success",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  response,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: blackColor2),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: whiteColor,
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.back(); // close dialog
+                    Get.off(() => LoginScreen()); // go to login
+                  },
+                  child: const Text(
+                    "Continue",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: whiteColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        barrierDismissible: false,
+      );
     } catch (e) {
       print("❌ AuthController error: $e");
       Get.snackbar("Error", "Something went wrong");
