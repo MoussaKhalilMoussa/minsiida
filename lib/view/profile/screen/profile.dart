@@ -8,7 +8,6 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/profile_controller/profile/profile_controller.dart';
-import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/assistance.dart';
 import 'package:simple_nav_bar/view/profile/pages/deconnection_page.dart';
@@ -20,7 +19,6 @@ import 'package:simple_nav_bar/view/profile/pages/parametres_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/profile_page.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/authentication_steps.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/list_title.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class Profile extends StatefulWidget {
   final VoidCallback? closeProfile;
@@ -157,7 +155,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                             ),
                             Spacer(),
                             Padding(
-                              padding: const EdgeInsets.only(right: .0),
+                              padding: const EdgeInsets.only(right: 0),
                               child: IconButton(
                                 onPressed: () {},
                                 icon: Icon(
@@ -299,8 +297,10 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                     SliverToBoxAdapter(
                       child: Container(
                         decoration: BoxDecoration(color: Colors.white),
-                        //height: MediaQuery.sizeOf(Get.context!).height, // Set height to allow scrolling
-                        height: 440.h,
+                        height:
+                            MediaQuery.sizeOf(Get.context!).height /
+                            1.9, // Set height to allow scrolling
+                        //height: 440.h,
                         child: ListView(
                           ///physics: BouncingScrollPhysics(),
                           children: [
@@ -381,6 +381,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 Get.to(() => NotificationsPage());
                               },
                             ),
+
                             listTitle(
                               selected: selectedIndex == 13,
                               title: "Paramètres",
