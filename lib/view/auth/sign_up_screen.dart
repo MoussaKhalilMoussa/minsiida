@@ -31,7 +31,7 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Center(
               child: Column(
                 children: [
-                  (context.screenHeight * 0.03).heightBox,
+                  (context.screenHeight * 0.01).heightBox,
                   applogoWidget(),
                   10.heightBox,
                   "Join $appname".text
