@@ -203,7 +203,10 @@ class AuthSignupController extends GetxController {
                   },
                   child: const Text(
                     "Continue",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: whiteColor),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: whiteColor,
+                    ),
                   ),
                 ),
               ],
@@ -233,6 +236,15 @@ class AuthSignupController extends GetxController {
         remainingSeconds.value--;
       } else {
         timer.cancel();
+
+        // 👇 Go back when time is up
+        if (Get.isOverlaysOpen) {
+          Get.back();
+          restFields(); // closes dialogs or current route
+        } else if (Get.context != null && Navigator.of(Get.context!).canPop()) {
+          Navigator.of(Get.context!).pop();
+          restFields();
+        }
       }
     });
   }

@@ -29,4 +29,5 @@ const menu = "Menu";
 const favorites = "Favorites";
 const search = "Search";
 const authToken = "auth_token";
-const baseUrl = "http://10.0.2.2:8080";
+//const baseUrl = "http://10.0.2.2:8080";
+const baseUrl = "http://app.minsiida.com:8080/";
