@@ -7,7 +7,7 @@ import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
-import 'package:simple_nav_bar/controllers/profile_controller/profile/profile_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
 import 'package:simple_nav_bar/view/favorites/screen/favorites.dart';
 import 'package:simple_nav_bar/view/home/pages/category_main_content.dart';

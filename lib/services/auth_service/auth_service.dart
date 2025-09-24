@@ -21,4 +21,9 @@ abstract class AuthService {
   });
 
   Future<dynamic> profile();
+
+  Future<dynamic> resetByEmail({
+    required String email,
+    required BuildContext context,
+  });
 }

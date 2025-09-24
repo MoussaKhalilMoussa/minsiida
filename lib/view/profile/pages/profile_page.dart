@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/common_widgets/custom_textfield.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/controllers/profile_controller/profile/profile_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 

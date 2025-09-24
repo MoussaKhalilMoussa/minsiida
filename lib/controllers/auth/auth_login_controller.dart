@@ -13,7 +13,11 @@ class AuthLoginController extends GetxController {
   final authService = Get.put<AuthServiceImple>(AuthServiceImple());
   var userNameController = TextEditingController();
   var passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  TextEditingController get emailController => _emailController;
+
   final storage = GetStorage(); // local storage for token
+  var email = "";
 
   Future<void> loginMethod({context}) async {
     try {
@@ -49,6 +53,25 @@ class AuthLoginController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> resetByEmailMethod({context}) async {
+    try {
+      var response = await authService.resetByEmail(
+        email: emailController.text,
+        context: context,
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  // vlidate email
+  String? validateEmail(String value) {
+    if (!GetUtils.isEmail(value)) {
+      return "Veuillez saisir une adresse e-mail valide";
+    }
+    return null;
   }
 
   @override

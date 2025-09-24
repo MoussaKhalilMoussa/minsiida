@@ -34,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   (context.screenHeight * 0.01).heightBox,
                   applogoWidget(),
                   10.heightBox,
-                  "Join $appname".text
+                  "Rejoindre $appname".text
                       .fontWeight(FontWeight.bold)
                       .color(primaryColor)
                       .size(18)
@@ -148,7 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       text: const TextSpan(
                                         children: [
                                           TextSpan(
-                                            text: "I agree to the ",
+                                            text: "J'accepte les ",
                                             style: TextStyle(
                                               //fontFamily: regular,
                                               color: greyColor,

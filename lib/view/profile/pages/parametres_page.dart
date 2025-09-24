@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/controllers/profile_controller/parametres_controller/parametres_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/parametres_controller/parametres_controller.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/notification_tab.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/auth_a_deux_facteur_not_container.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/parameters_components_widgets/comptes_connecte_not_container.dart';

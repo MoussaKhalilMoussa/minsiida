@@ -46,6 +46,7 @@ const icTopCategories = "assets/icons/top_categories.png";
 const icTopSeller = "assets/icons/top_sellers.png";
 const icTrash = "assets/icons/trash.png";
 const icTwitterLogo = "assets/icons/twitter_logo.png";
+const icXLogo = "assets/icons/x-logo.png";
 const icWallet = "assets/icons/wallet.png";
 const icWhiteTick = "assets/icons/white_tick.png";
 const icWholeSale = "assets/icons/wholesale.png";

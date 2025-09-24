@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/common_widgets/applogo.dart';
 import 'package:simple_nav_bar/common_widgets/bg_widget.dart';
 import 'package:simple_nav_bar/common_widgets/custom_textfield.dart';
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var controller = Get.find<AuthLoginController>();
 
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
               (MediaQuery.sizeOf(Get.context!).height * 0.15).heightBox,
               applogoWidget(),
               10.heightBox,
-              "Log in to $appname".text
+              "Bienvenue à $appname".text
                   .fontWeight(FontWeight.bold)
                   .color(primaryColor)
                   .size(18)
@@ -59,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Password is required";
+                                    return "Le mot de passe est requis";
                                   }
                                   return null;
                                 },
@@ -74,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Password is required";
+                                    return "Le mot de passe est requis";
                                   }
                                   return null;
                                 },
@@ -82,7 +84,146 @@ class _LoginScreenState extends State<LoginScreen> {
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.dialog(
+                                      Dialog(
+                                        backgroundColor: whiteColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const SizedBox(height: 2),
+                                              Form(
+                                                autovalidateMode:
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
+                                                key: _formKey2,
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      "Veuillez entrer votre e-mail",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: blackColor2,
+                                                      ),
+                                                    ),
+                                                    customeTextField(
+                                                      title: "",
+                                                      hint: "exemple@gmail.com",
+                                                      isPass: false,
+                                                      onChanged: (value) {
+                                                        controller
+                                                            .emailController
+                                                            .text = value;
+                                                      },
+                                                      controller:
+                                                          controller
+                                                              .emailController,
+                                                      validator: (value) {
+                                                        return controller
+                                                            .validateEmail(
+                                                              value!,
+                                                            );
+                                                      },
+                                                      onSaved: (value) {
+                                                        controller.email =
+                                                            value!;
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      foregroundColor:
+                                                          whiteColor,
+                                                      backgroundColor: redColor,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      controller
+                                                          .emailController
+                                                          .text = "";
+                                                      controller.email = "";
+                                                      Get.back(); // close dialog
+                                                      Get.off(
+                                                        () => LoginScreen(),
+                                                      ); // go to login
+                                                    },
+                                                    child: const Text(
+                                                      "Annuler",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: whiteColor,
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      foregroundColor:
+                                                          whiteColor,
+                                                      backgroundColor:
+                                                          primaryColor,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    onPressed: () async {
+                                                      if (_formKey2
+                                                          .currentState!
+                                                          .validate()) {
+                                                        //Get.back(); // close dialog
+                                                        await controller
+                                                            .resetByEmailMethod(
+                                                              context: context,
+                                                            );
+                                                      }
+                                                      /* Get.off(
+                                                        () => LoginScreen(),
+                                                      ); */ // go to login
+                                                    },
+                                                    child: const Text(
+                                                      "Envoyer",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: whiteColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      barrierDismissible: false,
+                                    );
+                                  },
                                   child:
                                       forgetPass.text
                                           .color(

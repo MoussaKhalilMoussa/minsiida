@@ -7,9 +7,10 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
-import 'package:simple_nav_bar/controllers/profile_controller/profile/profile_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/assistance.dart';
+import 'package:simple_nav_bar/view/profile/pages/avis_et_evaluation_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/deconnection_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_favoris.dart';
@@ -381,7 +382,18 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 Get.to(() => NotificationsPage());
                               },
                             ),
-
+                            listTitle(
+                              selected: selectedIndex == 8,
+                              title: 'Avis',
+                              leadingIcon: Ionicons.star_outline,
+                              trailingIcon: Ionicons.chevron_forward_outline,
+                              onTap: () {
+                                setState(() {
+                                  selectedIndex = 8;
+                                });
+                                Get.to(() => AvisEtEvaluationPage());
+                              },
+                            ),
                             listTitle(
                               selected: selectedIndex == 13,
                               title: "Paramètres",

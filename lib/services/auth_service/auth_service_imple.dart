@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
@@ -36,8 +37,8 @@ class AuthServiceImple implements AuthService {
         Get.snackbar(
           maxWidth: context.screenWidth - 60,
           duration: Duration(seconds: 3),
-          "Login Failed",
-          "Invalid Credential",
+          "Échec de la connexion",
+          "Identifiants invalides",
           snackPosition: SnackPosition.BOTTOM,
           backgroundGradient: LinearGradient(
             colors: [redColor, redColor.withBrightness],
@@ -52,8 +53,8 @@ class AuthServiceImple implements AuthService {
       Get.snackbar(
         maxWidth: context.screenWidth - 60,
         duration: Duration(seconds: 3),
-        "Login Failed",
-        "Unexpected error occurred",
+        "Échec de la connexion",
+        "Une erreur inattendue s'est produite.",
         snackPosition: SnackPosition.BOTTOM,
         backgroundGradient: LinearGradient(
           colors: [redColor, redColor.withBrightness],
@@ -87,8 +88,8 @@ class AuthServiceImple implements AuthService {
       Get.snackbar(
         maxWidth: context.screenWidth - 50,
         duration: Duration(seconds: 3),
-        "Signup Failed",
-        e.response?.data.toString() ?? e.message ?? "Unknown error",
+        "chec de l'inscription",
+        e.response?.data.toString() ?? e.message ?? "Erreur inconnue",
         snackPosition: SnackPosition.BOTTOM,
         backgroundGradient: LinearGradient(
           colors: [redColor, redColor.withBrightness],
@@ -100,7 +101,7 @@ class AuthServiceImple implements AuthService {
       print("❌ Unexpected error: $e");
       VxToast.show(
         context,
-        msg: "Unexpected error occurred",
+        msg: "Une erreur inattendue s'est produite.",
         bgColor: redColor,
       );
       return "";
@@ -124,8 +125,8 @@ class AuthServiceImple implements AuthService {
       Get.snackbar(
         maxWidth: context.screenWidth - 50,
         duration: Duration(seconds: 3),
-        "Error",
-        e.response?.data.toString() ?? e.message ?? "Unknown error",
+        error,
+        e.response?.data.toString() ?? e.message ?? "Erreur inconnue",
         snackPosition: SnackPosition.BOTTOM,
         backgroundGradient: LinearGradient(
           colors: [redColor, redColor.withBrightness],
@@ -136,7 +137,7 @@ class AuthServiceImple implements AuthService {
       print("❌ Unexpected error: $e");
       VxToast.show(
         context,
-        msg: "Unexpected error occurred",
+        msg: "Une erreur inattendue s'est produite.",
         bgColor: redColor,
       );
       return "";
@@ -154,6 +155,42 @@ class AuthServiceImple implements AuthService {
       print('❌ Dio error: ${e.message}');
     } catch (e) {
       print("❌ Unexpected error: $e");
+    }
+  }
+
+  @override
+  Future resetByEmail({
+    required String email,
+    required BuildContext context,
+  }) async {
+    try {
+      final response = await _dio.createDtaWitoutAuth(
+        "/api/auth/reset-request",
+        {},
+        queryParameters: {"email": email},
+      );
+      return response.data.toString();
+    } on DioException catch (e) {
+      print('❌ Dio error: ${e.message}');
+      Get.snackbar(
+        maxWidth: context.screenWidth - 50,
+        duration: Duration(seconds: 3),
+        error,
+        e.response?.data.toString() ?? e.message ?? "Erreur inconnue",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundGradient: LinearGradient(
+          colors: [redColor, redColor.withBrightness],
+        ),
+      );
+      return "";
+    } catch (e) {
+      print("❌ Unexpected error: $e");
+      VxToast.show(
+        context,
+        msg: "Une erreur inattendue s'est produite.",
+        bgColor: redColor,
+      );
+      return "";
     }
   }
 }

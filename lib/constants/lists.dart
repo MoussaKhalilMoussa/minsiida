@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 
-const socialIconList = [icFacebookLogo, icGoogleLogo, icTwitterLogo];
+const socialIconList = [icFacebookLogo, icGoogleLogo, icXLogo];
 
 final List<Map<String, dynamic>> categoriesSelection = [
   {

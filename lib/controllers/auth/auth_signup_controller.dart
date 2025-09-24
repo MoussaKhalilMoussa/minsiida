@@ -47,41 +47,41 @@ class AuthSignupController extends GetxController {
 
   String? validateName(String value) {
     if (value.length < 8) {
-      return "The name must be at least 6 charaecters.";
+      return "Le nom doit contenir au moins 6 caractères.";
     }
     return null;
   }
 
   String? validateUserName(String value) {
     if (value.length < 6) {
-      return "The username must be at least 6 charaecters.";
+      return "Le nom d'utilisateur doit contenir au moins 6 caractères.";
     }
     return null;
   }
 
   String? validateEmail(String value) {
     if (!GetUtils.isEmail(value)) {
-      return "Provide valid Email";
+      return "Veuillez saisir une adresse e-mail valide";
     }
     return null;
   }
 
   String? validatePassword(String value) {
     if (value.isEmpty) {
-      return "Password is required";
+      return "Le mot de passe est requis";
     }
     if (value.length < 6) {
-      return "Password must be at least 6 characters";
+      return "Le mot de passe doit contenir au moins 6 caractères.";
     }
     return null;
   }
 
   String? validateRetypePassword(String value) {
     if (value.isEmpty) {
-      return "Please retype your password";
+      return "Veuillez retaper votre mot de passe.";
     }
     if (value != password) {
-      return "Passwords do not match";
+      return "Les mots de passe ne correspondent pas.";
     }
     return null;
   }
@@ -101,8 +101,8 @@ class AuthSignupController extends GetxController {
         Get.snackbar(
           maxWidth: Get.context!.screenWidth - 60,
           duration: Duration(seconds: 3),
-          "Missing Field",
-          "Please Accepte the terms and conditions",
+          "Champ manquant",
+          "Veuillez accepter les conditions générales.",
           snackPosition: SnackPosition.BOTTOM,
           backgroundGradient: LinearGradient(
             colors: [Vx.yellow400, Vx.yellow400.withBrightness],
@@ -128,7 +128,7 @@ class AuthSignupController extends GetxController {
       Get.off(() => OtpVerificationScreen(), arguments: response);
     } catch (e) {
       print("❌ AuthController error: $e");
-      Get.snackbar("Error", "Something went wrong");
+      Get.snackbar("Erreur", "Une erreur s'est produite");
     } finally {
       isLoading.value = false;
     }
@@ -217,7 +217,7 @@ class AuthSignupController extends GetxController {
       );
     } catch (e) {
       print("❌ AuthController error: $e");
-      Get.snackbar("Error", "Something went wrong");
+      Get.snackbar("Erreur", "Une erreur s'est produite");
     } finally {
       isLoading.value = false;
     }

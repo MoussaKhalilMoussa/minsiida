@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/controllers/profile_controller/notifications_controller.dart/notifications_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/notifications_controller.dart/notifications_controller.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/notification_card.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/notification_tab.dart';
 
@@ -57,7 +58,7 @@ class NotificationsPage extends StatelessWidget {
                   return Column(
                     children: [
                       Container(
-                        height: 36,
+                        height: 36.h,
                         alignment: Alignment.centerLeft,
                         width: MediaQuery.sizeOf(context).width,
                         child: ListView(
@@ -127,7 +128,7 @@ class NotificationsPage extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -159,7 +160,7 @@ class NotificationsPage extends StatelessWidget {
                               alpha: 0.1,
                             ),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Chip(
                             padding: EdgeInsets.all(2),
                             side: BorderSide.none,
