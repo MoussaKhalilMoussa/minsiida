@@ -18,7 +18,7 @@ class StorageService {
     return await asyncPrefs.setString(key, value);
   }
 
-  static Future<void> remove(String key) async {
+  static void remove(String key) async {
     return await asyncPrefs.remove(key);
   }
 

@@ -215,6 +215,7 @@ class AuthSignupController extends GetxController {
         ),
         barrierDismissible: false,
       );
+   
     } catch (e) {
       print("❌ AuthController error: $e");
       Get.snackbar("Erreur", "Une erreur s'est produite");

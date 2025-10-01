@@ -10,7 +10,7 @@ import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
-  final profileController = Get.put<ProfileController>(ProfileController());
+  final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {

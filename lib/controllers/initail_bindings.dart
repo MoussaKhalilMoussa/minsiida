@@ -6,6 +6,7 @@ import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.da
 import 'package:simple_nav_bar/controllers/profile_controllers/avis_et_evaluation_controller/avis_et_evaluation_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/notifications_controller.dart/notifications_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/parametres_controller/parametres_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import '../controllers/location_controller/location_controller.dart';
 import '../controllers/details_page_controller/details_page_controller.dart';
 import 'specifications_controller/specification_controller.dart';
@@ -29,5 +30,6 @@ class InitialBinding extends Bindings {
     Get.put<FilterController>(FilterController());
     Get.put<AuthLoginController>(AuthLoginController());
     Get.put<AuthSignupController>(AuthSignupController());
+    Get.put<ProfileController>(ProfileController());
   }
 }

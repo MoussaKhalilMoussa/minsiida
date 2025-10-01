@@ -156,7 +156,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             deliveryController.resetFields();
             specificationsController.resetSelection();
             Navigator.pop(context);
-          },
+          }, 
         ),
         title: Text(
           'Publier une annonce',

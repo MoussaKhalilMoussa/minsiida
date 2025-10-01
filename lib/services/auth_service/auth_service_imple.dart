@@ -6,6 +6,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -27,38 +28,34 @@ class AuthServiceImple implements AuthService {
       // Ensure we got a token
       final token = response.data?['token'];
       if (token == null || token.toString().isEmpty) {
-        print("No token returned from server");
+        logger.info("No token returned from server");
         return "";
       }
       return token.toString();
     } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error: ${e.message}');
       if (e.type == DioExceptionType.badResponse) {
         Get.snackbar(
           maxWidth: context.screenWidth - 60,
-          duration: Duration(seconds: 3),
+          duration: Duration(seconds: 5),
           "Échec de la connexion",
           "Identifiants invalides",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundGradient: LinearGradient(
-            colors: [redColor, redColor.withBrightness],
-          ),
+          backgroundColor: frindlyErrorColor,
         );
 
         return "";
       }
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error: $e");
 
       Get.snackbar(
         maxWidth: context.screenWidth - 60,
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 5),
         "Échec de la connexion",
         "Une erreur inattendue s'est produite.",
         snackPosition: SnackPosition.BOTTOM,
-        backgroundGradient: LinearGradient(
-          colors: [redColor, redColor.withBrightness],
-        ),
+        backgroundColor: frindlyErrorColor,
       );
       return "";
     }
@@ -83,7 +80,7 @@ class AuthServiceImple implements AuthService {
       });
       return responce.data;
     } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error: ${e.message}');
 
       Get.snackbar(
         maxWidth: context.screenWidth - 50,
@@ -98,7 +95,7 @@ class AuthServiceImple implements AuthService {
 
       return "";
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error: $e");
       VxToast.show(
         context,
         msg: "Une erreur inattendue s'est produite.",
@@ -121,7 +118,7 @@ class AuthServiceImple implements AuthService {
       );
       return response.data.toString();
     } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error: ${e.message}');
       Get.snackbar(
         maxWidth: context.screenWidth - 50,
         duration: Duration(seconds: 3),
@@ -134,7 +131,7 @@ class AuthServiceImple implements AuthService {
       );
       return "";
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error: $e");
       VxToast.show(
         context,
         msg: "Une erreur inattendue s'est produite.",
@@ -146,15 +143,14 @@ class AuthServiceImple implements AuthService {
 
   @override
   Future<dynamic> profile() async {
-    print("profile() called");
     try {
       final response = await _dio.readData("/api/auth/profile");
       var profile = UserProfile.fromJson(response.data);
       return profile;
     } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error: ${e.message}');
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected profile service impl error: $e");
     }
   }
 
@@ -171,7 +167,7 @@ class AuthServiceImple implements AuthService {
       );
       return response.data.toString();
     } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error: ${e.message}');
       Get.snackbar(
         maxWidth: context.screenWidth - 50,
         duration: Duration(seconds: 3),
@@ -184,7 +180,7 @@ class AuthServiceImple implements AuthService {
       );
       return "";
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error: $e");
       VxToast.show(
         context,
         msg: "Une erreur inattendue s'est produite.",

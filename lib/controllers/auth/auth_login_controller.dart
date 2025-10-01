@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/utiles/token_utils.dart';
 import 'package:simple_nav_bar/view/home/screen/home.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -31,7 +32,7 @@ class AuthLoginController extends GetxController {
       if (token.isNotEmpty) {
         //await storage.write(authToken, token);
         TokenUtils.saveToken(token);
-        print(" Token saved: $token");
+        logger.info(" Token saved: $token");
 
         // Navigate to home/dashboard
         Get.snackbar(
@@ -41,14 +42,14 @@ class AuthLoginController extends GetxController {
           ),
           colorText: blackColor2,
           duration: Duration(seconds: 3),
-          "Login Success",
+          "Connexion Réussie",
           loggedin,
           snackPosition: SnackPosition.TOP,
         );
         Get.off(() => HomeScreen());
       }
     } catch (e) {
-      print("❌ AuthController error: $e");
+      logger.severe("❌ AuthController error: $e");
       Get.snackbar("Error", "Something went wrong");
     } finally {
       isLoading.value = false;

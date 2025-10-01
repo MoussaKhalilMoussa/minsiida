@@ -427,7 +427,7 @@ class _SummaryPage extends State<SummaryPage> {
                                             shape: BoxShape.circle,
                                           ),
                                           padding: const EdgeInsets.all(
-                                            4,
+                                            3,
                                           ), // 4px spacing inside
                                           child:
                                               profile?.profilePicture != null
@@ -435,7 +435,7 @@ class _SummaryPage extends State<SummaryPage> {
                                                     child: Image.network(
                                                       width: 30.w,
                                                       height: 30.h,
-                                                      "https://cdn.pixabay.com/photo/2024/06/22/23/01/boy-8847075_1280.jpg",
+                                                      profile!.profilePicture!,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   )
@@ -524,32 +524,47 @@ class _SummaryPage extends State<SummaryPage> {
                           ),
                         ),
                         SizedBox(height: 4),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: CustomButton(
-                            onPressed: () async {
-                              await postController.addPost(context: context);
-                            },
-                            width: screenW * 0.83,
-                            height: screenH / 18,
-                            borderRadius: 8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.print_outlined,
-                                  color: whiteColor,
-                                  size: 24,
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  "Publier l'Anonce",
-                                  style: GoogleFonts.poppins(color: whiteColor),
-                                ),
-                              ],
+                        Obx(() {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: CustomButton(
+                              onPressed: () async {
+                                await postController.addPost(context: context);
+                              },
+                              width: screenW * 0.83,
+                              height: screenH / 18,
+                              borderRadius: 8,
+                              child:
+                                  postController.isLoading
+                                      ? CircularProgressIndicator(
+                                        constraints: BoxConstraints.tight(
+                                          Size.fromRadius(8.r),
+                                        ),
+                                        valueColor: AlwaysStoppedAnimation(
+                                          whiteColor,
+                                        ),
+                                      )
+                                      : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.print_outlined,
+                                            color: whiteColor,
+                                            size: 24,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            "Publier l'Anonce",
+                                            style: GoogleFonts.poppins(
+                                              color: whiteColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                             ),
-                          ),
-                        ),
+                          );
+                        }),
                         SizedBox(height: 16),
                         Padding(
                           padding: EdgeInsets.all(8),

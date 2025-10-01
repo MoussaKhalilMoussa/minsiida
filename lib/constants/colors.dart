@@ -22,3 +22,4 @@ const borderColor = Color(0xFFD1D5DB); // Tailwind gray-300
 const textColor = Color(0xFF4F46E5); // Tailwind indigo-600
 const amberAccent = Colors.amberAccent;
 const amber = Colors.amber;
+final frindlyErrorColor =  Colors.amber[700];

@@ -1,19 +1,24 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/controllers/specifications_controller/specification_controller.dart';
 import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
 import 'package:simple_nav_bar/services/post_service/post_service_impl.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
-import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
+import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
+import 'package:uuid/uuid.dart';
 
 class PostController extends GetxController {
   final postService = Get.put<PostServiceImpl>(PostServiceImpl());
@@ -25,8 +30,11 @@ class PostController extends GetxController {
   final locationController = Get.find<LocationController>();
   final specificationsController = Get.find<SpecificationController>();
   final deliveryController = Get.find<DeliveryController>();
+  final profileController = Get.find<ProfileController>();
 
-  late final UserProfile user;
+  //late final UserProfile user;
+  int get currentUserId => profileController.userProfile.value?.id ?? 0;
+
   // Create a singleton instance
   // firebase storage instance
   final firebaseStorage = FirebaseStorage.instance;
@@ -64,6 +72,7 @@ class PostController extends GetxController {
     // update Urls
     _imageUrls = urls;
   }
+
   /* 
      DELETE IMAGE
      - iamges are stored as download urls
@@ -72,64 +81,77 @@ class PostController extends GetxController {
      - in order to delete, we need to know only the path of this image stored in firebase,
      ie: firebase_uploaded_images/image-name.png
   */
-
   Future<void> deleteImage(String imageUrl) async {
     try {
       final String path = extractPathFromUrl(imageUrl);
       await firebaseStorage.ref(path).delete();
       _imageUrls.remove(imageUrl);
-      print("✅ Deleted image from Firebase: $path");
+      logger.info("✅ Deleted image from Firebase: $path");
+    } on FirebaseException catch (e) {
+      if (e.code == 'object-not-found') {
+        // Image already deleted, no need to worry
+        logger.warning("⚠️ Tried to delete non-existing image: $imageUrl");
+      } else {
+        // Other errors are still printed
+        logger.severe("❌ Error deleting image: $e");
+      }
     } catch (e) {
-      print("❌ Error deleting image: $e");
+      logger.severe("❌ Unexpected error deleting image: $e");
     }
   }
 
   String extractPathFromUrl(String url) {
-    final uri = Uri.parse(url);
-    final pathIndex = uri.pathSegments.indexOf("o");
-    if (pathIndex != -1 && pathIndex + 1 < uri.pathSegments.length) {
-      return Uri.decodeComponent(uri.pathSegments[pathIndex + 1]);
+    try {
+      // Parse the URL
+      final uri = Uri.parse(url);
+
+      // Firebase download URLs have the path after '/o/' and before '?alt=media'
+      // Example:
+      // https://firebasestorage.googleapis.com/v0/b/<bucket>/o/minsiida_post_images%2F1234_userid_uuid.png?alt=media&token=xxx
+      final fullPathSegment =
+          uri
+              .pathSegments
+              .last; // usually "minsiida_post_images%2F1234_userid_uuid.png"
+
+      // Decode '%2F' to '/'
+      final decodedPath = Uri.decodeComponent(fullPathSegment);
+
+      return decodedPath;
+    } catch (e) {
+      logger.severe("❌ Failed to extract path from URL: $url, error: $e");
+      return url; // fallback: return original URL
     }
-    return Uri.decodeComponent(uri.pathSegments.last);
   }
 
-  Future<void> uploadImage() async {
-    // start uploading
+  Future<List<String>> uploadImage() async {
     _isUploading.value = true;
+    final uuid = Uuid();
+    final List<String> newUrls = [];
 
     try {
-      // defining the path in storage
-      //String filePath = 'product_images/${DateTime.now().microsecondsSinceEpoch + user.id!}.png';
-      // upload the file to firebase storage
       for (var image in photoController.images) {
         String filePath =
-            'minsiida_post_images/${DateTime.now().microsecondsSinceEpoch}_${user.id}_${photoController.images.indexOf(image)}.png';
+            'minsiida_post_images/${DateTime.now().microsecondsSinceEpoch}_${currentUserId}_${uuid.v4()}.png';
+
         await firebaseStorage.ref(filePath).putFile(image);
         String downloadUrl =
             await firebaseStorage.ref(filePath).getDownloadURL();
-        _imageUrls.add(downloadUrl);
+        newUrls.add(downloadUrl);
       }
+      return newUrls;
     } catch (e) {
-      // handle any error
-      print("Error uploading image: $e");
+      logger.severe("❌ Error uploading image: $e");
+      return [];
     } finally {
       _isUploading.value = false;
-      //notifyListeners();
     }
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    getProfile();
-  }
-
-  void getProfile() async {
-    user = await authService.profile();
   }
 
   Future<dynamic> addPost({context}) async {
     _isLoading.value = true;
+
+    // track only current upload’s URLs
+    List<String> newUrls = [];
 
     try {
       // Step 1: resolve selected category & subcategory
@@ -147,18 +169,18 @@ class PostController extends GetxController {
         throw Exception('Selected subcategory not found');
       }
 
-      // Step 2: upload images
-      await uploadImage();
-      await fetchImagesUrls();
+      // Step 2: upload images → returns only current upload
+      newUrls = await uploadImage();
+      _imageUrls.addAll(newUrls);
 
-      // Step 3: prepare mediaUrls for backend
+      // Step 3: build mediaUrls for backend
       List<MediaUrl> mediaUrls =
-          _imageUrls.map((url) => MediaUrl(content: url)).toList();
+          newUrls.map((url) => MediaUrl(content: url)).toList();
 
       // Step 4: create Post object
       Post post = Post(
         categoryId: selectedCategory.id,
-        userId: user.id,
+        userId: currentUserId,
         title: detailsController.titleController.text,
         description: detailsController.descController.text,
         price: int.tryParse(detailsController.priceController.text),
@@ -195,28 +217,77 @@ class PostController extends GetxController {
 
       // If backend failed → clean up
       if (response == null || response == false) {
-        await rollbackImages();
+        await rollbackImages(newUrls);
         throw Exception("Backend rejected the post");
       }
 
-      print("✅ Post created successfully!");
+      logger.info("✅ Post created successfully!");
+
+      Get.dialog(
+        Dialog(
+          backgroundColor: whiteColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Annonce Publié",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(color: blackColor2),
+                ),
+                const SizedBox(height: 16),
+                Icon(Ionicons.checkbox, color: greenColor, size: 48),
+              ],
+            ),
+          ),
+        ),
+        barrierDismissible: true,
+      );
+      Navigator.pop(context);
+      Get.off(() => MesAnnoncesPage());
+      photoController.selectedImages.clear();
+      categoryController.clear();
+      photoController.isError.value = false;
+      detailsController.resetFields();
+      locationController.resetSelection();
+      deliveryController.resetFields();
+      specificationsController.resetSelection();
+
       return response;
     } catch (e) {
-      print("❌ addPost error: $e");
-      await rollbackImages(); // rollback if any exception
+      logger.severe("❌ addPost error: $e");
+      await rollbackImages(newUrls); // rollback if any exception
       return null;
     } finally {
       _isLoading.value = false;
     }
   }
 
-  Future<void> rollbackImages() async {
-    print("⚠️ Rolling back uploaded images...");
+  Future<void> rollbackImages(List<String> urls) async {
+    if (urls.isEmpty) return;
 
-    for (var imageUrl in List<String>.from(_imageUrls)) {
-      await deleteImage(imageUrl);
+    logger.info("✅ Rolling back uploaded images...");
+
+    for (var imageUrl in urls) {
+      try {
+        final String path = extractPathFromUrl(imageUrl);
+        await firebaseStorage.ref(path).delete();
+        _imageUrls.remove(imageUrl);
+        // Optional: you can remove this print if you want it fully silent
+        logger.info("✅ Rolled back image: $path");
+      } on FirebaseException catch (e) {
+        if (e.code == 'object-not-found') {
+          // Image already deleted → silently continue
+        } else {
+          logger.severe("❌ Error rolling back image: $e");
+        }
+      } catch (e) {
+        logger.severe("❌ Unexpected error rolling back image: $e");
+      }
     }
-
-    _imageUrls.clear();
   }
 }

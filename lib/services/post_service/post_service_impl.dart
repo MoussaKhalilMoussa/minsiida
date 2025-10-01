@@ -32,32 +32,47 @@ class PostServiceImpl implements PostService {
     } on DioException catch (e) {
       print('❌ Dio error: ${e.message}');
       if (e.type == DioExceptionType.badResponse) {
-        Get.snackbar(
-          maxWidth: context.screenWidth - 60,
-          duration: Duration(seconds: 3),
-          "Échec de la connexion",
-          "Identifiants invalides",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundGradient: LinearGradient(
-            colors: [redColor, redColor.withBrightness],
-          ),
-        );
-        throw Exception("Identifiants invalides");
+        final statusCode = e.response?.statusCode;
+        final message = e.response?.data;
+
+        if (statusCode == 500 && message.toString().contains("L'utilisateur")) {
+          print("🚫 User does not have a subscription");
+          Get.snackbar(
+            maxWidth: context.screenWidth - 60,
+            duration: Duration(seconds: 15),
+            "Échec",
+            "Vous n'avez pas d'abonnement",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: frindlyErrorColor,
+          );
+        } else if (statusCode == 500 &&
+            message.toString().contains("limite mensuelle")) {
+          print("🚫 User does not have a subscription");
+          Get.snackbar(
+            maxWidth: context.screenWidth - 60,
+            duration: Duration(seconds: 15),
+            "Échec",
+            "Vous avez atteint la limite mensuelle d'annonces actives",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: frindlyErrorColor,
+          );
+        } else if (statusCode == 500 &&
+            message.toString().contains("limite d'annonces")) {
+          print("🚫 User does not have a subscription");
+          Get.snackbar(
+            maxWidth: context.screenWidth - 60,
+            duration: Duration(seconds: 15),
+            "Échec",
+            "Vous avez atteint la limite d'annonces actives",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: frindlyErrorColor,
+          );
+        } else {
+          print("❌ Dio error: ${e.message}");
+        }
       }
-      throw Exception("Erreur lors de l'ajout du post: ${e.message}");
     } catch (e) {
       print("❌ Unexpected error: $e");
-      Get.snackbar(
-        maxWidth: context.screenWidth - 60,
-        duration: Duration(seconds: 3),
-        "Échec de la connexion",
-        "Une erreur inattendue s'est produite.",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundGradient: LinearGradient(
-          colors: [redColor, redColor.withBrightness],
-        ),
-      );
-      throw Exception("Une erreur inattendue s'est produite.");
     }
   }
 }

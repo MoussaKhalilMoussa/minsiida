@@ -15,7 +15,7 @@ class CategoryContorller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getCategories();
+    //getCategories();
   }
 
   getCategories() async {

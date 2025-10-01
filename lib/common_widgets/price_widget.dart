@@ -17,12 +17,13 @@ class PriceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final value = int.tryParse(price) ?? 0;
     // Format the number as XAF currency, no decimals
     final formattedPrice = NumberFormat.currency(
       locale: 'fr_FR', // French formatting
       symbol: 'XAF', // Currency symbol
       decimalDigits: 0, // No decimals for XAF
-    ).format(int.tryParse(price));
+    ).format(value);
     return Text(
       formattedPrice,
       style: GoogleFonts.poppins(

@@ -5,8 +5,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/product_card.dart';
 
-class MesAnnonces extends StatelessWidget {
-  const MesAnnonces({super.key});
+class MesAnnoncesPage extends StatelessWidget {
+  const MesAnnoncesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

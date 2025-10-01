@@ -4,14 +4,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/utiles/token_utils.dart';
 import 'package:simple_nav_bar/view/auth/login_screen.dart';
 
 class DeconnectionPage extends StatelessWidget {
   DeconnectionPage({super.key});
   final authController = Get.find<AuthLoginController>();
+  final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,10 @@ class DeconnectionPage extends StatelessWidget {
             pinned: true,
             leading: IconButton(
               icon: const Icon(Ionicons.chevron_back_outline),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                Navigator.of(context).pop();
+                profileController.clearUserProfile();
+              },
             ),
             centerTitle: true,
             title: Text(

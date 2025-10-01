@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
   var scrollController2 = ScrollController(initialScrollOffset: 0);
   //var homeController = Get.put(HomeController());
   final homeController = Get.find<HomeController>();
-  final profileController = Get.put<ProfileController>(ProfileController());
+  final profileController = Get.find<ProfileController>();
 
   late double itemWidthWithSpacing;
 

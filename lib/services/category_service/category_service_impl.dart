@@ -18,7 +18,7 @@ class CategoryServiceImpl extends CategoryService {
       print('❌ Dio error: ${e.message}');
       return [];
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      print("❌ Unexpected categories error: $e");
       return [];
     }
   }

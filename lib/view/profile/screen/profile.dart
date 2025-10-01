@@ -12,8 +12,8 @@ import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/assistance.dart';
 import 'package:simple_nav_bar/view/profile/pages/avis_et_evaluation_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/deconnection_page.dart';
-import 'package:simple_nav_bar/view/profile/pages/mes_annonces.dart';
-import 'package:simple_nav_bar/view/profile/pages/mes_favoris.dart';
+import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
+import 'package:simple_nav_bar/view/profile/pages/mes_favoris_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/messages_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/notifications_page.dart';
 import 'package:simple_nav_bar/view/profile/pages/parametres_page.dart';
@@ -42,7 +42,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
 
   final categoryController = Get.find<CategoryContorller>();
-  final profileController = Get.put<ProfileController>(ProfileController());
+  final profileController = Get.find<ProfileController>();
   @override
   void initState() {
     super.initState();
@@ -342,7 +342,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 setState(() {
                                   selectedIndex = 4;
                                 });
-                                Get.to(() => MesAnnonces());
+                                Get.to(() => MesAnnoncesPage());
                               },
                             ),
 

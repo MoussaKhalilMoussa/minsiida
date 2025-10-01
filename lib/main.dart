@@ -7,6 +7,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/initail_bindings.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/firebase_options.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/view/post/screen/add_post_screen.dart';
 import 'package:simple_nav_bar/view/splash/splash_scren.dart';
 
@@ -14,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   DioApiClient.setup();
+  setupLogging();
   runApp(MyApp());
 }
 

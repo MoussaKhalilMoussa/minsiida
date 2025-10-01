@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
+import 'package:simple_nav_bar/services/global_service/storage_service.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class ProfileController extends GetxController {
@@ -16,7 +19,7 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadProfile(); // call it right away
+    //loadProfile(); // call it right away
   }
 
   Future<void> loadProfile() async {
@@ -26,7 +29,12 @@ class ProfileController extends GetxController {
         userProfile.value = profile;
       }
     } catch (e) {
-      print("❌ Failed to load profile: $e");
+      logger.severe("❌ Failed to load profile: $e");
     }
+  }
+
+  void clearUserProfile() {
+    userProfile.value = null;
+    StorageService.remove(authToken);
   }
 }

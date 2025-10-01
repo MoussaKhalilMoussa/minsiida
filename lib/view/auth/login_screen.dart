@@ -10,18 +10,22 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/auth/sign_up_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var controller = Get.find<AuthLoginController>();
+  var authController = Get.find<AuthLoginController>();
+  var profileController = Get.find<ProfileController>();
+  var categoryController = Get.find<CategoryContorller>();
 
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
@@ -54,9 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 title: userName,
                                 hint: userNameHint,
                                 isPass: false,
-                                controller: controller.userNameController,
+                                controller: authController.userNameController,
                                 onChanged: (value) {
-                                  controller.userNameController.text = value;
+                                  authController.userNameController.text =
+                                      value;
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -69,9 +74,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 title: password,
                                 hint: passwordHint,
                                 isPass: true,
-                                controller: controller.passwordController,
+                                controller: authController.passwordController,
                                 onChanged: (value) {
-                                  controller.passwordController.text = value;
+                                  authController.passwordController.text =
+                                      value;
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -119,21 +125,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       hint: "exemple@gmail.com",
                                                       isPass: false,
                                                       onChanged: (value) {
-                                                        controller
+                                                        authController
                                                             .emailController
                                                             .text = value;
                                                       },
                                                       controller:
-                                                          controller
+                                                          authController
                                                               .emailController,
                                                       validator: (value) {
-                                                        return controller
+                                                        return authController
                                                             .validateEmail(
                                                               value!,
                                                             );
                                                       },
                                                       onSaved: (value) {
-                                                        controller.email =
+                                                        authController.email =
                                                             value!;
                                                       },
                                                     ),
@@ -159,10 +165,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                      controller
+                                                      authController
                                                           .emailController
                                                           .text = "";
-                                                      controller.email = "";
+                                                      authController.email = "";
                                                       Get.back(); // close dialog
                                                       Get.off(
                                                         () => LoginScreen(),
@@ -196,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           .currentState!
                                                           .validate()) {
                                                         //Get.back(); // close dialog
-                                                        await controller
+                                                        await authController
                                                             .resetByEmailMethod(
                                                               context: context,
                                                             );
@@ -235,18 +241,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               ourButton(
                                     color: primaryColor,
                                     onPressed:
-                                        controller.isLoading.value
+                                        authController.isLoading.value
                                             ? null
                                             : () async {
                                               if (_formKey.currentState!
                                                   .validate()) {
-                                                await controller.loginMethod(
-                                                  context: context,
-                                                );
+                                                await authController
+                                                    .loginMethod(
+                                                      context: context,
+                                                    );
+                                                profileController.loadProfile();
+                                                categoryController
+                                                    .getCategories();
                                               }
                                             },
                                     child:
-                                        controller.isLoading.value
+                                        authController.isLoading.value
                                             ? CircularProgressIndicator(
                                               constraints: BoxConstraints.tight(
                                                 Size.fromRadius(8.r),
