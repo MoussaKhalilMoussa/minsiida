@@ -10,7 +10,7 @@ class CustomTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: GoogleFonts.playfairDisplay(
+      style: GoogleFonts.poppins(
         fontSize: 12,
         fontWeight: FontWeight.bold,
         color: blackColor,

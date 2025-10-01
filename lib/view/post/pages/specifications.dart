@@ -7,6 +7,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/specifications_controller/specification_controller.dart';
+import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 
 class Specifications extends StatefulWidget {
   final int currentPage;
@@ -188,11 +189,6 @@ class _Specifications extends State<Specifications> {
     );
   }
 
-  String truncateWithEllipsis(String s, {int cutoff = 30}) {
-    if (s.length <= cutoff) return s;
-    return '${s.substring(0, 20)} ...';
-  }
-
   Widget buildLocalizationLabeledField({
     required String label,
     required String hintText,
@@ -208,6 +204,32 @@ class _Specifications extends State<Specifications> {
     final height = MediaQuery.sizeOf(Get.context!).height / 22;
     return GestureDetector(
       onTap: () {
+        // Reset the filtered list before opening dialog
+        if (onChanged == specificationController.filterModels) {
+          specificationController.filteredModels.assignAll(
+            specificationController.modeles,
+          );
+        } else if (onChanged == specificationController.filterStorage) {
+          specificationController.filteredStorage.assignAll(
+            specificationController.storages,
+          );
+        } else if (onChanged == specificationController.filterColor) {
+          specificationController.filteredColors.assignAll(
+            specificationController.colors,
+          );
+        } else if (onChanged == specificationController.filterState) {
+          specificationController.filteredBateryStates.assignAll(
+            specificationController.bateryStates,
+          );
+        } else if (onChanged == specificationController.filterGuarantee) {
+          specificationController.filteredGuarantees.assignAll(
+            specificationController.guarentees,
+          );
+        } else if (onChanged == specificationController.filterCondition) {
+          specificationController.filteredConditions.assignAll(
+            specificationController.conditions,
+          );
+        }
         Get.dialog(
           cityDialog(
             onChanged: onChanged,
@@ -249,8 +271,9 @@ class _Specifications extends State<Specifications> {
                   //spacing: spacing,
                   children: [
                     Text(
-                      truncateWithEllipsis(locationText),
-                      style: GoogleFonts.playfairDisplay(
+                      //truncateWithEllipsis(locationText),
+                      locationText,
+                      style: GoogleFonts.poppins(
                         textStyle: TextStyle(overflow: TextOverflow.ellipsis),
 
                         fontSize: 14,
@@ -278,7 +301,10 @@ class _Specifications extends State<Specifications> {
                     Expanded(
                       child: Text(
                         "$hintText1 n'est page encore selectionner",
-                        style: const TextStyle(color: Colors.red, fontSize: 13),
+                        style: GoogleFonts.poppins(
+                          color: Colors.red,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   ],
@@ -326,9 +352,9 @@ class _Specifications extends State<Specifications> {
                 children: [
                   Text(
                     "Selectionner $hintText1",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       color: blackColor2,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -350,7 +376,7 @@ class _Specifications extends State<Specifications> {
           children: [
             if (!showSearcharea) ...[
               const SizedBox(height: 4),
-              TextField(
+              TextFormField(
                 onChanged: onChanged,
                 decoration: InputDecoration(
                   hintText: "Rechercher $hintText",
@@ -365,7 +391,10 @@ class _Specifications extends State<Specifications> {
             const SizedBox(height: 16),
             Obx(() {
               //final modeles = specificationController.filteredModels;
-              final listItems = items;
+              List<String> listItems;
+
+              // Choose the correct filtered list depending on which onChanged you passed
+              listItems = specificationController.getFilteredList(onChanged);
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.grey.withValues(alpha: 0.3),
@@ -397,7 +426,7 @@ class _Specifications extends State<Specifications> {
                                 shape: LinearBorder(),
                                 margin: const EdgeInsets.only(bottom: 0.3),
                                 child: ListTile(
-                                  title: Text(item),
+                                  title: Text(item,style: GoogleFonts.poppins()),
                                   trailing:
                                       isSelected
                                           ? const Icon(Icons.check, size: 14)
@@ -435,7 +464,7 @@ class _Specifications extends State<Specifications> {
             ),
             child: Text(
               "Annuler",
-              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
             ),
           ),
         ],

@@ -1,17 +1,23 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
+import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/delivery_controller/delivery_controller.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/controllers/specifications_controller/specification_controller.dart';
+import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/post/widget/continue_button.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class SummaryPage extends StatefulWidget {
   final int currentPage;
@@ -35,6 +41,8 @@ class _SummaryPage extends State<SummaryPage> {
   final specificationController = Get.find<SpecificationController>();
   final detailsController = Get.find<DetailsPageController>();
   final photoController = Get.find<PhotosController>();
+  final profileController = Get.find<ProfileController>();
+  final postController = Get.put<PostController>(PostController());
   @override
   void initState() {
     super.initState();
@@ -50,6 +58,7 @@ class _SummaryPage extends State<SummaryPage> {
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(Get.context!).width;
     final screenH = MediaQuery.sizeOf(Get.context!).height;
+    UserProfile? profile = profileController.userProfile.value;
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -65,7 +74,7 @@ class _SummaryPage extends State<SummaryPage> {
                 // Header section with title and progress bar parent
                 // This section is fixed at the top of the screen
                 Breadcrump(
-                  title: "Appercy",
+                  title: "Aperçu",
                   currentPage: widget.currentPage,
                   controller: widget.controller,
                 ),
@@ -95,11 +104,11 @@ class _SummaryPage extends State<SummaryPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 14.0),
                           child: Text(
-                            "Aperçu de Votre Annonce",
-                            style: GoogleFonts.playfairDisplay(
+                            "Aperçu de votre annonce",
+                            style: GoogleFonts.poppins(
                               color: blackColor2,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                         ),
@@ -164,8 +173,10 @@ class _SummaryPage extends State<SummaryPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Some text",
-                                      style: GoogleFonts.playfairDisplay(
+                                      shortTruncateWithEllipsis(
+                                        detailsController.titleController.text,
+                                      ),
+                                      style: GoogleFonts.poppins(
                                         color: blackColor2,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -201,15 +212,16 @@ class _SummaryPage extends State<SummaryPage> {
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0,
                                 ),
-                                child: Text(
-                                  "150€",
-                                  style: GoogleFonts.playfairDisplay(
-                                    color: purple_600,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: PriceWidget(
+                                  price: detailsController.priceController.text,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: purple_600,
                                 ),
                               ),
+
+                              // showing the address location
+                              /* 
                               Padding(
                                 padding: EdgeInsets.only(left: 8, top: 8),
                                 child: Container(
@@ -237,6 +249,7 @@ class _SummaryPage extends State<SummaryPage> {
                                   ),
                                 ),
                               ),
+                              */
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0,
@@ -260,9 +273,7 @@ class _SummaryPage extends State<SummaryPage> {
                                     ),
                                     Text(
                                       "Détails de l'Article",
-                                      style: GoogleFonts.playfairDisplay(
-                                        fontSize: 14,
-                                      ),
+                                      style: GoogleFonts.poppins(fontSize: 14),
                                     ),
                                   ],
                                 ),
@@ -332,9 +343,7 @@ class _SummaryPage extends State<SummaryPage> {
                                     ), */
                                     Text(
                                       "Description",
-                                      style: GoogleFonts.playfairDisplay(
-                                        fontSize: 14,
-                                      ),
+                                      style: GoogleFonts.poppins(fontSize: 14),
                                     ),
                                   ],
                                 ),
@@ -368,14 +377,15 @@ class _SummaryPage extends State<SummaryPage> {
                                             children: [
                                               SizedBox(height: 4),
                                               Text(
-                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-
+                                                detailsController
+                                                    .descController
+                                                    .text,
                                                 textAlign: TextAlign.justify,
-                                                style: TextStyle(
+                                                style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 10,
 
-                                                  color: blackColor2,
+                                                  color: greyColor,
                                                 ),
                                               ),
                                             ],
@@ -419,12 +429,41 @@ class _SummaryPage extends State<SummaryPage> {
                                           padding: const EdgeInsets.all(
                                             4,
                                           ), // 4px spacing inside
-                                          child: ClipOval(
-                                            child: Image.network(
-                                              "https://cdn.pixabay.com/photo/2024/06/22/23/01/boy-8847075_1280.jpg",
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                          child:
+                                              profile?.profilePicture != null
+                                                  ? ClipOval(
+                                                    child: Image.network(
+                                                      width: 30.w,
+                                                      height: 30.h,
+                                                      "https://cdn.pixabay.com/photo/2024/06/22/23/01/boy-8847075_1280.jpg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  )
+                                                  : Container(
+                                                    alignment: Alignment.center,
+                                                    width: 30.w,
+                                                    height: 30.h,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            40.w,
+                                                          ),
+                                                      color: blueColor
+                                                          .withValues(
+                                                            alpha: 0.30,
+                                                          ),
+                                                    ),
+                                                    child: Text(
+                                                      "${profile!.name?[0].toUpperCase()}",
+                                                      style:
+                                                          GoogleFonts.playfairDisplay(
+                                                            color: blueColor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20.sp,
+                                                          ),
+                                                    ),
+                                                  ),
                                         ),
 
                                         // Right side: Checkbox-like icon area
@@ -436,25 +475,21 @@ class _SummaryPage extends State<SummaryPage> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Votre Nom",
-                                                style:
-                                                    GoogleFonts.playfairDisplay(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12,
-                                                      color: blackColor2,
-                                                    ),
+                                                "${profile!.name}",
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                  color: blackColor2,
+                                                ),
                                               ),
                                               SizedBox(height: 4),
                                               Text(
-                                                "Membre depuis 2023",
-                                                style:
-                                                    GoogleFonts.playfairDisplay(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 10,
-                                                      color: greyColo1,
-                                                    ),
+                                                "Membre depuis ${extractMonthYear(profile.createdAt!)}",
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 9,
+                                                  color: greyColo1,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -473,7 +508,7 @@ class _SummaryPage extends State<SummaryPage> {
                                           ),
                                           child: Text(
                                             "Vérifié",
-                                            style: GoogleFonts.playfairDisplay(
+                                            style: GoogleFonts.poppins(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 10,
                                               color: Colors.green,
@@ -492,7 +527,9 @@ class _SummaryPage extends State<SummaryPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: CustomButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              await postController.addPost(context: context);
+                            },
                             width: screenW * 0.83,
                             height: screenH / 18,
                             borderRadius: 8,
@@ -507,9 +544,7 @@ class _SummaryPage extends State<SummaryPage> {
                                 SizedBox(width: 4),
                                 Text(
                                   "Publier l'Anonce",
-                                  style: GoogleFonts.playfairDisplay(
-                                    color: whiteColor,
-                                  ),
+                                  style: GoogleFonts.poppins(color: whiteColor),
                                 ),
                               ],
                             ),
@@ -531,28 +566,28 @@ class _SummaryPage extends State<SummaryPage> {
                               children: [
                                 Text(
                                   "En publiant cette annonce, vous acceptez nos",
-                                  style: GoogleFonts.playfairDisplay(
+                                  style: GoogleFonts.poppins(
                                     color: blackColor2,
                                     fontSize: 10,
                                   ),
                                 ),
                                 Text(
                                   " Conditions d'Utilisation",
-                                  style: GoogleFonts.playfairDisplay(
+                                  style: GoogleFonts.poppins(
                                     color: purple_600,
                                     fontSize: 10,
                                   ),
                                 ),
                                 Text(
                                   "et",
-                                  style: GoogleFonts.playfairDisplay(
+                                  style: GoogleFonts.poppins(
                                     color: blackColor2,
                                     fontSize: 10,
                                   ),
                                 ),
                                 Text(
                                   "Règles de la Communauté",
-                                  style: GoogleFonts.playfairDisplay(
+                                  style: GoogleFonts.poppins(
                                     color: purple_600,
                                     fontSize: 10,
                                   ),
@@ -561,6 +596,7 @@ class _SummaryPage extends State<SummaryPage> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 15),
                       ],
                     );
                   }),
@@ -590,10 +626,7 @@ class _SummaryPage extends State<SummaryPage> {
             children: [
               Text(
                 title1,
-                style: GoogleFonts.playfairDisplay(
-                  color: greyColo1,
-                  fontSize: 9,
-                ),
+                style: GoogleFonts.poppins(color: greyColo1, fontSize: 8),
               ),
               SizedBox(width: spacing / 10),
               SizedBox(
@@ -603,10 +636,7 @@ class _SummaryPage extends State<SummaryPage> {
                   //overflow: TextOverflow.ellipsis,
                   truncateWithEllipsis(content1, 20),
                   textAlign: TextAlign.right,
-                  style: GoogleFonts.playfairDisplay(
-                    color: blackColor2,
-                    fontSize: 9,
-                  ),
+                  style: GoogleFonts.poppins(color: blackColor2, fontSize: 8),
                 ),
               ),
             ],
@@ -619,10 +649,7 @@ class _SummaryPage extends State<SummaryPage> {
                 child: Text(
                   title2,
                   textAlign: TextAlign.left,
-                  style: GoogleFonts.playfairDisplay(
-                    color: greyColo1,
-                    fontSize: 9,
-                  ),
+                  style: GoogleFonts.poppins(color: greyColo1, fontSize: 8),
                 ),
               ),
               SizedBox(width: spacing / 16),
@@ -631,10 +658,7 @@ class _SummaryPage extends State<SummaryPage> {
                 child: Text(
                   textAlign: TextAlign.right,
                   content2,
-                  style: GoogleFonts.playfairDisplay(
-                    color: blackColor2,
-                    fontSize: 9,
-                  ),
+                  style: GoogleFonts.poppins(color: blackColor2, fontSize: 8),
                 ),
               ),
             ],

@@ -42,7 +42,6 @@ class _CategoriesPageState extends State<CategoriesPage>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SlideTransition(
@@ -70,7 +69,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                     actions: [
                       IconButton(
                         icon: Icon(Icons.close, color: blackColor2),
-                        onPressed: widget.closeCategories,
+                        onPressed:widget.closeCategories,
                       ),
                     ],
                   ),
@@ -99,7 +98,9 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 });
                               }
                               print(cat['label']);
-                              print(categoryController.selectedCategoryIndex.value);
+                              print(
+                                categoryController.selectedCategoryIndex.value,
+                              );
                             },
                           ),
                         );

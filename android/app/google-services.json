@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639255076385",
+    "project_id": "minsiida",
+    "storage_bucket": "minsiida.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639255076385:android:f832a2810471f68ad6cd60",
+        "android_client_info": {
+          "package_name": "com.example.simple_nav_bar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYSlFoMo7jUHvTJ3bOxjd0VyaIPAkMDe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -77,9 +77,9 @@ class _PhotosPageState extends State<PhotosPage> {
               ),
               child: Text(
                 "ⓘ Veuillez ajouter au moins une photo avant de continuer.",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   color: Colors.red,
-                  fontSize: 10,
+                  fontSize: 9,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -196,9 +196,9 @@ class _PhotosPageState extends State<PhotosPage> {
                               const SizedBox(height: 16),
                               Text(
                                 'Ajouter des photos',
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   color: blackColor2,
                                 ),
                               ),
@@ -206,7 +206,7 @@ class _PhotosPageState extends State<PhotosPage> {
                               Text(
                                 'Ajoutez des photos de votre produit pour attirer plus d\'acheteurs.',
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   //fontWeight: FontWeight.bold,
                                   color: greyColor,
@@ -232,9 +232,9 @@ class _PhotosPageState extends State<PhotosPage> {
                                     Expanded(
                                       child: Text(
                                         'Choisir des photos',
-                                        style: TextStyle(
+                                        style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 11,
                                         ),
                                       ),
                                     ),
@@ -247,8 +247,8 @@ class _PhotosPageState extends State<PhotosPage> {
                       ),
                       SizedBox(height: 14),
                       Text(
-                        "ⓘ Ajouter jusqu'à 12 photos en format JPG,JPEG ou PNG",
-                        style: GoogleFonts.playfairDisplay(
+                        "ⓘ Ajouter jusqu'à 10 photos en format JPG,JPEG ou PNG",
+                        style: GoogleFonts.poppins(
                           fontSize: 10,
                           //fontWeight: FontWeight.bold,
                           color: greyColor,

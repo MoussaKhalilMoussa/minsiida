@@ -1,11 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:simple_nav_bar/constants/colors.dart';
 
 class Breadcrump extends StatefulWidget {
   final int currentPage;
-  final String title ;
+  final String title;
   final PageController controller;
 
   const Breadcrump({
@@ -20,9 +21,9 @@ class Breadcrump extends StatefulWidget {
 }
 
 class _BreadcrumpState extends State<Breadcrump> {
-   late int currentPage;
+  late int currentPage;
 
-@override
+  @override
   void initState() {
     super.initState();
     currentPage = widget.currentPage;
@@ -41,7 +42,7 @@ class _BreadcrumpState extends State<Breadcrump> {
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues( alpha:  0.5),
+              color: Colors.grey.withValues(alpha: 0.5),
               blurRadius: 4,
               spreadRadius: 1,
             ),
@@ -82,9 +83,9 @@ class _BreadcrumpState extends State<Breadcrump> {
                       ],
                       Text(
                         widget.title,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -93,7 +94,7 @@ class _BreadcrumpState extends State<Breadcrump> {
                   /// Progress text (e.g. 1/6)
                   Text(
                     '${widget.currentPage + 1}/6',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style:  GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -102,7 +103,6 @@ class _BreadcrumpState extends State<Breadcrump> {
             SizedBox(
               width: MediaQuery.sizeOf(context).width * 0.75,
               child: LinearProgressIndicator(
-
                 value: (widget.currentPage + 1) / 6,
                 backgroundColor: Colors.grey[300],
                 color: purple_600,

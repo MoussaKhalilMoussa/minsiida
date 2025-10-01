@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 import 'package:simple_nav_bar/common_widgets/custom_title.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/details_page_controller/details_page_controller.dart';
 import 'package:simple_nav_bar/controllers/location_controller/location_controller.dart';
 
@@ -27,6 +28,7 @@ class _DetailsPageState extends State<DetailsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final locationController = Get.find<LocationController>();
   final detailsController = Get.find<DetailsPageController>();
+  final categoryController = Get.find<CategoryContorller>();
 
   //var _titleController = detailsController.titleController
   // final TextEditingController _priceController = TextEditingController();
@@ -184,11 +186,11 @@ class _DetailsPageState extends State<DetailsPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Electroniques > Smartphones",
-                                        style: GoogleFonts.playfairDisplay(
+                                        "${categoryController.categories[categoryController.selectedCategoryIndex.value].name} > ${categoryController.selectedSubcategory.value}",
+                                        style: GoogleFonts.poppins(
                                           fontSize: 12,
                                           color: purple_600,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
@@ -196,10 +198,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                   const SizedBox(height: 4),
                                   Text(
                                     "Modifier",
-                                    style: GoogleFonts.playfairDisplay(
+                                    style: GoogleFonts.poppins(
                                       fontSize: 12,
                                       color: purple_600,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ],
@@ -285,21 +287,22 @@ class _DetailsPageState extends State<DetailsPage> {
                                     size: 12,
                                   ),
                                   Text(
-                                    "Inclurez l'état,les characteristiques et les raisons de la vente",
-                                    style: GoogleFonts.playfairDisplay(
-                                      fontSize: 10,
+                                    "Inclure l’état, les caractéristiques et les raisons de la vente.",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 9,
                                       color: Colors.grey[600],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 20),
-                            buildLocalizationLabeledField(
+                            const SizedBox(height: 10),
+                            // it will be used later
+                            /* buildLocalizationLabeledField(
                               label: "Localisation",
                               onChanged: locationController.filterCities,
                             ),
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 30), */
                           ],
                         ),
                       ),
@@ -335,6 +338,7 @@ class _DetailsPageState extends State<DetailsPage> {
             controller: controller,
             focusNode: focusNode,
             maxLines: maxLines,
+            style: GoogleFonts.poppins(),
             decoration: InputDecoration(
               hintText: hintText,
               border: OutlineInputBorder(
@@ -353,7 +357,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 Expanded(
                   child: Text(
                     errorText,
-                    style: const TextStyle(color: Colors.red, fontSize: 13),
+                    style: GoogleFonts.poppins(color: Colors.red, fontSize: 13),
                   ),
                 ),
               ],
@@ -384,6 +388,7 @@ class _DetailsPageState extends State<DetailsPage> {
             keyboardType: TextInputType.number,
             controller: detailsController.priceController,
             focusNode: _priceFocus,
+            style: GoogleFonts.poppins(),
             decoration: InputDecoration(
               hintText: "0",
               border: OutlineInputBorder(
@@ -394,7 +399,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Chip(
                   side: BorderSide.none,
-                  label: Text('Euro'),
+                  label: Text('XAF', style: GoogleFonts.poppins()),
                   backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                   labelStyle: TextStyle(color: Colors.deepPurple[600]),
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
@@ -413,7 +418,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 Expanded(
                   child: Text(
                     errorText,
-                    style: const TextStyle(color: Colors.red, fontSize: 13),
+                    style: GoogleFonts.poppins(color: Colors.red, fontSize: 13),
                   ),
                 ),
               ],
@@ -474,7 +479,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       const SizedBox(width: 6),
                       Text(
                         truncateWithEllipsis(locationText),
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           textStyle: TextStyle(overflow: TextOverflow.ellipsis),
 
                           fontSize: 14,
@@ -505,7 +510,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     Expanded(
                       child: Text(
                         'location address not selected',
-                        style: const TextStyle(color: Colors.red, fontSize: 13),
+                        style:  GoogleFonts.poppins(color: Colors.red, fontSize: 13),
                       ),
                     ),
                   ],

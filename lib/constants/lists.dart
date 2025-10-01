@@ -4,6 +4,18 @@ import 'package:simple_nav_bar/constants/images.dart';
 
 const socialIconList = [icFacebookLogo, icGoogleLogo, icXLogo];
 
+final iconMap = {
+    "Électronique": "📱",
+    "Mode": "👔",
+    "Maison": "🏠",
+    "Véhicules": "🚗",
+    "Immobilier": "🛋️",
+    "Loisirs": "⚽️",
+    "Matériels": "💼",
+    "Enfants": "🧸",
+    "Autres": "❓",
+  };
+
 final List<Map<String, dynamic>> categoriesSelection = [
   {
     'subcategory': [
@@ -53,6 +65,7 @@ final List<Map<String, dynamic>> categoriesSelection = [
   {'subcategory': null, 'label': "Sports", 'icon': "⚽"},
   {'subcategory': null, 'label': "Services", 'icon': "🛠️"},
   {'subcategory': null, 'label': "Emplois", 'icon': "💼"},
+  {'subcategory': null, 'label': "Emplois", 'icon': "🛋️"},
 ];
 
 final List<Map<String, dynamic>> categories1 = [

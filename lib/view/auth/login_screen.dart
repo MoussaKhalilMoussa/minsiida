@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/common_widgets/applogo.dart';
 import 'package:simple_nav_bar/common_widgets/bg_widget.dart';
 import 'package:simple_nav_bar/common_widgets/custom_textfield.dart';

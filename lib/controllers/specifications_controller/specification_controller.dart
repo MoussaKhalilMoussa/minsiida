@@ -117,6 +117,16 @@ class SpecificationController extends GetxController {
     }
   }
 
+  List<String> getFilteredList(Function(String)? onChanged) {
+    if (onChanged == filterModels) return filteredModels;
+    if (onChanged == filterStorage) return filteredStorage;
+    if (onChanged == filterColor) return filteredColors;
+    if (onChanged == filterState) return filteredBateryStates;
+    if (onChanged == filterGuarantee) return filteredGuarantees;
+    if (onChanged == filterCondition) return filteredConditions;
+    return []; // fallback
+  }
+
   void resetSelection() {
     filteredModels.value = <String>[..._iPhoneModels];
     filteredStorage.value = <String>[..._storageOptions];
@@ -140,11 +150,15 @@ class SpecificationController extends GetxController {
   }
 
   static final List<String> _conditionOptions = [
-    "Neuf",
+   /*  "Neuf",
     "Comme Neuf",
     "Bon État",
     "État Moyen",
-    "Pour pieces",
+    "Pour pieces", */ 
+    "New",
+    "LikeNew",
+    "Bad",
+    "Good",
   ];
 
   static final List<String> _guaranteeOptions = [

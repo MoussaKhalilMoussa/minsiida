@@ -144,6 +144,22 @@ class DioApiClient {
     }
   }
 
+
+
+  // GET - Read
+  Future<Response> readDataWithoutAuth(String endpoint) async {
+    try {
+      final response = await dio.get(
+        endpoint,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } catch (e) {
+      print('Error reading data: $e');
+      rethrow;
+    }
+  }
+
   // PUT - Update
   Future<Response> updateData(
     String endpoint,

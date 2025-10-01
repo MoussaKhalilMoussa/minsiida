@@ -25,8 +25,8 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   final PageController _controller = PageController(keepPage: true);
-  final controller = Get.put(PhotosController());
-  final categoryController = Get.put(CategoryContorller());
+  final photoController = Get.find<PhotosController>();
+  final categoryController = Get.find<CategoryContorller>();
   final detailsController = Get.find<DetailsPageController>();
   final locationController = Get.find<LocationController>();
   final specificationsController = Get.find<SpecificationController>();
@@ -38,8 +38,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   void _goToPage() {
     // Page 0: Validate photos
-    if (index == 0 && controller.selectedImages.isEmpty) {
-      controller.isError.value = true;
+    if (index == 0 && photoController.selectedImages.isEmpty) {
+      photoController.isError.value = true;
       return;
     }
 
@@ -52,9 +52,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
     if (index == 2 &&
         (detailsController.titleController.text.trim().isEmpty ||
             detailsController.priceController.text.trim().isEmpty ||
-            detailsController.descController.text.trim().isEmpty ||
-            locationController.selectedCity.value == null ||
-            locationController.selectedSubPrefecture.value.isEmpty)) {
+            detailsController.descController.text.trim().isEmpty
+        // || locationController.selectedCity.value == null ||
+        // locationController.selectedSubPrefecture.value.isEmpty
+        )) {
       // detailsController.showDetailsError.value = true;
 
       if (detailsController.titleController.text.trim().isEmpty) {
@@ -69,10 +70,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
         detailsController.showDescriptionError.value = true;
       }
 
-      if (locationController.selectedCity.value == null ||
+      /* if (locationController.selectedCity.value == null ||
           locationController.selectedSubPrefecture.value.isEmpty) {
         detailsController.showDetailsError.value = true;
-      }
+      } */
       detailsController.titleTouched.value = true;
       detailsController.priceTouched.value = true;
       detailsController.descTouched.value = true;
@@ -114,8 +115,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
       deliveryController.showDeliveryError(true);
       return;
     }
-    // Clear errors if vali dations pass
-    controller.isError.value = false;
+    // Clear errors if validations pass
+    photoController.isError.value = false;
     categoryController.showCategoryError.value = false;
     detailsController.showDetailsError.value = false;
     // Move to next page if not last
@@ -147,10 +148,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            controller.selectedImages.clear();
-            categoryController.selectedCategoryIndex.value = -1;
-            categoryController.showCategoryError.value = false;
-            controller.isError.value = false;
+            photoController.selectedImages.clear();
+            categoryController.clear();
+            photoController.isError.value = false;
             detailsController.resetFields();
             locationController.resetSelection();
             deliveryController.resetFields();
@@ -160,9 +160,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
         ),
         title: Text(
           'Publier une annonce',
-          style: GoogleFonts.playfairDisplay(
+          style: GoogleFonts.poppins(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
             color: blackColor,
           ),
         ),
@@ -232,7 +232,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: CustomButton(
                   borderRadius: 12,
-                  onPressed: _goToPage,
+                  onPressed: () {
+                    _goToPage();
+                    categoryController.getCategories();
+                  },
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   height: 50,
                   child: Row(
@@ -241,10 +244,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     children: [
                       Text(
                         "Continuer ",
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           fontSize: 16,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                       Padding(

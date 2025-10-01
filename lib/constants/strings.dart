@@ -29,6 +29,7 @@ const menu = "Menu";
 const favorites = "Favorites";
 const search = "Search";
 const authToken = "auth_token";
+const user = "user";
 
 const error = "Erreur";
 //const baseUrl = "http://10.0.2.2:8080";

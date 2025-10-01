@@ -6,6 +6,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
+import 'package:simple_nav_bar/utiles/token_utils.dart';
 import 'package:simple_nav_bar/view/auth/login_screen.dart';
 
 class DeconnectionPage extends StatelessWidget {
@@ -113,7 +114,7 @@ class DeconnectionPage extends StatelessWidget {
                             foregroundColor: WidgetStatePropertyAll(whiteColor),
                           ),
                           onPressed: () async {
-                            await authController.storage.remove(authToken);
+                            TokenUtils.clear();
                             authController.clearFields();
                             Get.to(() => LoginScreen());
                           },

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
+import 'package:simple_nav_bar/utiles/token_utils.dart';
 import 'package:simple_nav_bar/view/home/screen/home.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -15,14 +15,13 @@ class AuthLoginController extends GetxController {
   var passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   TextEditingController get emailController => _emailController;
-
-  final storage = GetStorage(); // local storage for token
+  
   var email = "";
 
   Future<void> loginMethod({context}) async {
     try {
       isLoading.value = true;
-      //await storage.remove(authToken);
+     
       final token = await authService.userLogin(
         userName: userNameController.text.trim(),
         password: passwordController.text.trim(),
@@ -30,7 +29,8 @@ class AuthLoginController extends GetxController {
       );
 
       if (token.isNotEmpty) {
-        await storage.write(authToken, token);
+        //await storage.write(authToken, token);
+        TokenUtils.saveToken(token);
         print(" Token saved: $token");
 
         // Navigate to home/dashboard

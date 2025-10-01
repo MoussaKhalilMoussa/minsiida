@@ -5,6 +5,7 @@ import 'package:simple_nav_bar/common_widgets/breadcrump.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/view/categories/models/category.dart';
 
 class CategorySelection extends StatefulWidget {
   final int currentPage;
@@ -69,14 +70,12 @@ class _CategorySelectionState extends State<CategorySelection> {
   Widget build(BuildContext context) {
     final screenW = MediaQuery.of(context).size.width;
     //final screenH = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
           child: Column(
-            //mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Header section with title and progress bar parent
@@ -85,13 +84,12 @@ class _CategorySelectionState extends State<CategorySelection> {
                 title: "Categorie",
                 currentPage: widget.currentPage,
                 controller: widget.controller,
+                //categoryFunction: controller.clear(),
               ),
               const SizedBox(height: 30),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 width: screenW * 0.9,
-                //height: totalHeight,
-                //constraints: BoxConstraints(minHeight: totalHeight - 4),
                 padding: const EdgeInsets.only(top: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -113,7 +111,7 @@ class _CategorySelectionState extends State<CategorySelection> {
                       padding: const EdgeInsets.only(left: 18.0),
                       child: Text(
                         "Que vendez-vous ?",
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: blackColor2,
@@ -134,9 +132,9 @@ class _CategorySelectionState extends State<CategorySelection> {
                             crossAxisSpacing: 10,
                             childAspectRatio: 1.2,
                           ),
-                      itemCount: categoriesSelection.length,
+                      itemCount: controller.categories.length,
                       itemBuilder: (context, index) {
-                        final category = categoriesSelection[index];
+                        final category = controller.categories[index];
                         return Obx(() {
                           final isSelected =
                               controller.selectedCategoryIndex.value == index;
@@ -169,10 +167,8 @@ class _CategorySelectionState extends State<CategorySelection> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      category['icon'],
-                                      style: GoogleFonts.playfairDisplay(
-                                        fontSize: 24,
-                                      ),
+                                      category.icon!,
+                                      style: GoogleFonts.poppins(fontSize: 24),
                                     ),
                                     /* Icon(
                                       category['icon'],
@@ -184,8 +180,8 @@ class _CategorySelectionState extends State<CategorySelection> {
                                     ), */
                                     const SizedBox(height: 8),
                                     Text(
-                                      category['label'],
-                                      style: TextStyle(
+                                      category.name!,
+                                      style: GoogleFonts.poppins(
                                         color:
                                             isSelected
                                                 ? Colors.white
@@ -208,8 +204,10 @@ class _CategorySelectionState extends State<CategorySelection> {
                         return const SizedBox.shrink();
                       }
 
-                      final selectedCategory = categoriesSelection[index];
-                      final subcategories = selectedCategory['subcategory'];
+                      final Category selectedCategory =
+                          controller.categories[index];
+                      final List<Subcategory>? subcategories =
+                          selectedCategory.subcategories;
 
                       if (subcategories == null || subcategories.isEmpty) {
                         return const SizedBox.shrink();
@@ -225,8 +223,8 @@ class _CategorySelectionState extends State<CategorySelection> {
                           children: [
                             Text(
                               "Selectioner une sous-catégories",
-                              style: GoogleFonts.playfairDisplay(
-                                fontSize: 18,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: blackColor2,
                               ),
@@ -242,15 +240,18 @@ class _CategorySelectionState extends State<CategorySelection> {
                                 return Obx(() {
                                   final isSelected =
                                       controller.selectedSubcategory.value ==
-                                      sub;
+                                      sub.name;
                                   return ChoiceChip(
-                                    label: Text(sub),
+                                    label: Text(
+                                      sub.name!,
+                                      style: GoogleFonts.poppins(),
+                                    ),
                                     selected: isSelected,
                                     onSelected:
                                         (_) =>
                                             controller
                                                 .selectedSubcategory
-                                                .value = sub,
+                                                .value = sub.name!,
                                     selectedColor: purple_600,
                                     labelStyle: TextStyle(
                                       color:

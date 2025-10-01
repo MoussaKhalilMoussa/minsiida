@@ -15,4 +15,6 @@ class PhotosController extends GetxController {
   // Store selected images
   RxList<File> selectedImages = <File>[].obs;
   List<File> get images => selectedImages;
+
+  
  }
