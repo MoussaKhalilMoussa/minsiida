@@ -42,7 +42,7 @@ class PriceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = int.tryParse(price) ?? 0;
+    final value = double.tryParse(price) ?? 0;
     const locale = 'fr_FR';
 
     final formattedPrice =

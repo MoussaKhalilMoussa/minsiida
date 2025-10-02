@@ -16,7 +16,6 @@ import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
 import 'package:simple_nav_bar/services/post_service/post_service_impl.dart';
 import 'package:simple_nav_bar/utiles/logger.dart';
-import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
 import 'package:uuid/uuid.dart';
@@ -45,17 +44,21 @@ class PostController extends GetxController {
 
   // loading status
   final RxBool _isLoading = false.obs;
+  final RxBool myAddsLoading = false.obs;
 
   // uploading status
   final RxBool _isUploading = false.obs;
 
-  var myAdds = <Post>[].obs;
+  //var myAdds = <Post>[].obs;
 
-  RxList<Post> myAds = <Post>[].obs;
+  RxList<Post> myAdds = <Post>[].obs;
+  // posts after search
+  final filteredAdds = <Post>[].obs;
 
   List<String> get imageUrls => _imageUrls;
   bool get isLoading => _isLoading.value;
   bool get isUploading => _isUploading.value;
+  //bool get myAddsLoading => _isUploading.value;
 
   /* 
       R E A D      I M A G E S 
@@ -251,7 +254,7 @@ class PostController extends GetxController {
 
       /* Navigator.pop(context);
       Get.off(() => MesAnnoncesPage()); */
-      
+
       Future.delayed(const Duration(seconds: 2), () {
         Get.back(); // close dialog
         Get.off(() => MesAnnoncesPage());
@@ -300,14 +303,42 @@ class PostController extends GetxController {
 
   void getAllMyAds() async {
     try {
+      myAddsLoading.value = true;
       final response = await postService.getAllPost(currentUserId);
       myAdds.assignAll(response);
-      print("==========================");
-      for (var post in myAdds) {
-        logger.info(post.toString());
-      }
+      filteredAdds.assignAll(response); // default: all
+      myAddsLoading.value = false;
     } catch (e) {
       logger.severe("❌ Unexpected error: $e");
+    }
+  }
+
+  // filters posts
+  void searchMyAds(String query) {
+    if (query.isEmpty) {
+      filteredAdds.assignAll(myAdds);
+    } else {
+      final lowerQuery = query.toLowerCase();
+
+      final results =
+          myAdds.where((post) {
+            final inTitle =
+                post.title?.toLowerCase().contains(lowerQuery) ?? false;
+            final inDescription =
+                post.description?.toLowerCase().contains(lowerQuery) ?? false;
+
+            final inCharacteristics =
+                post.characteristics?.any(
+                  (c) =>
+                      (c.key?.toLowerCase().contains(lowerQuery) ?? false) ||
+                      (c.value?.toLowerCase().contains(lowerQuery) ?? false),
+                ) ??
+                false;
+
+            return inTitle || inDescription || inCharacteristics;
+          }).toList();
+
+      filteredAdds.assignAll(results);
     }
   }
 }

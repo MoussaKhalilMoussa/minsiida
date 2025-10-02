@@ -205,6 +205,8 @@ class MediaUrl {
     content = json['content'];
   }
 
+  get first => null;
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['content'] = content;

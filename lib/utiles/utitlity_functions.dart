@@ -41,15 +41,24 @@ String extractMonthYear(String isoString) {
   }
 }
 
-
 String formatShortDate(String isoString) {
   try {
     final date = DateTime.parse(isoString);
 
     // Short month names in English
     final months = [
-      "jan", "feb", "mar", "apr", "may", "jun",
-      "jul", "aug", "sep", "oct", "nov", "dec"
+      "jan",
+      "feb",
+      "mar",
+      "apr",
+      "may",
+      "jun",
+      "jul",
+      "aug",
+      "sep",
+      "oct",
+      "nov",
+      "dec",
     ];
 
     final month = months[date.month - 1];
@@ -57,6 +66,34 @@ String formatShortDate(String isoString) {
     final year = date.year;
 
     return "$month $day $year";
+  } catch (e) {
+    return "Invalid date";
+  }
+}
+
+String formatShortDateNumber(String isoString) {
+  try {
+    final date = DateTime.parse(isoString);
+
+    // Short month names in English
+    final months = [
+      "01",
+      "02",
+      "03",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+
+    final month = months[date.month - 1];
+    final day = date.day.toString().padLeft(2, '0'); // always 2 digits
+    final year = date.year;
+
+    return "$day $month $year";
   } catch (e) {
     return "Invalid date";
   }

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/selectionButton.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components/selectionButton.dart';
 
 class SoumettreUnTicketDeSupport extends StatelessWidget {
   const SoumettreUnTicketDeSupport({super.key});

@@ -62,7 +62,6 @@ class _PhotosPageState extends State<PhotosPage> {
       return controller.isError.value
           ? Padding(
             padding: const EdgeInsets.all(8.0),
-
             child: Container(
               alignment: Alignment.center,
               width: MediaQuery.sizeOf(context).width * 0.8,

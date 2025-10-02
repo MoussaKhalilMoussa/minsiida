@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/base_de_connaissances.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/contacter_le_support.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/questions_frequantes.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components_widgets/soumettre_un_ticket_de_support.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components/base_de_connaissances.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components/contacter_le_support.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components/questions_frequantes.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/assistance_components/soumettre_un_ticket_de_support.dart';
 
 class AideEtSupport extends StatefulWidget {
   const AideEtSupport({super.key});

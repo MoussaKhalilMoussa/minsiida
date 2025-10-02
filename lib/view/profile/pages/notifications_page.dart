@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/notifications_controller.dart/notifications_controller.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/notification_card.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/notification_tab.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/notification_compoents/notification_card.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/notification_compoents/notification_tab.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});

@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/avis_et_evaluation_controller/avis_et_evaluation_controller.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/notification_tab.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/ratings_summary.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/notification_compoents/notification_tab.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/review_components/ratings_summary.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/review_components/review_card.dart';
 
 class AvisEtEvaluationPage extends StatelessWidget {
   const AvisEtEvaluationPage({super.key});
@@ -39,7 +40,8 @@ class AvisEtEvaluationPage extends StatelessWidget {
           SliverToBoxAdapter(child: Divider(height: 1.h)),
           SliverList(
             delegate: SliverChildListDelegate([
-              Container(
+              AnimatedContainer(
+                duration: Duration(seconds: 1),
                 width: MediaQuery.sizeOf(Get.context!).width,
                 margin: EdgeInsets.only(right: 12, left: 12, top: 20),
 
@@ -106,7 +108,8 @@ class AvisEtEvaluationPage extends StatelessWidget {
 
                       SizedBox(height: 16.h),
 
-                      Container(
+                      AnimatedContainer(
+                        duration: Duration(seconds: 2),
                         padding: EdgeInsets.all(12),
                         width: MediaQuery.sizeOf(Get.context!).width,
                         decoration: BoxDecoration(
@@ -127,6 +130,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
                               },
                             ),
 
+                            SizedBox(height: 8),
                             SizedBox(
                               child: Row(
                                 mainAxisAlignment:
@@ -150,6 +154,26 @@ class AvisEtEvaluationPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                            ),
+
+                            ListView.separated(
+                              separatorBuilder:
+                                  (context, index) => SizedBox(height: 8.h),
+                              itemCount: 2,
+                              shrinkWrap:
+                                  true, // ✅ makes ListView take only required space
+                              physics:
+                                  const NeverScrollableScrollPhysics(), // ✅ disable inner scroll
+                              itemBuilder: (context, index) {
+                                return ReviewCard(
+                                  userName: "Jean Dupont",
+                                  reviewDate: "25 octobre 2023",
+                                  rating: 5,
+                                  reviewText:
+                                      "Excellent vendeur ! L'article était exactement comme décrit et l'envoi a été rapide.Excellent vendeur ! L'article était exactement comme décrit et l'envoi a été rapide.",
+                                  productName: "iPhone 12 Pro Max",
+                                );
+                              },
                             ),
                           ],
                         ),
