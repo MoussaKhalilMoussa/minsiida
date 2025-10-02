@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 
 class ProductCard extends StatelessWidget {
@@ -18,36 +20,43 @@ class ProductCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 child: Image.asset(
                   'assets/images/p1.jpeg',
-                  width: 100,
-                  height: 100,
+                  width: 100.w,
+                  height: 100.h,
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 10.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Iphone 14 Pro Max',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 5.h),
+
                     Row(
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '\$899.99',
-                          style: GoogleFonts.playfairDisplay(
-                            color: blackColor2,
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 130.w
+                          ),
+                          child: PriceWidget(
+                            price: "3000000", // even single digit
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
+                            color: blackColor2,
+                            compact: false,
                           ),
                         ),
-                        SizedBox(width: 10),
+                        SizedBox(width: 25.w),
                         Container(
+                          width: 70.w,
                           alignment: Alignment.center,
                           padding: EdgeInsets.symmetric(
                             horizontal: 8,
@@ -56,11 +65,10 @@ class ProductCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Colors.green.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(16),
-                            shape: BoxShape.rectangle,
                           ),
                           child: Text(
-                            'Active',
-                            style: GoogleFonts.playfairDisplay(
+                            'vendue',
+                            style: GoogleFonts.poppins(
                               color: Colors.green,
                               fontSize: 14,
                             ),
@@ -68,9 +76,9 @@ class ProductCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 5.h),
+
                     Row(
-                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
@@ -78,24 +86,30 @@ class ProductCard extends StatelessWidget {
                           size: 14,
                           color: Colors.grey,
                         ),
-                        SizedBox(width: 5),
-                        Text(
-                          '123 views',
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 14,
-                            color: Colors.grey,
+                        SizedBox(width: 5.h),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 85.w,
+                          ), // forces min width
+                          child: Text(
+                            '1349889 vus', // even single digit
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SizedBox(width: 20),
+                        SizedBox(width: 30.w),
                         Icon(
                           Ionicons.calendar_outline,
                           size: 14,
                           color: Colors.grey,
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: 5.w),
                         Text(
                           '2025-01-01',
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.poppins(
                             fontSize: 14,
                             color: Colors.grey,
                           ),
@@ -118,7 +132,7 @@ class ProductCard extends StatelessWidget {
                     SizedBox(width: 5),
                     Text(
                       'View',
-                      style: GoogleFonts.playfairDisplay(color: primaryColor),
+                      style: GoogleFonts.poppins(color: primaryColor),
                     ),
                   ],
                 ),
@@ -133,7 +147,7 @@ class ProductCard extends StatelessWidget {
                     SizedBox(width: 5),
                     Text(
                       'Edit',
-                      style: GoogleFonts.playfairDisplay(color: Colors.green),
+                      style: GoogleFonts.poppins(color: Colors.green),
                     ),
                   ],
                 ),
@@ -148,7 +162,7 @@ class ProductCard extends StatelessWidget {
                     SizedBox(width: 5),
                     Text(
                       'Delete',
-                      style: GoogleFonts.playfairDisplay(color: Colors.red),
+                      style: GoogleFonts.poppins(color: Colors.red),
                     ),
                   ],
                 ),

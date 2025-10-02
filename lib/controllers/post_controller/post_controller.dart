@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -48,9 +49,9 @@ class PostController extends GetxController {
   // uploading status
   final RxBool _isUploading = false.obs;
 
-  /* 
-    G E T T E R S
-  */
+  var myAdds = <Post>[].obs;
+
+  RxList<Post> myAds = <Post>[].obs;
 
   List<String> get imageUrls => _imageUrls;
   bool get isLoading => _isLoading.value;
@@ -183,8 +184,8 @@ class PostController extends GetxController {
         userId: currentUserId,
         title: detailsController.titleController.text,
         description: detailsController.descController.text,
-        price: int.tryParse(detailsController.priceController.text),
-        date: formatShortDate(DateTime.now().toIso8601String()),
+        price: double.tryParse(detailsController.priceController.text),
+        //date: formatShortDate(DateTime.now().toIso8601String()),
         subCategoryId: selectedSubcategory.id,
         productCondition: specificationsController.selectedCondition.value,
         characteristics: [
@@ -247,8 +248,14 @@ class PostController extends GetxController {
         ),
         barrierDismissible: true,
       );
-      Navigator.pop(context);
-      Get.off(() => MesAnnoncesPage());
+
+      /* Navigator.pop(context);
+      Get.off(() => MesAnnoncesPage()); */
+      
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.back(); // close dialog
+        Get.off(() => MesAnnoncesPage());
+      });
       photoController.selectedImages.clear();
       categoryController.clear();
       photoController.isError.value = false;
@@ -288,6 +295,19 @@ class PostController extends GetxController {
       } catch (e) {
         logger.severe("❌ Unexpected error rolling back image: $e");
       }
+    }
+  }
+
+  void getAllMyAds() async {
+    try {
+      final response = await postService.getAllPost(currentUserId);
+      myAdds.assignAll(response);
+      print("==========================");
+      for (var post in myAdds) {
+        logger.info(post.toString());
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error: $e");
     }
   }
 }

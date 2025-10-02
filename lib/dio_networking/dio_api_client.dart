@@ -144,14 +144,16 @@ class DioApiClient {
     }
   }
 
-
-
   // GET - Read
-  Future<Response> readDataWithoutAuth(String endpoint) async {
+  Future<Response> readDataWithoutAuth(
+    String endpoint, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final response = await dio.get(
         endpoint,
         cancelToken: cancelToken,
+        queryParameters: queryParameters,
       );
       return response;
     } catch (e) {

@@ -4,8 +4,8 @@ class Post {
   String? title;
   String? description;
   List<MediaUrl>? mediaUrls;
-  int? price;
-  String? date;
+  double? price;
+  DateTime? date;
   int? subCategoryId;
   String? productCondition;
   Status? status;
@@ -26,9 +26,9 @@ class Post {
     required this.description,
     required this.mediaUrls,
     required this.price,
-    required this.date,
     required this.subCategoryId,
     required this.productCondition,
+    this.date,
     this.status,
     this.expiresAt,
     this.buyerId,
@@ -54,7 +54,6 @@ class Post {
     }
 
     price = json['price'];
-    date = json['date'];
     subCategoryId = json['subCategoryId'];
     productCondition = json['productCondition'];
 
@@ -63,6 +62,10 @@ class Post {
         (e) => e.toString().split('.').last == json['status'],
         orElse: () => Status.INACTIVE,
       );
+    }
+
+    if (json['expiresAt'] != null) {
+      date = DateTime.tryParse(json['createdAt']);
     }
 
     if (json['expiresAt'] != null) {
@@ -130,8 +133,8 @@ class Post {
     String? title,
     String? description,
     List<MediaUrl>? mediaUrls,
-    int? price,
-    String? date,
+    double? price,
+    DateTime? date,
     int? subCategoryId,
     String? productCondition,
     Status? status,
@@ -166,30 +169,30 @@ class Post {
     );
   }
 
-
-  @override
   @override
   String toString() {
-    return 'Post('
-        'categoryId: $categoryId, '
-        'userId: $userId, '
-        'title: $title, '
-        'description: $description, '
-        'mediaUrls: $mediaUrls, '
-        'price: $price, '
-        'date: $date, '
-        'subCategoryId: $subCategoryId, '
-        'productCondition: $productCondition, '
-        'status: $status, '
-        'expiresAt: $expiresAt, '
-        'buyerId: $buyerId, '
-        'reportCount: $reportCount, '
-        'views: $views, '
-        'negotiable: $negotiable, '
-        'location: $location, '
-        'sold: $sold, '
-        'characteristics: $characteristics'
-        ')';
+    return '''
+Post {
+  categoryId: $categoryId,
+  userId: $userId,
+  title: $title,
+  description: $description,
+  mediaUrls: ${mediaUrls?.map((m) => m.toString()).join(", ")},
+  price: $price,
+  date: $date,
+  subCategoryId: $subCategoryId,
+  productCondition: $productCondition,
+  status: $status,
+  expiresAt: $expiresAt,
+  buyerId: $buyerId,
+  reportCount: $reportCount,
+  views: $views,
+  negotiable: $negotiable,
+  location: $location,
+  sold: $sold,
+  characteristics: ${characteristics?.map((c) => c.toString()).join(", ")}
+}
+''';
   }
 }
 
@@ -211,6 +214,11 @@ class MediaUrl {
   /// 🔥 copyWith
   MediaUrl copyWith({String? content}) {
     return MediaUrl(content: content ?? this.content);
+  }
+
+  @override
+  String toString() {
+    return 'MediaUrl(content: $content)';
   }
 }
 
@@ -239,10 +247,7 @@ class Characteristics {
 
   @override
   String toString() {
-    return 'Characteristics('
-        'key: $key, '
-        'value: $value'
-        ')';
+    return '{key: $key, value: $value}';
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/services/post_service/post_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PostServiceImpl implements PostService {
@@ -30,13 +31,13 @@ class PostServiceImpl implements PostService {
       print(data); */
       return response.data;
     } on DioException catch (e) {
-      print('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error: ${e.message}');
       if (e.type == DioExceptionType.badResponse) {
         final statusCode = e.response?.statusCode;
         final message = e.response?.data;
 
         if (statusCode == 500 && message.toString().contains("L'utilisateur")) {
-          print("🚫 User does not have a subscription");
+          logger.warning("🚫 User does not have a subscription");
           Get.snackbar(
             maxWidth: context.screenWidth - 60,
             duration: Duration(seconds: 15),
@@ -47,7 +48,7 @@ class PostServiceImpl implements PostService {
           );
         } else if (statusCode == 500 &&
             message.toString().contains("limite mensuelle")) {
-          print("🚫 User does not have a subscription");
+          logger.warning("🚫 User does not have limite mensuelle");
           Get.snackbar(
             maxWidth: context.screenWidth - 60,
             duration: Duration(seconds: 15),
@@ -58,7 +59,7 @@ class PostServiceImpl implements PostService {
           );
         } else if (statusCode == 500 &&
             message.toString().contains("limite d'annonces")) {
-          print("🚫 User does not have a subscription");
+          logger.warning("🚫 User does not have limite d'annonces");
           Get.snackbar(
             maxWidth: context.screenWidth - 60,
             duration: Duration(seconds: 15),
@@ -68,11 +69,37 @@ class PostServiceImpl implements PostService {
             backgroundColor: frindlyErrorColor,
           );
         } else {
-          print("❌ Dio error: ${e.message}");
+          logger.severe("❌ Dio error: ${e.message}");
         }
       }
     } catch (e) {
-      print("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error: $e");
+    }
+  }
+
+  @override
+  Future<List<Post>> getAllPost(int userId) async {
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/user/getAdsByUserId/$userId",
+      );
+
+      if (response.data != null && response.data["data"] != null) {
+        final List<dynamic> data = response.data["data"];
+
+        // Convert JSON list → List<Post>
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching post: $e");
+      }
+      throw Exception("Failed to fetch posts due to DioException");
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getAllPost: $e");
+      throw Exception("Failed to fetch posts");
     }
   }
 }

@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/product_card.dart';
 
-class MesAnnoncesPage extends StatelessWidget {
+class MesAnnoncesPage extends StatefulWidget {
   const MesAnnoncesPage({super.key});
 
+  @override
+  State<MesAnnoncesPage> createState() => _MesAnnoncesPageState();
+}
+
+class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
+  final PostController postController = Get.put(PostController());
+  @override
+  void initState() {
+    postController.getAllMyAds();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +38,12 @@ class MesAnnoncesPage extends StatelessWidget {
             ),
             centerTitle: true,
             title: Text(
-              'My Ads',
-              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
+              'Mes annonces',
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: blackColor,
+              ),
             ),
             floating: true,
             snap: true,
@@ -40,15 +57,28 @@ class MesAnnoncesPage extends StatelessWidget {
                 child: Row(
                   children: [
                     SizedBox(
-                      height: 50,
+                      height: 50.h,
                       width: MediaQuery.sizeOf(Get.context!).width * 0.79,
-                      child: TextField(
+                      child: TextFormField(
+                        //focusNode: FocusNode(),
+                        style: GoogleFonts.poppins(color: blackColor),
                         decoration: InputDecoration(
+                          //focusColor:  Colors.grey[400],
+                          //isDense: true,
+                          fillColor: whiteColor,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: greyColo1.withValues(alpha: 0.1),
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: greyColor),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
                           hintText: "Recherche...",
                           prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                         ),
                       ),
                     ),
@@ -60,7 +90,7 @@ class MesAnnoncesPage extends StatelessWidget {
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadiusGeometry.circular(8),
-                            side: BorderSide(),
+                            side: BorderSide(color: greyColor),
                           ),
                         ),
                       ),
@@ -75,7 +105,7 @@ class MesAnnoncesPage extends StatelessWidget {
                 margin: EdgeInsets.only(left: 12, right: 12),
                 width: MediaQuery.sizeOf(Get.context!).width,
                 child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 10),
+                  separatorBuilder: (context, index) => SizedBox(height: 10.h),
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 10,
