@@ -1,4 +1,5 @@
 class Post {
+  int? id;
   int? categoryId;
   int? userId;
   String? title;
@@ -28,6 +29,7 @@ class Post {
     required this.price,
     required this.subCategoryId,
     required this.productCondition,
+    this.id,
     this.date,
     this.status,
     this.expiresAt,
@@ -41,6 +43,7 @@ class Post {
   });
 
   Post.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     categoryId = json['categoryId'];
     userId = json['user_id'];
     title = json['title'];
@@ -89,6 +92,7 @@ class Post {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['categoryId'] = categoryId;
     data['user_id'] = userId;
     data['title'] = title;
@@ -128,6 +132,7 @@ class Post {
 
   /// 🔥 copyWith method
   Post copyWith({
+    int? id,
     int? categoryId,
     int? userId,
     String? title,
@@ -148,6 +153,7 @@ class Post {
     List<Characteristics>? characteristics,
   }) {
     return Post(
+      id: id ?? this.id,
       categoryId: categoryId ?? this.categoryId,
       userId: userId ?? this.userId,
       title: title ?? this.title,
@@ -173,6 +179,7 @@ class Post {
   String toString() {
     return '''
 Post {
+  id:$id,
   categoryId: $categoryId,
   userId: $userId,
   title: $title,

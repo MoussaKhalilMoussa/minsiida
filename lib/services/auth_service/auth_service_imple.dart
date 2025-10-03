@@ -142,7 +142,7 @@ class AuthServiceImple implements AuthService {
   }
 
   @override
-  Future<dynamic> profile() async {
+  Future<dynamic> loggedInUserProfile() async {
     try {
       final response = await _dio.readData("/api/auth/profile");
       var profile = UserProfile.fromJson(response.data);

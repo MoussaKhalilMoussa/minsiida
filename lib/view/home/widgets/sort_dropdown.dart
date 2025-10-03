@@ -36,10 +36,12 @@ class _SortDropdownState extends State<SortDropdown> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              SizedBox(),
               Text(
                 _selectedValue,
-                style: GoogleFonts.playfairDisplay(fontSize: 14),
+                style: GoogleFonts.poppins(fontSize: 14),
                 overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
               const Icon(LucideIcons.chevronDown, size: 20),
             ],
@@ -51,7 +53,7 @@ class _SortDropdownState extends State<SortDropdown> {
                 .map(
                   (item) => DropdownMenuItem<String>(
                     value: item,
-                    child: Text(item, overflow: TextOverflow.ellipsis),
+                    child: Text(item, overflow: TextOverflow.ellipsis,style: GoogleFonts.poppins(), ),
                   ),
                 )
                 .toList(),

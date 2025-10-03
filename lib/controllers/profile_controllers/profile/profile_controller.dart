@@ -16,20 +16,16 @@ class ProfileController extends GetxController {
   //TextEditingController phoneController = TextEditingController();
 
   var userProfile = Rxn<UserProfile>();
-  @override
-  void onInit() {
-    super.onInit();
-    //loadProfile(); // call it right away
-  }
 
   Future<void> loadProfile() async {
+
     try {
-      final profile = await authService.profile();
+      final profile = await authService.loggedInUserProfile();
       if (profile != null) {
         userProfile.value = profile;
       }
     } catch (e) {
-      logger.severe("❌ Failed to load profile: $e");
+      logger.severe("❌ Failed to load profile in profile controller: $e");
     }
   }
 

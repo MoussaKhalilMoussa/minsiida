@@ -8,6 +8,13 @@ String shortTruncateWithEllipsis(String s, {int cutoff = 20}) {
   return '${s.substring(0, 15)}...';
 }
 
+
+String tooShortTruncateWithEllipsis(String s, {int cutoff = 10}) {
+  if (s.length <= cutoff) return s;
+  return '${s.substring(0, 7)}...';
+}
+
+
 String extractMonthYear(String isoString) {
   try {
     final date = DateTime.parse(isoString);

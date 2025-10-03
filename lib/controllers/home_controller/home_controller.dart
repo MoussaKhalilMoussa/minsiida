@@ -1,7 +1,12 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
+import 'package:simple_nav_bar/models/post.dart';
+import 'package:simple_nav_bar/services/post_service/post_service_impl.dart';
+import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class HomeController extends GetxController {
   RxInt homeIndex = 0.obs;
@@ -15,6 +20,26 @@ class HomeController extends GetxController {
   final rightController = TextEditingController();
 
   var selectedPreset = ''.obs; // Tracks which preset is selected
+
+  RxList<Post> featuredPosts = <Post>[].obs;
+  var usersForfeaturedPosts =
+      <int, UserProfile>{}.obs; // map userId → UserProfile
+
+  RxList<Post> trendingPosts = <Post>[].obs;
+  var usersFortrendingPosts =
+      <int, UserProfile>{}.obs; // map userId → UserProfile
+
+  RxList<Post> suggestedPosts = <Post>[].obs;
+  var usersForSuggestedPosts =
+      <int, UserProfile>{}.obs; // map userId → UserProfile
+
+  var featuredPostsloading = false.obs;
+  var trendingPostsloading = false.obs;
+  var suggestedPostsloading = false.obs;
+
+  final postService = Get.put<PostServiceImpl>(PostServiceImpl());
+  final userService = Get.put<UserServiceImpl>(UserServiceImpl());
+  final profileController = Get.put<ProfileController>(ProfileController());
 
   // the track prix textfields
   var isFocusedLeftField = false.obs;
@@ -164,4 +189,65 @@ class HomeController extends GetxController {
     '4.0 et plus',
     '4.5 et plus',
   ];
+
+  Future<void> getFeaturedPosts() async {
+    try {
+      featuredPostsloading.value = true;
+      featuredPosts.value = await postService.getFeaturedPosts();
+      //featuredPosts.assignAll(respons);
+      // fetch all users for these posts
+      for (var post in featuredPosts) {
+        if (post.userId != null &&
+            !usersForfeaturedPosts.containsKey(post.userId)) {
+          usersForfeaturedPosts[post.userId!] = await userService.getUser(
+            userId: post.userId!,
+          );
+          usersForfeaturedPosts.refresh();
+        }
+      }
+      featuredPostsloading.value = false;
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+    }
+  }
+
+  Future<void> getTrendingPosts() async {
+    try {
+      trendingPostsloading.value = true;
+      trendingPosts.value = await postService.getTrendingPosts();
+      for (var post in trendingPosts) {
+        if (post.userId != null &&
+            !usersFortrendingPosts.containsKey(post.userId)) {
+          usersFortrendingPosts[post.userId!] = await userService.getUser(
+            userId: post.userId!,
+          );
+          usersFortrendingPosts.refresh();
+        }
+      }
+      trendingPostsloading.value = false;
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getTrendingPosts: $e");
+    }
+  }
+
+  Future<void> getSuggestedPosts() async {
+    try {
+      suggestedPostsloading.value = true;
+      suggestedPosts.value = await postService.getSuggestedPosts(
+        userId: profileController.userProfile.value!.id!,
+      );
+      for (var post in suggestedPosts) {
+        if (post.userId != null &&
+            !usersForSuggestedPosts.containsKey(post.userId)) {
+          usersForSuggestedPosts[post.userId!] = await userService.getUser(
+            userId: post.userId!,
+          );
+          usersForSuggestedPosts.refresh();
+        }
+      }
+      suggestedPostsloading.value = false;
+    } catch (e) {
+      logger.severe("❌ Unexpected error in homeController getSuggestedPosts: $e");
+    }
+  }
 }

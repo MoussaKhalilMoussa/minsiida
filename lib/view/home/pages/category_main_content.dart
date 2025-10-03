@@ -138,9 +138,12 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Icon(LucideIcons.listFilter, size: 20),
-                                  Text("Filtres"),
+                                  Text("Filtres", 
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16
+                                  )),
                                   Container(
-                                    alignment: Alignment.topCenter,
+                                    alignment: Alignment.bottomCenter,
                                     width: 20,
                                     height: 20,
                                     padding: EdgeInsets.only(bottom: 4),
@@ -150,10 +153,10 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                                     ),
                                     child: Text(
                                       "8",
-                                      style: GoogleFonts.playfairDisplay(
+                                      style: GoogleFonts.poppins(
                                         color: whiteColor,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 12,
+                                        fontSize: 10,
                                       ),
                                     ),
                                   ),
@@ -168,7 +171,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                       SizedBox(height: 12),
                       Text(
                         "Telephones - 405.146 annonces trouvees",
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           color: blackColor2,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -229,7 +232,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                               SizedBox(width: 10),
                               Text(
                                 "Voir plus",
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   color: whiteColor,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -331,9 +334,9 @@ class _CategoryMainContent extends State<CategoryMainContent> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
               child: Text(
                 visibleItems[index]['price']!,
-                style: GoogleFonts.playfairDisplay(
+                style: GoogleFonts.poppins(
                   color: blackColor2,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -342,9 +345,9 @@ class _CategoryMainContent extends State<CategoryMainContent> {
               child: Text(
                 maxLines: 1,
                 visibleItems[index]['description']!,
-                style: GoogleFonts.playfairDisplay(
-                  color: blackColor2,
-                  fontWeight: FontWeight.w500,
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontWeight: FontWeight.w400,
                   textStyle: TextStyle(overflow: TextOverflow.ellipsis),
                 ),
               ),
@@ -360,7 +363,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                       maxLines: 2,
                       visibleItems[index]['location']!,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.poppins(
                         color: blackColor2,
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
@@ -371,7 +374,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
 
                   Text(
                     visibleItems[index]['date']!,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.poppins(
                       color: greyColor,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,

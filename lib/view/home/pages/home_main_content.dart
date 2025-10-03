@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
+import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
+import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/home/widgets/hoverable_category_item_widget.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
@@ -49,6 +54,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
   late int currentStartIndex1;
 
   final homeController = Get.find<HomeController>();
+  //final profileController = Get.find<ProfileController>();
+  final userService = Get.put<UserServiceImpl>(UserServiceImpl());
+  final postController = Get.put(PostController());
 
   @override
   void initState() {
@@ -68,276 +76,388 @@ class _HomeMainContentState extends State<HomeMainContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: ListView(
-        physics: ClampingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 180),
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: mainMargin),
-            height: 170,
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Color(0xFFF4EDF8),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Vendez, Achetez, Simplifiez votre vie!',
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+    return Obx(() {
+      return Positioned.fill(
+        child: ListView(
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 165),
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: mainMargin),
+              height: 170.h,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Color(0xFFF4EDF8),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Vendez, Achetez, Simplifiez votre vie!',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 12),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(LucideIcons.camera, color: whiteColor),
-                  label: Text(
-                    'Déposer une annonce',
-                    style: GoogleFonts.playfairDisplay(color: whiteColor),
+                  SizedBox(height: 12.h),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      //homeController.getFeaturedPosts();
+                    },
+                    icon: Icon(LucideIcons.camera, color: whiteColor),
+                    label: Text(
+                      'Déposer une annonce',
+                      style: GoogleFonts.poppins(
+                        color: whiteColor,
+                        fontSize: 12,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: blueColor,
+                      shape: StadiumBorder(),
+                    ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: blueColor,
-                    shape: StadiumBorder(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: mainMargin),
-            height: 80, // Optional: define a height for better layout control
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children:
-                    categories1.map((cat) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: HoverableCategoryItem(
-                          icon: cat['icon'],
-                          label: cat['label'],
-                          color: cat['color'],
-                          onTap: () {
-                            homeController.homeIndex.value = 1;
-                            //print(cat['label']);
-                          },
-                        ),
-                      );
-                    }).toList(),
+                ],
               ),
             ),
-          ),
+            SizedBox(height: 20.h),
 
-          SizedBox(height: 12),
-          sectionHeader(" Meilleures annonces en \n vedette"),
-          SizedBox(height: 12),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: mainMargin),
+              height: 80, // Optional: define a height for better layout control
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      categories1.map((cat) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                          child: HoverableCategoryItem(
+                            icon: cat['icon'],
+                            label: cat['label'],
+                            color: cat['color'],
+                            onTap: () {
+                              homeController.homeIndex.value = 1;
+                              //print(cat['label']);
+                            },
+                          ),
+                        );
+                      }).toList(),
+                ),
+              ),
+            ),
 
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: mainMargin),
-            height: height * 0.50,
-            child: ListView.builder(
-              controller: scrollController2,
-              scrollDirection: Axis.horizontal,
-              itemCount: featuredAds.length,
-              itemBuilder: (context, index) {
-                final ad = featuredAds[index];
-                return Container(
+            SizedBox(height: 12.h),
+            sectionHeader(" Meilleures annonces en \n vedette"),
+            SizedBox(height: 12.h),
+
+            homeController.featuredPostsloading.value
+                ? Container(
                   padding: EdgeInsets.all(8),
-
                   decoration: BoxDecoration(
+                    border: Border.all(color: greyColo1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   width: width * 0.32,
                   height: height * 0.25,
-                  //margin: EdgeInsets.symmetric(horizontal: 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          ClipRRect(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      constraints: BoxConstraints.tight(Size.fromRadius(12.r)),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    ),
+                  ),
+                )
+                : Container(
+                  margin: EdgeInsets.symmetric(horizontal: mainMargin),
+                  height: height * 0.50,
+                  child: ListView.builder(
+                    controller: scrollController2,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: homeController.featuredPosts.length,
+                    itemBuilder: (context, index) {
+                      //final ad = featuredAds[index];
+                      final post = homeController.featuredPosts[index];
+                      final user =
+                          homeController.usersForfeaturedPosts[post.userId];
+
+                      final isLiked = postController.isPostLiked(post.id!);
+
+                      if (user == null) {
+                        return Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: greyColo1),
                             borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
+                          ),
+                          width: width * 0.32,
+                          height: height * 0.25,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              constraints: BoxConstraints.tight(
+                                Size.fromRadius(12.r),
                               ),
-                              height: height * 0.25,
-                              width: width * 0.32,
-                              child: Image.network(
-                                ad['image']!,
-                                height: height * 0.25,
-                                width: width * 0.32,
-                                fit: BoxFit.cover,
-                              ),
+                              valueColor: AlwaysStoppedAnimation(primaryColor),
                             ),
                           ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 14,
-                              child: Icon(Icons.favorite_border),
+                        );
+                      }
+                      return Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        width: width * 0.32,
+                        height: height * 0.25,
+                        //margin: EdgeInsets.symmetric(horizontal: 2),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.grey[200],
+                                    ),
+                                    height: height * 0.25,
+                                    width: width * 0.32,
+                                    child: Image.network(
+                                      post.mediaUrls!.first.content == null
+                                          ? 'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg'
+                                          : "${post.mediaUrls!.first.content}",
+                                      height: height * 0.25,
+                                      width: width * 0.32,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+
+                                Positioned(
+                                  top: 8,
+                                  right: 8,
+                                  child: InkWell(
+                                    onTap: () {
+                                      postController.toggleLike(post);
+                                      setState(() {});
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor:
+                                          isLiked ? Colors.red : Colors.white,
+                                      radius: 15,
+                                      child: Icon(
+                                        size: 20,
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color:
+                                            isLiked ? Colors.white : Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        spacing: 5,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.yellow.shade900,
-                            radius: 12,
-                            child: Text(
-                              ad['name']![0].toUpperCase(),
-                              style: GoogleFonts.playfairDisplay(
+                            SizedBox(height: 8.h),
+                            Row(
+                              spacing: 5,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.yellow.shade900,
+                                  radius: 12,
+                                  child: Text(
+                                    (user.name?.isNotEmpty ?? false)
+                                        ? user.name![0].toUpperCase()
+                                        : "U", // fallback initial
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: whiteColor,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  tooShortTruncateWithEllipsis(
+                                    user.name ?? "No name",
+                                  ),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    color: blackColor2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.h),
+                            Text(
+                              post.description!,
+                              style: GoogleFonts.poppins(
                                 fontSize: 12,
-                                color: whiteColor,
+                                color: blackColor2,
+                                textStyle: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            ad['name']!,
-                            style: GoogleFonts.playfairDisplay(
+                            SizedBox(height: 8.h),
+                            PriceWidget(
+                              price: post.price!.toString(),
                               fontSize: 12,
+                              fontWeight: FontWeight.w600,
                               color: blackColor2,
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        ad['description']!,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          color: blackColor2,
-                          textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                            SizedBox(height: 8.h),
+                            Text(
+                              maxLines: 2,
+                              post.location == null
+                                  ? "N'Djamena /\nN'Djamena-Centre"
+                                  : "",
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: greyColor,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              formatShortDateNumber(
+                                post.date!.toIso8601String(),
+                              ),
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: greyColor,
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            /* Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade100.withValues(alpha: .5),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                'Livraison possible',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 8,
+                                  color: Colors.blue.shade900,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ), */
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        ad['price']!,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          color: blackColor2,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        maxLines: 2,
-                        ad['location']!,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          color: greyColor,
-                        ),
-                      ),
-                      Text(
-                        ad['date']!,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          color: greyColor,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade100.withValues(alpha: .5),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          'Livraison possible',
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 11,
-                            color: Colors.blue.shade900,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-
-          const SizedBox(height: 20),
-          SizedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                featuredAds.length - 2,
-                (i) => InkWell(
-                  onTap: () {
-                    setState(() {
-                      currentPage2 = i;
-                      scrollController2.animateTo(
-                        i * itemWidthWithSpacing,
-                        duration: Duration(milliseconds: 100),
-                        curve: Curves.linear,
                       );
-                    });
-                  },
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    margin: EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color:
-                          currentPage2 == i
-                              ? Colors.yellow.shade900
-                              : Colors.grey.shade300,
+                    },
+                  ),
+                ),
+
+            const SizedBox(height: 20),
+            SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  homeController.featuredPosts.length -
+                      (homeController.featuredPosts.length - 3),
+                  (i) => InkWell(
+                    onTap: () {
+                      setState(() {
+                        currentPage2 = i;
+                        scrollController2.animateTo(
+                          i * itemWidthWithSpacing,
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.linear,
+                        );
+                      });
+                    },
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      margin: EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            currentPage2 == i
+                                ? Colors.yellow.shade900
+                                : Colors.grey.shade300,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
 
-          SizedBox(height: 20),
-          sectionHeader(" Nos annonces\n recommandées"),
-          _horizontalGrid(controller: scrollController1),
-          const SizedBox(height: 20),
-          sectionHeader(" Annonces tendances\n populaires"),
-          _horizontalGrid(controller: scrollController),
-          const SizedBox(height: 20),
-          footerSections(),
-          //const SizedBox(height: 25),
-        ],
-      ),
-    );
+            SizedBox(height: 20),
+            sectionHeader(" Nos annonces\n recommandées"),
+
+            homeController.suggestedPostsloading.value
+                ? Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: greyColo1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  width: width * 0.45,
+                  height: height * 0.25,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      constraints: BoxConstraints.tight(Size.fromRadius(12.r)),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    ),
+                  ),
+                )
+                : _horizontalGridForSuggestedPosts(
+                  controller: scrollController1,
+                ),
+            const SizedBox(height: 20),
+            sectionHeader(" Annonces tendances\n populaires"),
+
+            homeController.trendingPostsloading.value
+                ? Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: greyColo1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  width: width * 0.45,
+                  height: height * 0.25,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      constraints: BoxConstraints.tight(Size.fromRadius(12.r)),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    ),
+                  ),
+                )
+                : _horizontalGridForTrendingPosts(controller: scrollController),
+            const SizedBox(height: 20),
+            footerSections(),
+            //const SizedBox(height: 25),
+          ],
+        ),
+      );
+    });
   }
 
-  Widget _horizontalGrid({required controller}) {
-    // Width of one item + horizontal margin
+  Widget _horizontalGridForTrendingPosts({required controller}) {
     var width = MediaQuery.sizeOf(context).width;
     var height = MediaQuery.sizeOf(context).height;
     final double itemWidth = width * 0.45;
     final double spacing = 14.0;
     final double itemWidthWithSpacing = itemWidth + spacing;
-    final isFirstItem =
-        controller == scrollController1
-            ? currentStartIndex1 == 0
-            : currentStartIndex == 0;
 
-    final isLastItem =
-        controller == scrollController1
-            ? currentStartIndex1 >= featuredAds.length - 2
-            : currentStartIndex >= featuredAds.length - 2;
+    // Each page shows 2 items
+    const int itemsPerPage = 2;
+
+    int totalPages =
+        (homeController.trendingPosts.length / itemsPerPage).ceil();
+
+    int currentPageLocal =
+        controller == scrollController1 ? currentPage1 : currentPage;
+
+    final bool isFirstPage = currentPageLocal == 0;
+    final bool isLastPage = currentPageLocal >= totalPages - 1;
 
     return SizedBox(
       height: height * 0.52,
@@ -346,76 +466,112 @@ class _HomeMainContentState extends State<HomeMainContent> {
           SizedBox(
             height: height * 0.5,
             child: ListView.separated(
-              separatorBuilder: (context, index) => SizedBox(width: 14),
+              separatorBuilder: (context, index) => SizedBox(width: spacing),
               shrinkWrap: false,
               physics: NeverScrollableScrollPhysics(),
               controller: controller,
               scrollDirection: Axis.horizontal,
-              itemCount: featuredAds.length,
+              itemCount: homeController.trendingPosts.length,
               itemBuilder: (context, index) {
-                final ad = featuredAds[index];
+                final post = homeController.trendingPosts[index];
+                final user = homeController.usersFortrendingPosts[post.userId];
+                final isLiked = postController.isPostLiked(post.id!);
+
+                if (user == null) {
+                  return Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: greyColo1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    width: itemWidth,
+                    height: height * 0.25,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        constraints: BoxConstraints.tight(
+                          Size.fromRadius(12.r),
+                        ),
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
+                      ),
+                    ),
+                  );
+                }
 
                 return Container(
                   padding: EdgeInsets.all(8),
-
+                  width: itemWidth,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  width: width * 0.45,
-                  height: height * 0.25,
-                  //margin: EdgeInsets.symmetric(horizontal: 2),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    //mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Stack(
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Container(
-                              decoration: BoxDecoration(
+                              height: height * 0.25,
+                              width: itemWidth,
+                              /* decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.grey[200],
-                              ),
-                              height: height * 0.25,
-                              width: width * 0.45,
+                              ), */
+                              color: Colors.grey[200],
                               child: Image.network(
-                                ad['image']!,
-                                height: height * 0.25,
-                                width: width * 0.45,
+                                post.mediaUrls!.first.content ??
+                                    'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
+
                           Positioned(
                             top: 8,
                             right: 8,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 14,
-                              child: Icon(Icons.favorite_border),
+                            child: InkWell(
+                              onTap: () {
+                                postController.toggleLike(post);
+                                setState(() {});
+                              },
+                              child: CircleAvatar(
+                                backgroundColor:
+                                    isLiked ? Colors.red : Colors.white,
+                                radius: 15,
+                                child: Icon(
+                                  size: 20,
+                                  isLiked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isLiked ? Colors.white : Colors.red,
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 8),
                       Row(
-                        spacing: 5,
+                        //spacing: 5,
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.yellow.shade900,
                             radius: 12,
                             child: Text(
-                              ad['name']![0].toUpperCase(),
-                              style: GoogleFonts.playfairDisplay(
+                              (user.name?.isNotEmpty ?? false)
+                                  ? user.name![0].toUpperCase()
+                                  : "U",
+                              style: GoogleFonts.poppins(
                                 fontSize: 12,
                                 color: whiteColor,
                               ),
                             ),
                           ),
+                          SizedBox(width: 5),
                           Text(
-                            ad['name']!,
-                            style: GoogleFonts.playfairDisplay(
+                            user.name!,
+                            style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: blackColor2,
                             ),
@@ -424,52 +580,35 @@ class _HomeMainContentState extends State<HomeMainContent> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        ad['description']!,
-                        style: GoogleFonts.playfairDisplay(
+                        post.description!,
+                        style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: blackColor2,
                           textStyle: TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                       ),
                       SizedBox(height: 8),
-                      Text(
-                        ad['price']!,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
-                          color: blackColor2,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      PriceWidget(
+                        price: post.price!.toString(),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: blackColor2,
                       ),
                       SizedBox(height: 8),
                       Text(
-                        ad['location']!,
-                        style: GoogleFonts.playfairDisplay(
+                        post.location ?? "N'Djamena /\nN'Djamena-Centre",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: greyColor,
                         ),
                       ),
                       Text(
-                        ad['date']!,
-                        style: GoogleFonts.playfairDisplay(
+                        formatShortDateNumber(post.date!.toIso8601String()),
+                        style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: greyColor,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade100.withValues(alpha: .5),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          'Livraison possible',
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 11,
-                            color: Colors.blue.shade900,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
@@ -478,9 +617,10 @@ class _HomeMainContentState extends State<HomeMainContent> {
               },
             ),
           ),
-          // Forward and Backward buttons
+
+          /// 🔹 Forward & Backward buttons (page-based now)
           Positioned(
-            top: 145,
+            top: 100,
             left: 0,
             right: 0,
             child: Container(
@@ -490,57 +630,31 @@ class _HomeMainContentState extends State<HomeMainContent> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: MediaQuery.sizeOf(context).width / 1.9,
                 children: [
-                  //backword button
                   InkWell(
                     onTap:
-                        isFirstItem
-                            ? null // disables interaction
+                        isFirstPage
+                            ? null
                             : () {
-                              final itemsPerPage =
-                                  (width / itemWidthWithSpacing).floor();
-                              if (controller == scrollController1) {
-                                if (currentStartIndex1 > 0) {
-                                  setState(() {
-                                    currentStartIndex1--;
-
-                                    if (currentStartIndex1 < 0) {
-                                      currentStartIndex1 = 0;
-                                    }
-                                    currentPage1 = currentStartIndex1;
-                                  });
-                                  controller.animateTo(
-                                    (currentStartIndex1 * itemWidthWithSpacing),
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.linear,
-                                  );
+                              setState(() {
+                                if (controller == scrollController1) {
+                                  currentPage1--;
+                                } else {
+                                  currentPage--;
                                 }
-                              } else {
-                                if (currentStartIndex > 0) {
-                                  setState(() {
-                                    currentStartIndex--;
-                                    if (currentStartIndex < 0) {
-                                      currentStartIndex = 0;
-                                    }
-                                    currentPage = currentStartIndex;
-                                  });
-                                  controller.animateTo(
-                                    (currentStartIndex * itemWidthWithSpacing),
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.linear,
-                                  );
-                                }
-                              }
+                              });
+                              controller.animateTo(
+                                (currentPageLocal - 1) *
+                                    itemsPerPage *
+                                    itemWidthWithSpacing,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
                             },
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color:
-                            isFirstItem
-                                ? greyColo1.withValues(alpha: 0.8)
-                                : whiteColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
+                    child: CircleAvatar(
+                      backgroundColor:
+                          isFirstPage
+                              ? greyColo1.withValues(alpha: 0.5)
+                              : whiteColor,
                       child: Icon(
                         Icons.arrow_back_ios,
                         size: 12,
@@ -548,49 +662,31 @@ class _HomeMainContentState extends State<HomeMainContent> {
                       ),
                     ),
                   ),
-                  // forword button
                   InkWell(
                     onTap:
-                        isLastItem
+                        isLastPage
                             ? null
                             : () {
-                              if (controller == scrollController1) {
-                                if (currentStartIndex1 <
-                                    featuredAds.length - 1) {
-                                  // Ensure 2 visible
-                                  setState(() {
-                                    currentStartIndex1++;
-                                    currentPage1 = currentStartIndex1;
-                                  });
-                                  controller.animateTo(
-                                    currentStartIndex1 * itemWidthWithSpacing,
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.linear,
-                                  );
+                              setState(() {
+                                if (controller == scrollController1) {
+                                  currentPage1++;
+                                } else {
+                                  currentPage++;
                                 }
-                              } else {
-                                if (currentStartIndex <
-                                    featuredAds.length - 1) {
-                                  // Ensure 2 visible
-                                  setState(() {
-                                    currentStartIndex++;
-                                    currentPage = currentStartIndex;
-                                  });
-                                  controller.animateTo(
-                                    currentStartIndex * itemWidthWithSpacing,
-                                    duration: Duration(milliseconds: 100),
-                                    curve: Curves.linear,
-                                  );
-                                }
-                              }
+                              });
+                              controller.animateTo(
+                                (currentPageLocal + 1) *
+                                    itemsPerPage *
+                                    itemWidthWithSpacing,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
                             },
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: isLastItem ? greyColo1 : whiteColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
+                    child: CircleAvatar(
+                      backgroundColor:
+                          isLastPage
+                              ? greyColo1.withValues(alpha: 0.5)
+                              : whiteColor,
                       child: Icon(
                         Icons.arrow_forward_ios,
                         size: 12,
@@ -603,66 +699,389 @@ class _HomeMainContentState extends State<HomeMainContent> {
             ),
           ),
 
+          /// 🔹 Sliding Page Indicators
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                featuredAds.length - 1,
-                (i) => InkWell(
-                  onTap: () {
-                    if (controller == scrollController1) {
-                      setState(() {
-                        currentStartIndex1 = i;
-                        currentPage1 = i;
-                      });
-                      controller.animateTo(
-                        (currentStartIndex1 * itemWidthWithSpacing),
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    } else {
-                      setState(() {
-                        currentStartIndex = i;
-                        currentPage = i;
-                      });
-                      controller.animateTo(
-                        (currentStartIndex * itemWidthWithSpacing),
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  child:
-                      controller == scrollController1
-                          ? Container(
-                            width: 8,
-                            height: 8,
-                            margin: EdgeInsets.symmetric(horizontal: 2),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:
-                                  currentPage1 == i
-                                      ? Colors.yellow.shade900
-                                      : Colors.grey.shade300,
-                            ),
-                          )
-                          : Container(
-                            width: 8,
-                            height: 8,
-                            margin: EdgeInsets.symmetric(horizontal: 2),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:
-                                  currentPage == i
-                                      ? Colors.yellow.shade900
-                                      : Colors.grey.shade300,
+            child: Builder(
+              builder: (context) {
+                const int maxVisibleIndicators = 7;
+
+                int startIndex;
+                int endIndex;
+
+                if (totalPages <= maxVisibleIndicators) {
+                  startIndex = 0;
+                  endIndex = totalPages;
+                } else {
+                  startIndex = (currentPageLocal - (maxVisibleIndicators ~/ 2))
+                      .clamp(0, totalPages - maxVisibleIndicators);
+                  endIndex = startIndex + maxVisibleIndicators;
+                }
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(endIndex - startIndex, (i) {
+                    int actualIndex = startIndex + i;
+
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (controller == scrollController1) {
+                            currentPage1 = actualIndex;
+                          } else {
+                            currentPage = actualIndex;
+                          }
+                        });
+                        controller.animateTo(
+                          actualIndex * itemsPerPage * itemWidthWithSpacing,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        width: currentPageLocal == actualIndex ? 10 : 6,
+                        height: currentPageLocal == actualIndex ? 10 : 6,
+                        margin: EdgeInsets.symmetric(horizontal: 3),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              currentPageLocal == actualIndex
+                                  ? Colors.yellow.shade900
+                                  : Colors.grey.shade300,
+                        ),
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _horizontalGridForSuggestedPosts({required controller}) {
+    var width = MediaQuery.sizeOf(context).width;
+    var height = MediaQuery.sizeOf(context).height;
+    final double itemWidth = width * 0.45;
+    final double spacing = 14.0;
+    final double itemWidthWithSpacing = itemWidth + spacing;
+
+    // Each page shows 2 items
+    const int itemsPerPage = 2;
+
+    int totalPages =
+        (homeController.suggestedPosts.length / itemsPerPage).ceil();
+
+    int currentPageLocal =
+        controller == scrollController1 ? currentPage1 : currentPage;
+
+    final bool isFirstPage = currentPageLocal == 0;
+    final bool isLastPage = currentPageLocal >= totalPages - 1;
+
+    return SizedBox(
+      height: height * 0.52,
+      child: Stack(
+        children: [
+          SizedBox(
+            height: height * 0.5,
+            child: ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(width: spacing),
+              shrinkWrap: false,
+              physics: NeverScrollableScrollPhysics(),
+              controller: controller,
+              scrollDirection: Axis.horizontal,
+              itemCount: homeController.suggestedPosts.length,
+              itemBuilder: (context, index) {
+                final post = homeController.suggestedPosts[index];
+                final user = homeController.usersForSuggestedPosts[post.userId];
+                final isLiked = postController.isPostLiked(post.id!);
+
+                if (user == null) {
+                  return Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: greyColo1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    width: itemWidth,
+                    height: height * 0.25,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        constraints: BoxConstraints.tight(
+                          Size.fromRadius(12.r),
+                        ),
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
+                      ),
+                    ),
+                  );
+                }
+
+                return Container(
+                  padding: EdgeInsets.all(8),
+                  width: itemWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              height: height * 0.25,
+                              width: itemWidth,
+                              /* decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.grey[200],
+                              ), */
+                              color: Colors.grey[200],
+                              child: Image.network(
+                                post.mediaUrls!.first.content ??
+                                    'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                ),
+
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: InkWell(
+                              onTap: () {
+                                postController.toggleLike(post);
+                                setState(() {});
+                              },
+                              child: CircleAvatar(
+                                backgroundColor:
+                                    isLiked ? Colors.red : Colors.white,
+                                radius: 15,
+                                child: Icon(
+                                  size: 20,
+                                  isLiked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isLiked ? Colors.white : Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        //spacing: 5,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.yellow.shade900,
+                            radius: 12,
+                            child: Text(
+                              (user.name?.isNotEmpty ?? false)
+                                  ? user.name![0].toUpperCase()
+                                  : "U",
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: whiteColor,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            "user.name!",
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              color: blackColor2,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        post.description!,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: blackColor2,
+                          textStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      PriceWidget(
+                        price: post.price!.toString(),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: blackColor2,
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        post.location ?? "N'Djamena /\nN'Djamena-Centre",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: greyColor,
+                        ),
+                      ),
+                      Text(
+                        formatShortDateNumber(post.date!.toIso8601String()),
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: greyColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+
+          /// 🔹 Forward & Backward buttons (page-based now)
+          Positioned(
+            top: 100,
+            left: 0,
+            right: 0,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: mainMargin),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: MediaQuery.sizeOf(context).width / 1.9,
+                children: [
+                  InkWell(
+                    onTap:
+                        isFirstPage
+                            ? null
+                            : () {
+                              setState(() {
+                                if (controller == scrollController1) {
+                                  currentPage1--;
+                                } else {
+                                  currentPage--;
+                                }
+                              });
+                              controller.animateTo(
+                                (currentPageLocal - 1) *
+                                    itemsPerPage *
+                                    itemWidthWithSpacing,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                    child: CircleAvatar(
+                      backgroundColor:
+                          isFirstPage
+                              ? greyColo1.withValues(alpha: 0.5)
+                              : whiteColor,
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 12,
+                        color: greyColor,
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap:
+                        isLastPage
+                            ? null
+                            : () {
+                              setState(() {
+                                if (controller == scrollController1) {
+                                  currentPage1++;
+                                } else {
+                                  currentPage++;
+                                }
+                              });
+                              controller.animateTo(
+                                (currentPageLocal + 1) *
+                                    itemsPerPage *
+                                    itemWidthWithSpacing,
+                                duration: Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                    child: CircleAvatar(
+                      backgroundColor:
+                          isLastPage
+                              ? greyColo1.withValues(alpha: 0.5)
+                              : whiteColor,
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 12,
+                        color: greyColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            ),
+          ),
+
+          /// 🔹 Sliding Page Indicators
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Builder(
+              builder: (context) {
+                const int maxVisibleIndicators = 7;
+
+                int startIndex;
+                int endIndex;
+
+                if (totalPages <= maxVisibleIndicators) {
+                  startIndex = 0;
+                  endIndex = totalPages;
+                } else {
+                  startIndex = (currentPageLocal - (maxVisibleIndicators ~/ 2))
+                      .clamp(0, totalPages - maxVisibleIndicators);
+                  endIndex = startIndex + maxVisibleIndicators;
+                }
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(endIndex - startIndex, (i) {
+                    int actualIndex = startIndex + i;
+
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (controller == scrollController1) {
+                            currentPage1 = actualIndex;
+                          } else {
+                            currentPage = actualIndex;
+                          }
+                        });
+                        controller.animateTo(
+                          actualIndex * itemsPerPage * itemWidthWithSpacing,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        width: currentPageLocal == actualIndex ? 10 : 6,
+                        height: currentPageLocal == actualIndex ? 10 : 6,
+                        margin: EdgeInsets.symmetric(horizontal: 3),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              currentPageLocal == actualIndex
+                                  ? Colors.yellow.shade900
+                                  : Colors.grey.shade300,
+                        ),
+                      ),
+                    );
+                  }),
+                );
+              },
             ),
           ),
         ],

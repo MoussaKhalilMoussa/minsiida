@@ -46,4 +46,9 @@ class UserProfile {
     data['reviews'] = reviews;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'UserProfile(id: $id, name: $name, username: $username, email: $email, phone: $phone, profilePicture: $profilePicture, createdAt: $createdAt, subscription: $subscription, reviews: $reviews)';
+  }
 }

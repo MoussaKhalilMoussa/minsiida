@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,13 +33,13 @@ class PostServiceImpl implements PostService {
       print(data); */
       return response.data;
     } on DioException catch (e) {
-      logger.severe('❌ Dio error: ${e.message}');
+      logger.severe('❌ Dio error addPost service: ${e.message}');
       if (e.type == DioExceptionType.badResponse) {
         final statusCode = e.response?.statusCode;
         final message = e.response?.data;
 
         if (statusCode == 500 && message.toString().contains("L'utilisateur")) {
-          logger.warning("🚫 User does not have a subscription");
+          logger.warning("🚫 User does not have a subscription service");
           Get.snackbar(
             maxWidth: context.screenWidth - 60,
             duration: Duration(seconds: 15),
@@ -48,7 +50,7 @@ class PostServiceImpl implements PostService {
           );
         } else if (statusCode == 500 &&
             message.toString().contains("limite mensuelle")) {
-          logger.warning("🚫 User does not have limite mensuelle");
+          logger.warning("🚫 User does not have limite mensuelle service");
           Get.snackbar(
             maxWidth: context.screenWidth - 60,
             duration: Duration(seconds: 15),
@@ -59,7 +61,7 @@ class PostServiceImpl implements PostService {
           );
         } else if (statusCode == 500 &&
             message.toString().contains("limite d'annonces")) {
-          logger.warning("🚫 User does not have limite d'annonces");
+          logger.warning("🚫 User does not have limite d'annonces service");
           Get.snackbar(
             maxWidth: context.screenWidth - 60,
             duration: Duration(seconds: 15),
@@ -69,16 +71,16 @@ class PostServiceImpl implements PostService {
             backgroundColor: frindlyErrorColor,
           );
         } else {
-          logger.severe("❌ Dio error: ${e.message}");
+          logger.severe("❌ Dio error addPost service 2: ${e.message}");
         }
       }
     } catch (e) {
-      logger.severe("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error in addPost service: $e");
     }
   }
 
   @override
-  Future<List<Post>> getAllPost(int userId) async {
+  Future<List<Post>> getAllMyPosts(int userId) async {
     try {
       final response = await _dio.readDataWithoutAuth(
         "/api/user/getAdsByUserId/$userId",
@@ -94,12 +96,152 @@ class PostServiceImpl implements PostService {
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
-        logger.severe("❌ Error in fetching post: $e");
+        logger.severe("❌ Error in fetching posts service: $e");
       }
-      throw Exception("Failed to fetch posts due to DioException");
+      throw Exception("Failed to fetch posts due to DioException service");
     } catch (e) {
-      logger.severe("❌ Unexpected error in getAllPost: $e");
-      throw Exception("Failed to fetch posts");
+      logger.severe("❌ Unexpected error in getAllPost service: $e");
+      throw Exception("Failed to fetch posts service");
+    }
+  }
+
+  @override
+  Future<List<Post>> getFeaturedPosts() async {
+    try {
+      final response = await _dio.readDataWithoutAuth("/api/ads/featured");
+
+      if (response.data != null) {
+        final List<dynamic> data = response.data;
+
+        // Convert JSON list → List<Post>
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching featured posts service: $e");
+      }
+      throw Exception(
+        "Failed to fetch featured posts due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedAdds service: $e");
+      throw Exception("Failed to fetch featured posts service");
+    }
+  }
+
+  @override
+  Future<List<Post>> getTrendingPosts() async {
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/ads/trending",
+        queryParameters: {"limit": 20},
+      );
+
+      if (response.data != null) {
+        final List<dynamic> data = response.data;
+
+        // Convert JSON list → List<Post>
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching trending posts service: $e");
+      }
+      throw Exception(
+        "Failed to fetch trending posts due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getTrendingPosts service: $e");
+      throw Exception("Failed to fetch trending posts service");
+    }
+  }
+
+  @override
+  Future<List<Post>> getSuggestedPosts({required int userId}) async {
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/user/for-you",
+        queryParameters: {"userId": userId, "limit": 20},
+      );
+
+      if (response.data != null) {
+        final List<dynamic> data = response.data;
+
+        // Convert JSON list → List<Post>
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching suggested posts service: $e");
+      }
+      throw Exception("Failed to fetch suggested posts due to DioException");
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getSuggestedPosts service: $e");
+      throw Exception("Failed to fetch suggested posts service");
+    }
+  }
+
+  @override
+  Future<List<Post>> getMyFavoritesPosts({required int userId}) async {
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/user/getAdsByLikedUserId/$userId",
+      );
+      if (response.data != null && response.data["data"] != null) {
+        final List<dynamic> data = response.data["data"];
+
+        // Convert JSON list → List<Post>
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching my favorite posts service: $e");
+      }
+      throw Exception(
+        "Failed to fetch my favorite posts due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getMyFavoritesPosts service: $e");
+      throw Exception("Failed to fetch my favorite posts service");
+    }
+  }
+
+  Future<void> unlikePost({required int postId, required int userId}) async {
+    try {
+      final response = await _dio.deleteData(
+        "/api/user/$userId/unlike/$postId",
+      );
+      logger.info("✅ ${response.data}");
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe('❌ Dio error in unlikePost service: ${e.message}');
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in unlikePost service: $e");
+    }
+  }
+
+  Future<void> likePost({required int postId, required int userId}) async {
+    try {
+      final response = await _dio.createDtaWitoutAuth(
+        "/api/user/$userId/like/$postId",
+        {},
+      );
+      logger.info("✅ ${response.data}");
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe('❌ Dio error in likePost service: ${e.message}');
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in likePost service: $e");
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:logging/logging.dart';
 
-final Logger logger = Logger('PostControllerLogger');
+final Logger logger = Logger('Logger');
 
 void setupLogging() {
   Logger.root.level = Level.ALL; // set logging level

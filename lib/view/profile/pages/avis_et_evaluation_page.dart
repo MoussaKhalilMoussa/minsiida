@@ -31,8 +31,12 @@ class AvisEtEvaluationPage extends StatelessWidget {
             ),
             centerTitle: true,
             title: Text(
-              'Avis & Évaluations',
-              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
+              'Avis & Evaluations',
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: blackColor,
+              ),
             ),
             floating: true,
             snap: true,
@@ -77,7 +81,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
                               onTap: () {
                                 notificationController.isPositifsFunc();
                               },
-                              label: 'Positifs (4-5 ∗)',
+                              label: 'Positifs (4-5 ★)',
                               color: isPositifs ? whiteColor : blackColor2,
                               backgroundColor:
                                   isPositifs ? primaryColor : whiteColor,
@@ -87,7 +91,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
                               onTap: () {
                                 notificationController.isNeutresFunc();
                               },
-                              label: 'Neutres (3 ∗)',
+                              label: 'Neutres (3 ★)',
                               color: isNeutres ? whiteColor : blackColor2,
                               backgroundColor:
                                   isNeutres ? primaryColor : whiteColor,
@@ -97,7 +101,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
                               onTap: () {
                                 notificationController.isNegatifsFunc();
                               },
-                              label: 'Négatifs (1-2 ∗)',
+                              label: 'Négatifs (1-2 ★)',
                               color: isNegatifs ? whiteColor : blackColor2,
                               backgroundColor:
                                   isNegatifs ? primaryColor : whiteColor,
@@ -138,7 +142,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Avis récents",
-                                    style: GoogleFonts.playfairDisplay(
+                                    style: GoogleFonts.poppins(
                                       color: greyColor,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -150,7 +154,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
                                         primaryColor,
                                       ),
                                     ),
-                                    child: Text("Voir tout"),
+                                    child: Text("Voir tout",style: GoogleFonts.poppins(),),
                                   ),
                                 ],
                               ),
@@ -158,7 +162,7 @@ class AvisEtEvaluationPage extends StatelessWidget {
 
                             ListView.separated(
                               separatorBuilder:
-                                  (context, index) => SizedBox(height: 8.h),
+                                  (context, index) => SizedBox(height: 18.h),
                               itemCount: 2,
                               shrinkWrap:
                                   true, // ✅ makes ListView take only required space

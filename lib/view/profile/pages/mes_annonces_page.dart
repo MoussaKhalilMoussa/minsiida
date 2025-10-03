@@ -18,10 +18,10 @@ class MesAnnoncesPage extends StatefulWidget {
 }
 
 class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
-  final PostController postController = Get.put(PostController());
+  final PostController postController = Get.find<PostController>();
   @override
   void initState() {
-    postController.getAllMyAds();
+    postController.getAllMyPosts();
     super.initState();
   }
 
@@ -109,6 +109,18 @@ class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
               Obx(() {
                 return postController.myAddsLoading.value
                     ? const LoadingText(text: "Chargement en cours...")
+                    : postController.filteredAdds.isEmpty
+                    ? Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.sizeOf(context).height / 3,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Aucun Annonce",
+                          style: GoogleFonts.poppins(fontSize: 16),
+                        ),
+                      ),
+                    )
                     : Container(
                       margin: EdgeInsets.only(left: 12, right: 12),
                       width: MediaQuery.sizeOf(Get.context!).width,

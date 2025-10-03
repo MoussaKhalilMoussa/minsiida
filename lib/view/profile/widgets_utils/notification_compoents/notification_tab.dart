@@ -17,7 +17,7 @@ Widget notificationTab({
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       label: Text(
         label,
-        style: GoogleFonts.playfairDisplay(
+        style: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           color: color,

@@ -1,7 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -15,14 +14,17 @@ import 'package:simple_nav_bar/controllers/specifications_controller/specificati
 import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
 import 'package:simple_nav_bar/services/post_service/post_service_impl.dart';
+import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
 import 'package:uuid/uuid.dart';
 
 class PostController extends GetxController {
   final postService = Get.put<PostServiceImpl>(PostServiceImpl());
   final authService = Get.put<AuthServiceImple>(AuthServiceImple());
+  final userService = Get.put<UserServiceImpl>(UserServiceImpl());
 
   final photoController = Get.find<PhotosController>();
   final categoryController = Get.find<CategoryContorller>();
@@ -54,6 +56,14 @@ class PostController extends GetxController {
   RxList<Post> myAdds = <Post>[].obs;
   // posts after search
   final filteredAdds = <Post>[].obs;
+  final filteredFavoris = <Post>[].obs;
+
+  final myFavoritePosts = <Post>[].obs;
+  var usersOfLikedPosts = <int, UserProfile>{}.obs; // map userId → UserProfile
+  final RxSet<int> likedPostIds = <int>{}.obs;
+  final RxBool myFavoritePostsLoading = false.obs;
+
+  final isFavoritePost = false.obs;
 
   List<String> get imageUrls => _imageUrls;
   bool get isLoading => _isLoading.value;
@@ -301,15 +311,15 @@ class PostController extends GetxController {
     }
   }
 
-  void getAllMyAds() async {
+  void getAllMyPosts() async {
     try {
       myAddsLoading.value = true;
-      final response = await postService.getAllPost(currentUserId);
+      final response = await postService.getAllMyPosts(currentUserId);
       myAdds.assignAll(response);
       filteredAdds.assignAll(response); // default: all
       myAddsLoading.value = false;
     } catch (e) {
-      logger.severe("❌ Unexpected error: $e");
+      logger.severe("❌ Unexpected error in getAllMyPosts post controller: $e");
     }
   }
 
@@ -326,7 +336,8 @@ class PostController extends GetxController {
                 post.title?.toLowerCase().contains(lowerQuery) ?? false;
             final inDescription =
                 post.description?.toLowerCase().contains(lowerQuery) ?? false;
-
+            final priceString = post.price?.toString() ?? "";
+            final inPrice = priceString.contains(lowerQuery);
             final inCharacteristics =
                 post.characteristics?.any(
                   (c) =>
@@ -335,10 +346,124 @@ class PostController extends GetxController {
                 ) ??
                 false;
 
-            return inTitle || inDescription || inCharacteristics;
+            return inTitle || inDescription || inCharacteristics || inPrice;
           }).toList();
 
       filteredAdds.assignAll(results);
+    }
+  }
+
+  void searchMyFavorites(String query) {
+    if (query.isEmpty) {
+      filteredFavoris.assignAll(myFavoritePosts);
+    } else {
+      final lowerQuery = query.toLowerCase();
+
+      final results =
+          myFavoritePosts.where((post) {
+            // ✅ Search in title
+            final inTitle =
+                post.title?.toLowerCase().contains(lowerQuery) ?? false;
+
+            // ✅ Search in description
+            final inDescription =
+                post.description?.toLowerCase().contains(lowerQuery) ?? false;
+
+            // ✅ Search in user name
+            final userName = usersOfLikedPosts[post.userId]?.name ?? "";
+            final inUserName = userName.toLowerCase().contains(lowerQuery);
+
+            // ✅ Search in price
+            final priceString = post.price?.toString() ?? "";
+            final inPrice = priceString.contains(lowerQuery);
+
+            // ✅ Search in characteristics
+            final inCharacteristics =
+                post.characteristics?.any(
+                  (c) =>
+                      (c.key?.toLowerCase().contains(lowerQuery) ?? false) ||
+                      (c.value?.toLowerCase().contains(lowerQuery) ?? false),
+                ) ??
+                false;
+            return inTitle ||
+                inDescription ||
+                inUserName ||
+                inPrice ||
+                inCharacteristics;
+          }).toList();
+      filteredFavoris.assignAll(results);
+    }
+  }
+
+  Future<void> getAllMyFavoritePosts() async {
+    try {
+      myFavoritePostsLoading.value = true;
+      final response = await postService.getMyFavoritesPosts(
+        userId: currentUserId,
+      );
+      myFavoritePosts.assignAll(response);
+      likedPostIds.addAll(response.map((p) => p.id!));
+      filteredFavoris.assignAll(response);
+
+      for (var post in myFavoritePosts) {
+        if (post.userId != null &&
+            !usersOfLikedPosts.containsKey(post.userId)) {
+          usersOfLikedPosts[post.userId!] = await userService.getUser(
+            userId: post.userId!,
+          );
+          usersOfLikedPosts.refresh();
+        }
+      }
+      //filteredAdds.assignAll(response); // default: all
+      myFavoritePostsLoading.value = false;
+    } catch (e) {
+      logger.severe(
+        "❌ Unexpected error in getAllMyFavoritePosts post controller: $e",
+      );
+    }
+  }
+
+  bool isPostLiked(int postId) => likedPostIds.contains(postId);
+
+  void toggleLike(Post post) async {
+    final wasLiked = isPostLiked(post.id!);
+
+    // Optimistic update → UI changes immediately
+    for (var post in myFavoritePosts) {
+      if (post.userId != null && !usersOfLikedPosts.containsKey(post.userId)) {
+        usersOfLikedPosts[post.userId!] = await userService.getUser(
+          userId: post.userId!,
+        );
+        usersOfLikedPosts.refresh();
+      }
+    }
+    if (wasLiked) {
+      likedPostIds.remove(post.id!);
+      myFavoritePosts.remove(post);
+    } else {
+      likedPostIds.add(post.id!);
+      myFavoritePosts.add(post);
+    }
+
+    // 🔥 keep filteredFavoris in sync with myFavoritePosts
+    filteredFavoris.assignAll(myFavoritePosts);
+    try {
+      if (wasLiked) {
+        await postService.unlikePost(postId: post.id!, userId: currentUserId);
+      } else {
+        await postService.likePost(postId: post.id!, userId: currentUserId);
+      }
+    } catch (e) {
+      // Rollback if API fails
+      if (wasLiked) {
+        likedPostIds.add(post.id!);
+        myFavoritePosts.add(post);
+      } else {
+        likedPostIds.remove(post.id!);
+        myFavoritePosts.remove(post);
+      }
+      filteredFavoris.assignAll(myFavoritePosts);
+      logger.severe("❌ Failed to sync like: $e");
     }
   }
 }

@@ -30,7 +30,7 @@ class ReviewCard extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(8),
       ),
-      //margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
       child: Padding(
         padding: const EdgeInsets.all(14),
         child: Column(

@@ -11,6 +11,8 @@ import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/auth/sign_up_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -26,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   var authController = Get.find<AuthLoginController>();
   var profileController = Get.find<ProfileController>();
   var categoryController = Get.find<CategoryContorller>();
+  final homeController = Get.find<HomeController>();
+  final postController = Get.find<PostController>();
 
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
@@ -250,9 +254,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     .loginMethod(
                                                       context: context,
                                                     );
-                                                profileController.loadProfile();
+                                                await profileController
+                                                    .loadProfile();
                                                 categoryController
                                                     .getCategories();
+                                                await postController
+                                                    .getAllMyFavoritePosts();
+                                                homeController
+                                                    .getFeaturedPosts();
+                                                homeController
+                                                    .getTrendingPosts();
+                                                homeController
+                                                    .getSuggestedPosts();
                                               }
                                             },
                                     child:
