@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -11,11 +10,12 @@ import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
 import 'package:simple_nav_bar/models/post.dart';
-import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/home/widgets/feature_ads.dart';
 import 'package:simple_nav_bar/view/home/widgets/profile_summary.dart';
 import 'package:simple_nav_bar/view/home/widgets/shipping_method.dart';
+import 'package:simple_nav_bar/view/profile/pages/message_chat_room.dart';
+import 'package:simple_nav_bar/view/profile/pages/messages_page.dart';
 
 class PostDetails extends StatelessWidget {
   PostDetails({super.key});
@@ -436,7 +436,13 @@ class PostDetails extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if(postController.currentUserId==post.userId){
+                  Get.to(()=>MessagesPage());
+                }else{
+                  Get.to(()=>MessageChatRoom());
+                }
+              },
               style: ButtonStyle(
                 //elevation: WidgetStatePropertyAll(0),
                 foregroundColor: WidgetStatePropertyAll(whiteColor),
