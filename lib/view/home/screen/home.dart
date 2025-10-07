@@ -9,7 +9,7 @@ import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
-import 'package:simple_nav_bar/view/favorites/screen/favorites.dart';
+import 'package:simple_nav_bar/view/favorites/favorites.dart';
 import 'package:simple_nav_bar/view/home/pages/category_main_content.dart';
 import 'package:simple_nav_bar/view/home/pages/home_main_content.dart';
 import 'package:simple_nav_bar/view/menu/widgets/menu_drawer.dart';
@@ -375,10 +375,10 @@ class _HomeScreenState extends State<HomeScreen>
           SizedBox(height: 3),
           Text(
             label,
-            style: GoogleFonts.playfairDisplay(
+            style: GoogleFonts.poppins(
               fontSize: 12,
               color: greyColor,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ],

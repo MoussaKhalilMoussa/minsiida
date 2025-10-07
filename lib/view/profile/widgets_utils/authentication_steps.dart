@@ -84,7 +84,7 @@ class _AuthenticationStepsState extends State<AuthenticationSteps> {
                       itemBuilder: (context, index) {
                         return Text(
                           steps[index],
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.poppins(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                             color:
@@ -184,8 +184,8 @@ class _AuthenticationStepsState extends State<AuthenticationSteps> {
           Align(
             alignment: Alignment.centerRight,
             child: Text(
-              "${widget.currentStep} / ${steps.length} tamamlandı",
-              style: GoogleFonts.playfairDisplay(
+              "${widget.currentStep} / ${steps.length} complété",
+              style: GoogleFonts.poppins(
                 fontSize: 12.sp,
                 color: greyColor,
               ),

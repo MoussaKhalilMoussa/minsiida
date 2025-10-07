@@ -11,14 +11,14 @@ Widget shippingMethod({
 }) {
   return Container(
     width: MediaQuery.sizeOf(Get.context!).width,
-    height: 70,
+    height: 80,
     decoration: BoxDecoration(
       color: greyColo1.withValues(alpha: 0.2),
       borderRadius: BorderRadius.circular(8),
     ),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 40,
+      spacing: 20,
       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
@@ -27,7 +27,7 @@ Widget shippingMethod({
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(icon, style: GoogleFonts.playfairDisplay(fontSize: 24)),
+                Text(icon, style: GoogleFonts.poppins(fontSize: 24)),
               ],
             ),
           ),
@@ -44,7 +44,7 @@ Widget shippingMethod({
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.poppins(
                       color: blackColor2,
                       fontWeight: FontWeight.w300,
                       fontSize: 18,
@@ -53,7 +53,7 @@ Widget shippingMethod({
                   SizedBox(height: 2),
                   Text(
                     subTitle,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.poppins(
                       color: greyColor,
                       fontSize: 14,
                     ),
@@ -61,10 +61,11 @@ Widget shippingMethod({
                 ],
               ),
             ),
+            SizedBox(width: 4,),
             Text(
               textAlign: TextAlign.end,
               price,
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.poppins(
                 color: blackColor2,
                 fontWeight: FontWeight.bold,
               ),

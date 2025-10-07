@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,14 +53,26 @@ class PostController extends GetxController {
   // uploading status
   final RxBool _isUploading = false.obs;
 
-  //var myAdds = <Post>[].obs;
+  // === Main lists ===
+  final myAdds = <Post>[].obs;
+  final myFavoritePosts = <Post>[].obs;
 
-  RxList<Post> myAdds = <Post>[].obs;
-  // posts after search
+  // === Filtered lists (search results) ===
   final filteredAdds = <Post>[].obs;
   final filteredFavoris = <Post>[].obs;
 
-  final myFavoritePosts = <Post>[].obs;
+  // === Search query ===
+  final adsSearchQuery = ''.obs;
+  final favoritesSearchQuery = ''.obs;
+
+  // === Debounce worker ===
+  Worker? _debounceWorker;
+
+  final postsByCategoryNameOrId = <Post>[].obs;
+  final isLoadingCategoryPosts = false.obs;
+  final errorMessage = RxnString();
+
+  //final myFavoritePosts = <Post>[].obs;
   var usersOfLikedPosts = <int, UserProfile>{}.obs; // map userId → UserProfile
   final RxSet<int> likedPostIds = <int>{}.obs;
   final RxBool myFavoritePostsLoading = false.obs;
@@ -68,11 +82,36 @@ class PostController extends GetxController {
   List<String> get imageUrls => _imageUrls;
   bool get isLoading => _isLoading.value;
   bool get isUploading => _isUploading.value;
-  //bool get myAddsLoading => _isUploading.value;
 
-  /* 
-      R E A D      I M A G E S 
-  */
+  @override
+  void onInit() {
+    super.onInit();
+    _initSearchDebounce();
+  }
+
+  void _initSearchDebounce() {
+    _debounceWorker?.dispose();
+
+    // Debounce both search fields (waits 400ms after typing)
+    _debounceWorker = debounce(
+      adsSearchQuery,
+      (_) => searchMyAds(adsSearchQuery.value),
+      time: const Duration(milliseconds: 400),
+    );
+
+    // Optional: If I have a separate search bar for favorites
+    debounce(
+      favoritesSearchQuery,
+      (_) => searchMyFavorites(favoritesSearchQuery.value),
+      time: const Duration(milliseconds: 400),
+    );
+  }
+
+  @override
+  void onClose() {
+    _debounceWorker?.dispose();
+    super.onClose();
+  }
 
   Future<void> fetchImagesUrls() async {
     // get the list under the directory: firebase_uploaded_images/
@@ -311,88 +350,85 @@ class PostController extends GetxController {
     }
   }
 
-  void getAllMyPosts() async {
-    try {
-      myAddsLoading.value = true;
-      final response = await postService.getAllMyPosts(currentUserId);
-      myAdds.assignAll(response);
-      filteredAdds.assignAll(response); // default: all
-      myAddsLoading.value = false;
-    } catch (e) {
-      logger.severe("❌ Unexpected error in getAllMyPosts post controller: $e");
-    }
+ void getAllMyPosts() async {
+  try {
+    myAddsLoading.value = true;
+    final response = await postService.getAllMyPosts(currentUserId);
+    myAdds.assignAll(response);
+    filteredAdds.assignAll(response);
+  } catch (e) {
+    logger.severe("❌ Unexpected error in getAllMyPosts post controller: $e");
+    myAdds.assignAll([]); // ensure safe state
+  } finally {
+    myAddsLoading.value = false;
   }
+}
 
-  // filters posts
+
+  // Search in user's own posts
   void searchMyAds(String query) {
-    if (query.isEmpty) {
-      filteredAdds.assignAll(myAdds);
-    } else {
-      final lowerQuery = query.toLowerCase();
-
-      final results =
-          myAdds.where((post) {
-            final inTitle =
-                post.title?.toLowerCase().contains(lowerQuery) ?? false;
-            final inDescription =
-                post.description?.toLowerCase().contains(lowerQuery) ?? false;
-            final priceString = post.price?.toString() ?? "";
-            final inPrice = priceString.contains(lowerQuery);
-            final inCharacteristics =
-                post.characteristics?.any(
-                  (c) =>
-                      (c.key?.toLowerCase().contains(lowerQuery) ?? false) ||
-                      (c.value?.toLowerCase().contains(lowerQuery) ?? false),
-                ) ??
-                false;
-
-            return inTitle || inDescription || inCharacteristics || inPrice;
-          }).toList();
-
-      filteredAdds.assignAll(results);
+    if (query.trim().isEmpty) {
+      resetAdsSearch();
+      return;
     }
+
+    final lowerQuery = query.toLowerCase();
+
+    final results =
+        myAdds.where((post) {
+          final inTitle =
+              post.title?.toLowerCase().contains(lowerQuery) ?? false;
+          final inDescription =
+              post.description?.toLowerCase().contains(lowerQuery) ?? false;
+          final inPrice = post.price?.toString().contains(lowerQuery) ?? false;
+          final inCharacteristics =
+              post.characteristics?.any(
+                (c) =>
+                    (c.key?.toLowerCase().contains(lowerQuery) ?? false) ||
+                    (c.value?.toLowerCase().contains(lowerQuery) ?? false),
+              ) ??
+              false;
+
+          return inTitle || inDescription || inPrice || inCharacteristics;
+        }).toList();
+
+    filteredAdds.assignAll(results);
   }
 
+  // 🔍 Search in favorites
   void searchMyFavorites(String query) {
-    if (query.isEmpty) {
-      filteredFavoris.assignAll(myFavoritePosts);
-    } else {
-      final lowerQuery = query.toLowerCase();
-
-      final results =
-          myFavoritePosts.where((post) {
-            // ✅ Search in title
-            final inTitle =
-                post.title?.toLowerCase().contains(lowerQuery) ?? false;
-
-            // ✅ Search in description
-            final inDescription =
-                post.description?.toLowerCase().contains(lowerQuery) ?? false;
-
-            // ✅ Search in user name
-            final userName = usersOfLikedPosts[post.userId]?.name ?? "";
-            final inUserName = userName.toLowerCase().contains(lowerQuery);
-
-            // ✅ Search in price
-            final priceString = post.price?.toString() ?? "";
-            final inPrice = priceString.contains(lowerQuery);
-
-            // ✅ Search in characteristics
-            final inCharacteristics =
-                post.characteristics?.any(
-                  (c) =>
-                      (c.key?.toLowerCase().contains(lowerQuery) ?? false) ||
-                      (c.value?.toLowerCase().contains(lowerQuery) ?? false),
-                ) ??
-                false;
-            return inTitle ||
-                inDescription ||
-                inUserName ||
-                inPrice ||
-                inCharacteristics;
-          }).toList();
-      filteredFavoris.assignAll(results);
+    if (query.trim().isEmpty) {
+      resetFavoritesSearch();
+      return;
     }
+
+    final lowerQuery = query.toLowerCase();
+
+    final results =
+        myFavoritePosts.where((post) {
+          final inTitle =
+              post.title?.toLowerCase().contains(lowerQuery) ?? false;
+          final inDescription =
+              post.description?.toLowerCase().contains(lowerQuery) ?? false;
+          final userName = usersOfLikedPosts[post.userId]?.name ?? "";
+          final inUserName = userName.toLowerCase().contains(lowerQuery);
+          final inPrice = post.price?.toString().contains(lowerQuery) ?? false;
+          final inCharacteristics =
+              post.characteristics?.any(
+                (c) =>
+                    (c.key?.toLowerCase().contains(lowerQuery) ?? false) ||
+                    (c.value?.toLowerCase().contains(lowerQuery) ?? false),
+              ) ??
+              false;
+
+          return inTitle ||
+              inDescription ||
+              inUserName ||
+              inPrice ||
+              inCharacteristics;
+        }).toList();
+
+    filteredFavoris.assignAll(results);
   }
 
   Future<void> getAllMyFavoritePosts() async {
@@ -465,5 +501,68 @@ class PostController extends GetxController {
       filteredFavoris.assignAll(myFavoritePosts);
       logger.severe("❌ Failed to sync like: $e");
     }
+  }
+
+  Future<void> getPostsByCategoryNameorId({required int categoryId}) async {
+    try {
+      isLoadingCategoryPosts.value = true;
+      errorMessage.value = null;
+
+      final response = await postService.getPostsByCategoryNameOrId(
+        categoryId: categoryId,
+      );
+      postsByCategoryNameOrId.clear();
+
+      if (response.isEmpty) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        setPosts(response);
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getPostsByCategoryNameOrId: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    } finally {
+      isLoadingCategoryPosts.value = false;
+    }
+  }
+
+  //final visibleCount = 24.obs;
+  final visibleCount = 4.obs;
+  final isLoadingMore = false.obs;
+
+  bool get isAllVisible => visibleCount.value >= postsByCategoryNameOrId.length;
+
+  void showMore({int step = 2}) async {
+    if (isAllVisible) return;
+    isLoadingMore.value = true;
+    await Future.delayed(const Duration(milliseconds: 300)); // simulate delay
+    visibleCount.value = min(
+      visibleCount.value + step,
+      postsByCategoryNameOrId.length,
+    );
+    isLoadingMore.value = false;
+  }
+
+  // Call this after you fetch posts
+  void setPosts(List<Post> posts) {
+    postsByCategoryNameOrId.assignAll(posts);
+    // reset visible count to initial or clamp if there are fewer posts
+    visibleCount.value = min(4, postsByCategoryNameOrId.length);
+  }
+
+  void resetAdsSearch() {
+    filteredAdds.assignAll(myAdds);
+  }
+
+  void resetFavoritesSearch() {
+    filteredFavoris.assignAll(myFavoritePosts);
+  }
+
+  void clearAllSearch() {
+    adsSearchQuery.value = '';
+    favoritesSearchQuery.value = '';
+    resetAdsSearch();
+    resetFavoritesSearch();
   }
 }

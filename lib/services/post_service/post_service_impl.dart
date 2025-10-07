@@ -81,29 +81,35 @@ class PostServiceImpl implements PostService {
 
   @override
   Future<List<Post>> getAllMyPosts(int userId) async {
-    try {
-      final response = await _dio.readDataWithoutAuth(
-        "/api/user/getAdsByUserId/$userId",
-      );
+  try {
+    final response = await _dio.readDataWithoutAuth(
+      "/api/user/getAdsByUserId/$userId",
+    );
 
-      if (response.data != null && response.data["data"] != null) {
-        final List<dynamic> data = response.data["data"];
-
-        // Convert JSON list → List<Post>
-        return data.map((json) => Post.fromJson(json)).toList();
-      } else {
-        return [];
-      }
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.badResponse) {
-        logger.severe("❌ Error in fetching posts service: $e");
-      }
-      throw Exception("Failed to fetch posts due to DioException service");
-    } catch (e) {
-      logger.severe("❌ Unexpected error in getAllPost service: $e");
-      throw Exception("Failed to fetch posts service");
+    if (response.data != null && response.data["data"] != null) {
+      final List<dynamic> data = response.data["data"];
+      return data.map((json) => Post.fromJson(json)).toList();
+    } else {
+      return [];
     }
+  } on DioException catch (e) {
+    // 👇 handle the "no posts" case gracefully
+    if (e.response?.statusCode == 404 ||
+        e.response!.data.toString().contains("Pas d'annonces trouvées pour cet utilisateur")) {
+      logger.info("ℹ️ No posts found for this user");
+      return [];
+    }
+
+    logger.severe("❌ Error in fetching posts service: $e");
+    throw Exception("Failed to fetch posts due to DioException service");
+  } catch (e) {
+    logger.severe("❌ Unexpected error in getAllMyPosts service: $e");
+    throw Exception("Failed to fetch posts service");
   }
+}
+
+
+
 
   @override
   Future<List<Post>> getFeaturedPosts() async {
@@ -244,4 +250,35 @@ class PostServiceImpl implements PostService {
       logger.severe("❌ Unexpected error in likePost service: $e");
     }
   }
+
+  @override
+  Future<List<Post>> getPostsByCategoryNameOrId({
+    required int categoryId,
+  }) async {
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/ads/category/$categoryId",
+      );
+      if (response.data != null && response.data["content"] != null) {
+        final List<dynamic> data = response.data["content"];
+
+        // Convert JSON list → List<Post>
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching posts by category id service: $e");
+      }
+      throw Exception(
+        "Failed to fetch posts by category id due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getPostsByCategoryNameOrId service: $e");
+      throw Exception("Failed to fetch posts by category id, service");
+    }
+  }
+
+
 }

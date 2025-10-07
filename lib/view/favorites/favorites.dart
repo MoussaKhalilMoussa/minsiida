@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/favori_product_card.dart';
 
 class Favorites extends StatefulWidget {
@@ -189,7 +190,7 @@ class _Favorites extends State<Favorites> with SingleTickerProviderStateMixin {
 
                                       return FavoriProductCard(
                                         post: post,
-                                        user: user!,
+                                        user: user ?? UserProfile(),
                                         controller: postController,
                                       );
                                     },

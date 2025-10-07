@@ -59,7 +59,7 @@ class _HoverableCategoryItemState extends State<HoverableCategoryItem> {
             Text(
               widget.label,
               overflow: TextOverflow.clip,
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.poppins(
                 fontSize: 11,
                 color: greyColor,
               ),

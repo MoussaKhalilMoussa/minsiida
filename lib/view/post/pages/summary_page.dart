@@ -416,7 +416,7 @@ class _SummaryPage extends State<SummaryPage> {
                                           MainAxisAlignment.center,
                                       spacing: 10,
                                       children: [
-                                        // Left side: Texts
+                                        // Left side: profile section
                                         Container(
                                           width: 40,
                                           height: 40,
@@ -475,7 +475,7 @@ class _SummaryPage extends State<SummaryPage> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "${profile!.name}",
+                                                "${profile.name}",
                                                 style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 12,

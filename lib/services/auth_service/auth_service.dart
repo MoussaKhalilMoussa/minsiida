@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 abstract class AuthService {
   Future<dynamic> userLogin({
     required String userName,
@@ -26,4 +27,5 @@ abstract class AuthService {
     required String email,
     required BuildContext context,
   });
+
 }

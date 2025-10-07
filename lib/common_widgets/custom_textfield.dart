@@ -25,8 +25,9 @@ Widget customeTextField({
         autovalidateMode: autovalidateMode,
         validator: validator,
         onSaved: onSaved,
+        style: GoogleFonts.poppins(),
         decoration: InputDecoration(
-          hintStyle: TextStyle(fontWeight: FontWeight.bold, color: greyColo1),
+          hintStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600, color: greyColo1),
           hintText: hint,
           isDense: true,
           fillColor: lightGrey,
@@ -47,6 +48,7 @@ Widget customeTextField({
 }
 
 Widget customeTextFiled1({
+  String? hintText,
   required String labelText,
   TextEditingController? controller,
   void Function(String)? onChanged,
@@ -56,7 +58,7 @@ Widget customeTextFiled1({
     children: [
       Text(
         labelText,
-        style: GoogleFonts.playfairDisplay(
+        style: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           color: greyColor,
@@ -66,12 +68,19 @@ Widget customeTextFiled1({
       TextFormField(
         onChanged: onChanged,
         controller: controller,
-        style: GoogleFonts.playfairDisplay(
+        style: GoogleFonts.poppins(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           color: blackColor2,
         ),
+
         decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: greyColo1,
+          ),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
             borderRadius: BorderRadius.circular(8),
@@ -80,7 +89,7 @@ Widget customeTextFiled1({
             borderSide: BorderSide(color: primaryColor),
             borderRadius: BorderRadius.circular(8),
           ),
-          enabled: true,
+          //enabled: true,
         ),
       ),
     ],

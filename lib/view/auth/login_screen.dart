@@ -254,10 +254,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     .loginMethod(
                                                       context: context,
                                                     );
+                                                homeController
+                                                    .setFakeLoadingsToTrue();
                                                 await profileController
                                                     .loadProfile();
                                                 categoryController
                                                     .getCategories();
+                                                categoryController
+                                                    .getCategories1();
                                                 await postController
                                                     .getAllMyFavoritePosts();
                                                 homeController

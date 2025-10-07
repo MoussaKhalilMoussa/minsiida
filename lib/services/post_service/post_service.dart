@@ -14,5 +14,7 @@ abstract class PostService {
 
   Future<List<Post>> getMyFavoritesPosts({required int userId});
 
+  Future<List<Post>> getPostsByCategoryNameOrId({required int categoryId});
+
 
 }

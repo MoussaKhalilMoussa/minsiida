@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoadingText extends StatefulWidget {
-  const LoadingText({super.key, required this.text});
+  const LoadingText({super.key, required this.text, required this.padding});
   final String text;
+  final EdgeInsetsGeometry padding;
 
   @override
   State<LoadingText> createState() => _LoadingTextState();
@@ -34,9 +35,7 @@ class _LoadingTextState extends State<LoadingText>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        top: MediaQuery.sizeOf(context).height / 3,
-      ),
+      padding: widget.padding,
       child: Center(
         child: FadeTransition(
           opacity: _animation,

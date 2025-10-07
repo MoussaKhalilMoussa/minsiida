@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/images.dart';
+import 'package:simple_nav_bar/view/categories/models/category.dart';
 
 const socialIconList = [icFacebookLogo, icGoogleLogo, icXLogo];
 
-final iconMap = {
-    "Électronique": "📱",
-    "Mode": "👔",
-    "Maison": "🏠",
-    "Véhicules": "🚗",
-    "Immobilier": "🛋️",
-    "Loisirs": "⚽️",
-    "Matériels": "💼",
-    "Enfants": "🧸",
-    "Autres": "❓",
-  };
+final stringIconMap = {
+  "Électronique": "📱",
+  "Mode": "👔",
+  "Maison": "🏠",
+  "Véhicules": "🚗",
+  "Immobilier": "🛋️",
+  "Loisirs": "⚽️",
+  "Matériels": "💼",
+  "Enfants": "🧸",
+  "Autres": "❓",
+};
+final Map<String, CategoryIcon> iconsMap = {
+  'Tous': CategoryIcon(LucideIcons.layoutGrid, Colors.grey),
+  "Électronique": CategoryIcon(LucideIcons.smartphone, Colors.blue),
+  "Mode": CategoryIcon(LucideIcons.shirt, Colors.purple),
+  "Maison": CategoryIcon(LucideIcons.home, Colors.orange),
+  "Véhicules": CategoryIcon(LucideIcons.car, Colors.green),
+  "Immobilier": CategoryIcon(LucideIcons.sofa, Colors.teal),
+  "Loisirs": CategoryIcon(LucideIcons.gamepad, Colors.red),
+  "Matériels": CategoryIcon(LucideIcons.baggageClaim, Colors.indigo),
+  "Enfants": CategoryIcon(LucideIcons.baby, Colors.pink),
+  "Autres": CategoryIcon(LucideIcons.handMetal, Colors.brown),
+};
 
 final List<Map<String, dynamic>> categoriesSelection = [
   {

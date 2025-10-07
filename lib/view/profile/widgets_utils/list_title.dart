@@ -21,8 +21,8 @@ ListTile listTitle({
     leading: Icon(leadingIcon),
     title: Text(
       title,
-      style: GoogleFonts.playfairDisplay(
-        fontWeight: FontWeight.w600,
+      style: GoogleFonts.poppins(
+        fontWeight: FontWeight.w400,
         fontSize: 14,
       ),
     ),

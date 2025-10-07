@@ -59,6 +59,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      
       UserProfile? profile = profileController.userProfile.value;
 
       if (profile == null) {
@@ -89,7 +90,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                       automaticallyImplyLeading: false,
                       title: Text(
                         "Profile",
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           //fontWeight: FontWeight.bold,
                           color: greyColor,
                         ),
@@ -123,7 +124,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               ),
                               child: Text(
                                 "i",
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   color: whiteColor,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -131,7 +132,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                             ),
                             Text(
                               "Verification  du vendeur",
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.poppins(
                                 color: blackColor2,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -148,7 +149,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               ),
                               child: Text(
                                 "3",
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   color: whiteColor,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -191,8 +192,8 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                     horizontal: 6,
                                   ),
                                   label: Text(
-                                    "Premium",
-                                    style: GoogleFonts.playfairDisplay(
+                                    profile.subscription?.plan ?? 'Free',
+                                    style: GoogleFonts.poppins(
                                       color: whiteColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10.sp,
@@ -206,15 +207,34 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                       borderRadius: BorderRadius.circular(40.w),
                                       color: blueColor.withValues(alpha: 0.30),
                                     ),
-                                    child: Text(
-                                      "${profile.name?[0].toUpperCase()}",
-                                      style: GoogleFonts.playfairDisplay(
-                                        color: blueColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.sp,
-                                      ),
-                                    ),
+                                    child:
+                                        profile.profilePicture == null ||
+                                                profile.profilePicture!.isEmpty
+                                            ? Text(
+                                              profile.name != null &&
+                                                      profile.name!.isNotEmpty
+                                                  ? profile.name![0]
+                                                      .toUpperCase()
+                                                  : "?",
+                                              style: GoogleFonts.poppins(
+                                                color: blueColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.sp,
+                                              ),
+                                            )
+                                            : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(40.w),
+                                              child: Image.network(
+                                                profile.profilePicture!,
+                                                width: 70.w,
+                                                height: 70.h,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                   ),
+                                
+                                
                                 ),
                                 SizedBox(width: 12.w),
                                 Column(
@@ -223,7 +243,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                   children: [
                                     Text(
                                       "${profile.name}",
-                                      style: GoogleFonts.playfairDisplay(
+                                      style: GoogleFonts.poppins(
                                         color: blackColor2,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18.sp,
@@ -236,28 +256,28 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                       children: [
                                         Text(
                                           "0",
-                                          style: GoogleFonts.playfairDisplay(
+                                          style: GoogleFonts.poppins(
                                             color: greyColor,
                                           ),
                                         ),
                                         SizedBox(width: 4.w),
                                         Text(
-                                          "Takip",
-                                          style: GoogleFonts.playfairDisplay(
+                                          "abonnement",
+                                          style: GoogleFonts.poppins(
                                             color: greyColor,
                                           ),
                                         ),
                                         SizedBox(width: 8.w),
                                         Text(
                                           "0",
-                                          style: GoogleFonts.playfairDisplay(
+                                          style: GoogleFonts.poppins(
                                             color: greyColor,
                                           ),
                                         ),
                                         SizedBox(width: 4.w),
                                         Text(
-                                          "Takipçi",
-                                          style: GoogleFonts.playfairDisplay(
+                                          "abonné",
+                                          style: GoogleFonts.poppins(
                                             color: greyColor,
                                           ),
                                         ),
@@ -278,7 +298,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                   },
                                   child: Text(
                                     "Modifier",
-                                    style: GoogleFonts.playfairDisplay(
+                                    style: GoogleFonts.poppins(
                                       color: Colors.red,
                                     ),
                                   ),
@@ -342,7 +362,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 setState(() {
                                   selectedIndex = 4;
                                 });
-                                
+
                                 Get.to(() => MesAnnoncesPage());
                               },
                             ),

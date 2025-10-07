@@ -37,9 +37,13 @@ class HomeController extends GetxController {
   var trendingPostsloading = false.obs;
   var suggestedPostsloading = false.obs;
 
+  var fakeFeaturedPostsloading = false.obs;
+  var fakeTrendingPostsloading = false.obs;
+  var fakeSuggestedPostsloading = false.obs;
+
   final postService = Get.put<PostServiceImpl>(PostServiceImpl());
   final userService = Get.put<UserServiceImpl>(UserServiceImpl());
-  final profileController = Get.put<ProfileController>(ProfileController());
+  final profileController = Get.find<ProfileController>();
 
   // the track prix textfields
   var isFocusedLeftField = false.obs;
@@ -193,6 +197,8 @@ class HomeController extends GetxController {
   Future<void> getFeaturedPosts() async {
     try {
       featuredPostsloading.value = true;
+      fakeFeaturedPostsloading.value = false;
+
       featuredPosts.value = await postService.getFeaturedPosts();
       //featuredPosts.assignAll(respons);
       // fetch all users for these posts
@@ -214,6 +220,7 @@ class HomeController extends GetxController {
   Future<void> getTrendingPosts() async {
     try {
       trendingPostsloading.value = true;
+      fakeTrendingPostsloading.value = false;
       trendingPosts.value = await postService.getTrendingPosts();
       for (var post in trendingPosts) {
         if (post.userId != null &&
@@ -233,6 +240,7 @@ class HomeController extends GetxController {
   Future<void> getSuggestedPosts() async {
     try {
       suggestedPostsloading.value = true;
+      fakeSuggestedPostsloading.value = false;
       suggestedPosts.value = await postService.getSuggestedPosts(
         userId: profileController.userProfile.value!.id!,
       );
@@ -247,7 +255,15 @@ class HomeController extends GetxController {
       }
       suggestedPostsloading.value = false;
     } catch (e) {
-      logger.severe("❌ Unexpected error in homeController getSuggestedPosts: $e");
+      logger.severe(
+        "❌ Unexpected error in homeController getSuggestedPosts: $e",
+      );
     }
+  }
+
+  void setFakeLoadingsToTrue() {
+    fakeFeaturedPostsloading.value = true;
+    fakeTrendingPostsloading.value = true;
+    fakeSuggestedPostsloading.value = true;
   }
 }

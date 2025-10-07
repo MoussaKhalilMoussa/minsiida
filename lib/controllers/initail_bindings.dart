@@ -4,6 +4,7 @@ import 'package:simple_nav_bar/controllers/auth/auth_signup_controller.dart';
 import 'package:simple_nav_bar/controllers/filter_controller/filter_controller.dart';
 import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
+import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/avis_et_evaluation_controller/avis_et_evaluation_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/notifications_controller.dart/notifications_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/parametres_controller/parametres_controller.dart';
@@ -18,6 +19,10 @@ import '../controllers/home_controller/home_controller.dart';
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put<AuthLoginController>(AuthLoginController());
+    Get.put<AuthSignupController>(AuthSignupController());
+    Get.put<PosttDetailsController>(PosttDetailsController());
+    Get.put<ProfileController>(ProfileController());
     Get.put<LocationController>(LocationController());
     Get.put<DetailsPageController>(DetailsPageController());
     Get.put<SpecificationController>(SpecificationController());
@@ -29,10 +34,7 @@ class InitialBinding extends Bindings {
     Get.put<AvisEtEvaluationController>(AvisEtEvaluationController());
     Get.put<ParametresController>(ParametresController());
     Get.put<FilterController>(FilterController());
-    Get.put<AuthLoginController>(AuthLoginController());
-    Get.put<AuthSignupController>(AuthSignupController());
-    Get.put<ProfileController>(ProfileController());
-    Get.put<PostController>(PostController());
 
+    Get.put<PostController>(PostController());
   }
 }

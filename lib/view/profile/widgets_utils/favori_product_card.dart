@@ -119,7 +119,7 @@ class _FavoriProductCardState extends State<FavoriProductCard> {
                     Expanded(
                       child: Text(
                         widget.user.name == null
-                            ? "No name"
+                            ? " "
                             : widget.user.name!,
                         style: GoogleFonts.poppins(
                           color: greyColor,

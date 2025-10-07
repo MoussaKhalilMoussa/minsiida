@@ -108,16 +108,26 @@ class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
               ),
               Obx(() {
                 return postController.myAddsLoading.value
-                    ? const LoadingText(text: "Chargement en cours...")
-                    : postController.filteredAdds.isEmpty
+                    ? LoadingText(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.sizeOf(context).height / 3,
+                      ),
+                      text: "Chargement en cours...",
+                    )
+                    : postController.myAdds.isEmpty
                     ? Padding(
                       padding: EdgeInsets.only(
                         top: MediaQuery.sizeOf(context).height / 3,
                       ),
                       child: Center(
-                        child: Text(
-                          "Aucun Annonce",
-                          style: GoogleFonts.poppins(fontSize: 16),
+                        child: SizedBox(
+                          width: 200,
+                          child: Text(
+                            "Vous n'avez pas encore poster une annonce",
+                            textAlign: TextAlign.center,
+
+                            style: GoogleFonts.poppins(fontSize: 16),
+                          ),
                         ),
                       ),
                     )

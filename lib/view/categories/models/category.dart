@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Category {
   int? id;
   String? name;
@@ -76,4 +78,10 @@ class Subcategory {
     data['categoryId'] = categoryId;
     return data;
   }
+}
+class CategoryIcon {
+  final IconData icon;
+  final Color color;
+
+  const CategoryIcon(this.icon, this.color);
 }

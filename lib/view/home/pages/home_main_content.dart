@@ -7,10 +7,15 @@ import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
+import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
 import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
+import 'package:simple_nav_bar/view/categories/models/category.dart';
+import 'package:simple_nav_bar/view/home/pages/post_details.dart';
+import 'package:simple_nav_bar/view/home/widgets/custome_progress_indicator.dart';
 import 'package:simple_nav_bar/view/home/widgets/hoverable_category_item_widget.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
@@ -57,6 +62,8 @@ class _HomeMainContentState extends State<HomeMainContent> {
   //final profileController = Get.find<ProfileController>();
   final userService = Get.put<UserServiceImpl>(UserServiceImpl());
   final postController = Get.put(PostController());
+  var categoryController = Get.find<CategoryContorller>();
+  final postDetailsController = Get.find<PosttDetailsController>();
 
   @override
   void initState() {
@@ -123,37 +130,59 @@ class _HomeMainContentState extends State<HomeMainContent> {
               ),
             ),
             SizedBox(height: 20.h),
-
             Container(
               margin: EdgeInsets.symmetric(horizontal: mainMargin),
               height: 80, // Optional: define a height for better layout control
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      categories1.map((cat) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                          child: HoverableCategoryItem(
-                            icon: cat['icon'],
-                            label: cat['label'],
-                            color: cat['color'],
-                            onTap: () {
-                              homeController.homeIndex.value = 1;
-                              //print(cat['label']);
-                            },
+                child:
+                    categoryController.categories1.isEmpty
+                        ? Padding(
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.sizeOf(context).width / 3.5,
                           ),
-                        );
-                      }).toList(),
-                ),
+                          child: Center(child: Text("chargement en cours...")),
+                        )
+                        : Row(
+                          children:
+                              categoryController.categories1.map((cat) {
+                                final categoryIcon =
+                                    iconsMap[cat.name] ??
+                                    CategoryIcon(
+                                      LucideIcons.helpCircle,
+                                      Colors.black,
+                                    );
+
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6.0,
+                                  ),
+                                  child: HoverableCategoryItem(
+                                    icon: categoryIcon.icon,
+                                    label: cat.name!,
+                                    color: categoryIcon.color,
+                                    onTap: () async {
+                                      homeController.homeIndex.value = 1;
+                                      categoryController
+                                          .selectedCategoryName
+                                          .value = cat.name!;
+                                      // TODO:get all post (pour tout)
+                                      await postController
+                                          .getPostsByCategoryNameorId(
+                                            categoryId: cat.id!,
+                                          );
+                                    },
+                                  ),
+                                );
+                              }).toList(),
+                        ),
               ),
             ),
-
             SizedBox(height: 12.h),
             sectionHeader(" Meilleures annonces en \n vedette"),
             SizedBox(height: 12.h),
 
-            homeController.featuredPostsloading.value
+            homeController.fakeFeaturedPostsloading.value
                 ? Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -163,9 +192,25 @@ class _HomeMainContentState extends State<HomeMainContent> {
                   width: width * 0.32,
                   height: height * 0.25,
                   child: Center(
-                    child: CircularProgressIndicator(
-                      constraints: BoxConstraints.tight(Size.fromRadius(12.r)),
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    child: Text(
+                      "Chargement en cours...",
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ),
+                )
+                : homeController.featuredPostsloading.value
+                ? Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: greyColo1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  width: width * 0.32,
+                  height: height * 0.25,
+                  child: Center(
+                    child: Text(
+                      "Chargement en cours...",
+                      style: GoogleFonts.poppins(),
                     ),
                   ),
                 )
@@ -226,13 +271,25 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                     ),
                                     height: height * 0.25,
                                     width: width * 0.32,
-                                    child: Image.network(
-                                      post.mediaUrls!.first.content == null
-                                          ? 'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg'
-                                          : "${post.mediaUrls!.first.content}",
-                                      height: height * 0.25,
-                                      width: width * 0.32,
-                                      fit: BoxFit.cover,
+                                    child: InkWell(
+                                      onTap: () {
+                                        postDetailsController.getUser(
+                                          userId: post.userId!,
+                                        );
+
+                                        Get.to(
+                                          () => PostDetails(),
+                                          arguments: post,
+                                        );
+                                      },
+                                      child: Image.network(
+                                        post.mediaUrls!.first.content == null
+                                            ? 'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg'
+                                            : "${post.mediaUrls!.first.content}",
+                                        height: height * 0.25,
+                                        width: width * 0.32,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -248,9 +305,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                     child: CircleAvatar(
                                       backgroundColor:
                                           isLiked ? Colors.red : Colors.white,
-                                      radius: 15,
+                                      radius: 12,
                                       child: Icon(
-                                        size: 20,
+                                        size: 18,
                                         isLiked
                                             ? Icons.favorite
                                             : Icons.favorite_border,
@@ -392,7 +449,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
             SizedBox(height: 20),
             sectionHeader(" Nos annonces\n recommandées"),
 
-            homeController.suggestedPostsloading.value
+            homeController.fakeSuggestedPostsloading.value
                 ? Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -402,9 +459,25 @@ class _HomeMainContentState extends State<HomeMainContent> {
                   width: width * 0.45,
                   height: height * 0.25,
                   child: Center(
-                    child: CircularProgressIndicator(
-                      constraints: BoxConstraints.tight(Size.fromRadius(12.r)),
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    child: Text(
+                      "Chargement en cours...",
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ),
+                )
+                : homeController.suggestedPostsloading.value
+                ? Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: greyColo1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  width: width * 0.45,
+                  height: height * 0.25,
+                  child: Center(
+                    child: Text(
+                      "Chargement en cours...",
+                      style: GoogleFonts.poppins(),
                     ),
                   ),
                 )
@@ -414,7 +487,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
             const SizedBox(height: 20),
             sectionHeader(" Annonces tendances\n populaires"),
 
-            homeController.trendingPostsloading.value
+            homeController.fakeTrendingPostsloading.value
                 ? Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -424,9 +497,25 @@ class _HomeMainContentState extends State<HomeMainContent> {
                   width: width * 0.45,
                   height: height * 0.25,
                   child: Center(
-                    child: CircularProgressIndicator(
-                      constraints: BoxConstraints.tight(Size.fromRadius(12.r)),
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    child: Text(
+                      "Chargement en cours...",
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ),
+                )
+                : homeController.trendingPostsloading.value
+                ? Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: greyColo1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  width: width * 0.45,
+                  height: height * 0.25,
+                  child: Center(
+                    child: Text(
+                      "Chargement en cours...",
+                      style: GoogleFonts.poppins(),
                     ),
                   ),
                 )
@@ -514,15 +603,20 @@ class _HomeMainContentState extends State<HomeMainContent> {
                             child: Container(
                               height: height * 0.25,
                               width: itemWidth,
-                              /* decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
-                              ), */
                               color: Colors.grey[200],
-                              child: Image.network(
-                                post.mediaUrls!.first.content ??
-                                    'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
-                                fit: BoxFit.cover,
+                              child: InkWell(
+                                onTap: () {
+                                  postDetailsController.getUser(
+                                    userId: post.userId!,
+                                  );
+
+                                  Get.to(() => PostDetails(), arguments: post);
+                                },
+                                child: Image.network(
+                                  post.mediaUrls!.first.content ??
+                                      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
@@ -538,9 +632,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                               child: CircleAvatar(
                                 backgroundColor:
                                     isLiked ? Colors.red : Colors.white,
-                                radius: 15,
+                                radius: 12,
                                 child: Icon(
-                                  size: 20,
+                                  size: 18,
                                   isLiked
                                       ? Icons.favorite
                                       : Icons.favorite_border,
@@ -838,15 +932,20 @@ class _HomeMainContentState extends State<HomeMainContent> {
                             child: Container(
                               height: height * 0.25,
                               width: itemWidth,
-                              /* decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
-                              ), */
                               color: Colors.grey[200],
-                              child: Image.network(
-                                post.mediaUrls!.first.content ??
-                                    'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
-                                fit: BoxFit.cover,
+                              child: InkWell(
+                                onTap: () {
+                                  postDetailsController.getUser(
+                                    userId: post.userId!,
+                                  );
+
+                                  Get.to(() => PostDetails(), arguments: post);
+                                },
+                                child: Image.network(
+                                  post.mediaUrls!.first.content ??
+                                      'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
@@ -862,9 +961,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                               child: CircleAvatar(
                                 backgroundColor:
                                     isLiked ? Colors.red : Colors.white,
-                                radius: 15,
+                                radius: 12,
                                 child: Icon(
-                                  size: 20,
+                                  size: 18,
                                   isLiked
                                       ? Icons.favorite
                                       : Icons.favorite_border,
@@ -873,7 +972,6 @@ class _HomeMainContentState extends State<HomeMainContent> {
                               ),
                             ),
                           ),
-                        
                         ],
                       ),
                       SizedBox(height: 8),
