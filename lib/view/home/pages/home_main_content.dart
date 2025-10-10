@@ -281,6 +281,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                           () => PostDetails(),
                                           arguments: post,
                                         );
+                                        postController.viewPost(
+                                          postId: post.id!,
+                                        );
                                       },
                                       child: Image.network(
                                         post.mediaUrls!.first.content == null
@@ -609,8 +612,8 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                   postDetailsController.getUser(
                                     userId: post.userId!,
                                   );
-
                                   Get.to(() => PostDetails(), arguments: post);
+                                  postController.viewPost(postId: post.id!);
                                 },
                                 child: Image.network(
                                   post.mediaUrls!.first.content ??
@@ -938,8 +941,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                   postDetailsController.getUser(
                                     userId: post.userId!,
                                   );
-
                                   Get.to(() => PostDetails(), arguments: post);
+                                  
+                                  postController.viewPost(postId: post.id!);
                                 },
                                 child: Image.network(
                                   post.mediaUrls!.first.content ??

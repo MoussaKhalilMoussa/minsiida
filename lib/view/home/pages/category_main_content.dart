@@ -55,7 +55,6 @@ class CategoryMainContent extends StatefulWidget {
 }
 
 class _CategoryMainContent extends State<CategoryMainContent> {
-
   final homeController = Get.find<HomeController>();
   final categoryController = Get.find<CategoryContorller>();
   final postController = Get.find<PostController>();
@@ -251,9 +250,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                                 ),
                             itemBuilder: (_, index) {
                               Post post = visibleItems[index];
-                              return porductCard(
-                                post: post,
-                              );
+                              return porductCard(post: post);
                             },
                           ),
                           const SizedBox(height: 8),
@@ -316,6 +313,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
       onTap: () {
         postDetailsController.getUser(userId: post.userId!);
         Get.to(() => PostDetails(), arguments: post);
+        postController.viewPost(postId: post.id!);
       },
       child: Container(
         alignment: Alignment.center,

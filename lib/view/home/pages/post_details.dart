@@ -69,9 +69,22 @@ class PostDetails extends StatelessWidget {
                     ),
                   ),
 
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(LucideIcons.moreVertical),
+                  PopupMenuButton(
+                    menuPadding: EdgeInsets.only(left: 0, right: 0),
+                    color: whiteColor,
+                    icon: const Icon(LucideIcons.moreVertical),
+                    itemBuilder:
+                        (context) => [
+                          PopupMenuItem(
+                            //padding: EdgeInsets.only(right: 4),
+                            child: const Text("Signaler l'annonce"),
+                            onTap:
+                                () => Future.delayed(
+                                  Duration.zero,
+                                  () => postController.openReportDialog(postId: post.id!)
+                                ),
+                          ),
+                        ],
                   ),
                 ],
                 bottom: PreferredSize(
@@ -437,10 +450,10 @@ class PostDetails extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                if(postController.currentUserId==post.userId){
-                  Get.to(()=>MessagesPage());
-                }else{
-                  Get.to(()=>MessageChatRoom());
+                if (postController.currentUserId == post.userId) {
+                  Get.to(() => MessagesPage());
+                } else {
+                  Get.to(() => MessageChatRoom());
                 }
               },
               style: ButtonStyle(

@@ -16,5 +16,11 @@ abstract class PostService {
 
   Future<List<Post>> getPostsByCategoryNameOrId({required int categoryId});
 
+  Future<String?> viewPost({required int postId});
 
+  Future<String?> reportPost({
+    required int postId,
+    required int userId,
+    required String reason,
+  });
 }

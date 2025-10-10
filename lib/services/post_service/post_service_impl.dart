@@ -81,35 +81,34 @@ class PostServiceImpl implements PostService {
 
   @override
   Future<List<Post>> getAllMyPosts(int userId) async {
-  try {
-    final response = await _dio.readDataWithoutAuth(
-      "/api/user/getAdsByUserId/$userId",
-    );
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/user/getAdsByUserId/$userId",
+      );
 
-    if (response.data != null && response.data["data"] != null) {
-      final List<dynamic> data = response.data["data"];
-      return data.map((json) => Post.fromJson(json)).toList();
-    } else {
-      return [];
-    }
-  } on DioException catch (e) {
-    // 👇 handle the "no posts" case gracefully
-    if (e.response?.statusCode == 404 ||
-        e.response!.data.toString().contains("Pas d'annonces trouvées pour cet utilisateur")) {
-      logger.info("ℹ️ No posts found for this user");
-      return [];
-    }
+      if (response.data != null && response.data["data"] != null) {
+        final List<dynamic> data = response.data["data"];
+        return data.map((json) => Post.fromJson(json)).toList();
+      } else {
+        return [];
+      }
+    } on DioException catch (e) {
+      // 👇 handle the "no posts" case gracefully
+      if (e.response?.statusCode == 404 ||
+          e.response!.data.toString().contains(
+            "Pas d'annonces trouvées pour cet utilisateur",
+          )) {
+        logger.info("ℹ️ No posts found for this user");
+        return [];
+      }
 
-    logger.severe("❌ Error in fetching posts service: $e");
-    throw Exception("Failed to fetch posts due to DioException service");
-  } catch (e) {
-    logger.severe("❌ Unexpected error in getAllMyPosts service: $e");
-    throw Exception("Failed to fetch posts service");
+      logger.severe("❌ Error in fetching posts service: $e");
+      throw Exception("Failed to fetch posts due to DioException service");
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getAllMyPosts service: $e");
+      throw Exception("Failed to fetch posts service");
+    }
   }
-}
-
-
-
 
   @override
   Future<List<Post>> getFeaturedPosts() async {
@@ -275,10 +274,66 @@ class PostServiceImpl implements PostService {
         "Failed to fetch posts by category id due to DioException service",
       );
     } catch (e) {
-      logger.severe("❌ Unexpected error in getPostsByCategoryNameOrId service: $e");
+      logger.severe(
+        "❌ Unexpected error in getPostsByCategoryNameOrId service: $e",
+      );
       throw Exception("Failed to fetch posts by category id, service");
     }
   }
 
+  @override
+  Future<String?> viewPost({required int postId}) async {
+    try {
+      final response = await _dio.createDtaWitoutAuth(
+        "/api/ads/$postId/view",
+        {},
+      );
+      if (response.data != null) {
+        return response.data;
+      } else {
+        return "";
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in viewing post by id service: $e");
+      }
+      throw Exception(
+        "Failed to view a post by id due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in viewPost service: $e");
+      throw Exception("Failed to view post by post id, service");
+    }
+  }
 
+  @override
+  Future<String?> reportPost({
+    required int postId,
+    required int userId,
+    required String reason,
+  }) async {
+    try {
+      final response = await _dio.createDtaWitoutAuth(
+        "/api/ads/$postId/report",
+        {"reporterId": userId, "reason": reason},
+      );
+      if (response.data != null) {
+        print("%%%%%%%%%%%%%%%%%%%%%%%");
+        print(response.data);
+        return response.data;
+      } else {
+        return "";
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in reporting post by id service: $e");
+      }
+      throw Exception(
+        "Failed to report a post by id due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in reportPost service: $e");
+      throw Exception("Failed to report post by post id, service");
+    }
+  }
 }

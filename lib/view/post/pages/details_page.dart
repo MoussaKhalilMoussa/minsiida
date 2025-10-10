@@ -298,11 +298,11 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             const SizedBox(height: 10),
                             // it will be used later
-                            /* buildLocalizationLabeledField(
+                            buildLocalizationLabeledField(
                               label: "Localisation",
                               onChanged: locationController.filterCities,
                             ),
-                            const SizedBox(height: 30), */
+                            const SizedBox(height: 30),
                           ],
                         ),
                       ),
@@ -510,7 +510,10 @@ class _DetailsPageState extends State<DetailsPage> {
                     Expanded(
                       child: Text(
                         'location address not selected',
-                        style:  GoogleFonts.poppins(color: Colors.red, fontSize: 13),
+                        style: GoogleFonts.poppins(
+                          color: Colors.red,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   ],

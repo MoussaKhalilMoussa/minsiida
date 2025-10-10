@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -82,6 +83,9 @@ class PostController extends GetxController {
   List<String> get imageUrls => _imageUrls;
   bool get isLoading => _isLoading.value;
   bool get isUploading => _isUploading.value;
+
+  final _reportController = TextEditingController();
+  final RxBool isReportLoading = false.obs;
 
   @override
   void onInit() {
@@ -350,20 +354,19 @@ class PostController extends GetxController {
     }
   }
 
- void getAllMyPosts() async {
-  try {
-    myAddsLoading.value = true;
-    final response = await postService.getAllMyPosts(currentUserId);
-    myAdds.assignAll(response);
-    filteredAdds.assignAll(response);
-  } catch (e) {
-    logger.severe("❌ Unexpected error in getAllMyPosts post controller: $e");
-    myAdds.assignAll([]); // ensure safe state
-  } finally {
-    myAddsLoading.value = false;
+  void getAllMyPosts() async {
+    try {
+      myAddsLoading.value = true;
+      final response = await postService.getAllMyPosts(currentUserId);
+      myAdds.assignAll(response);
+      filteredAdds.assignAll(response);
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getAllMyPosts post controller: $e");
+      myAdds.assignAll([]); // ensure safe state
+    } finally {
+      myAddsLoading.value = false;
+    }
   }
-}
-
 
   // Search in user's own posts
   void searchMyAds(String query) {
@@ -525,6 +528,119 @@ class PostController extends GetxController {
     } finally {
       isLoadingCategoryPosts.value = false;
     }
+  }
+
+  void viewPost({required int postId}) async {
+    try {
+      await postService.viewPost(postId: postId);
+    } catch (e) {
+      logger.severe("❌ Unexpected error in viewPost postController: $e");
+    }
+  }
+
+  void _reportPost({
+    required int postId,
+    required int userId,
+    required String reason,
+  }) async {
+    try {
+      isReportLoading.value = true;
+      var text = await postService.reportPost(
+        postId: postId,
+        userId: userId,
+        reason: reason,
+      );
+      if (text!.isNotEmpty) {
+        Navigator.of(Get.context!).pop(); // Close dialog
+        Get.snackbar(
+          "Reussit",
+          text,
+          backgroundColor: greenColor.withValues(alpha: .5),
+          duration: Duration(seconds: 5),
+        );
+      } else {
+        Get.snackbar(
+          "Erreur",
+          "Une erreur s'est produite!",
+          backgroundColor: redColor.withValues(alpha: .5),
+          duration: Duration(seconds: 5),
+        );
+      }
+    } catch (e) {
+      Get.snackbar("Erreur", "$e");
+      logger.severe("❌ Unexpected error in reportPost postController: $e");
+    } finally {
+      isReportLoading.value = false;
+    }
+  }
+
+  void openReportDialog({required int postId}) {
+    showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(8),
+          ),
+          backgroundColor: whiteColor,
+          title: const Text("Signaler"),
+          content: TextField(
+            controller: _reportController,
+            maxLines: 3,
+            decoration: const InputDecoration(
+              hintText: "Decrire un suject ...",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.spaceBetween,
+          actions: [
+            TextButton(
+              onPressed:
+                  isReportLoading.value
+                      ? null
+                      : () {
+                        Navigator.of(context).pop();
+                        _reportController.clear();
+                      },
+              child: Text("Annuler",style: GoogleFonts.poppins(color: greyColor)),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(shape: WidgetStatePropertyAll(LinearBorder())),
+              onPressed:
+                  isReportLoading.value
+                      ? null
+                      : () {
+                        final reason = _reportController.text.trim();
+                        if (reason.isNotEmpty) {
+                          _reportPost(
+                            reason: reason,
+                            userId: currentUserId,
+                            postId: postId,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Please write a report reason"),
+                            ),
+                          );
+                        }
+                      },
+              child:
+                  isReportLoading.value
+                      ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                      : Text(
+                        "Envoyer",
+                        style: GoogleFonts.poppins(color: greyColor),
+                      ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //final visibleCount = 24.obs;
