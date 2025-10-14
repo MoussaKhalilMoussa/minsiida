@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/view/profile/widgets_utils/chat_screen_profile.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/chat_screen_profile.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/favori_product_card.dart';
 
 class MessagesPage extends StatelessWidget {
@@ -34,46 +35,48 @@ class MessagesPage extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: Divider(height: 1)),
           SliverList(
+          
             delegate: SliverChildListDelegate([
-              Container(
-                width: MediaQuery.sizeOf(Get.context!).width,
-                margin: EdgeInsets.only(right: 12, left: 12, top: 20),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      width: MediaQuery.sizeOf(Get.context!).width * 0.93,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          //focusColor: greyColor,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: greyColor, width: 1),
-                          ),
-                          filled: true,
-                          fillColor: whiteColor,
-                          hintText: "Rechercher des messages...",
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+              Center(
+                child: Container(
+                  width: MediaQuery.sizeOf(Get.context!).width,
+                  margin: EdgeInsets.only(top: 10,left: 10),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        width: MediaQuery.sizeOf(Get.context!).width * 0.90.w,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            //focusColor: greyColor,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: greyColor, width: 1),
+                            ),
+                            filled: true,
+                            fillColor: whiteColor,
+                            hintText: "Rechercher des messages...",
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
               Container(
                 alignment: Alignment.topCenter,
                 margin: EdgeInsets.only(
-                  left: 12,
-                  right: 12,
+                  left: 2,right: 2,
                   top: 0,
                   bottom: 20,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0,),
                 width: MediaQuery.sizeOf(Get.context!).width,
                 color: Colors.transparent,
                 child: ListView.builder(

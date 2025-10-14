@@ -14,7 +14,7 @@ import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/home/widgets/feature_ads.dart';
 import 'package:simple_nav_bar/view/home/widgets/profile_summary.dart';
 import 'package:simple_nav_bar/view/home/widgets/shipping_method.dart';
-import 'package:simple_nav_bar/view/profile/pages/message_chat_room.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/message_chat_room.dart';
 import 'package:simple_nav_bar/view/profile/pages/messages_page.dart';
 
 class PostDetails extends StatelessWidget {
@@ -369,7 +369,7 @@ class PostDetails extends StatelessWidget {
                       ),
                     ),
 
-                    Padding(
+                 /*    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: shippingMethod(
                         icon: "📦",
@@ -395,7 +395,7 @@ class PostDetails extends StatelessWidget {
                         subTitle: "À votre domicile sous 2-3 jours",
                         price: "2500 XAF",
                       ),
-                    ),
+                    ), */
                     SizedBox(height: 4),
                     Padding(padding: EdgeInsets.all(8), child: ProfleSummary()),
                     Padding(

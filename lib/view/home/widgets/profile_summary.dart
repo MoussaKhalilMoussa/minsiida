@@ -46,7 +46,7 @@ class ProfleSummary extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           )
-                          : null
+                          : null,
                 ),
                 SizedBox(width: 16),
                 Column(
