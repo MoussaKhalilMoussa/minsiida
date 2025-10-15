@@ -453,7 +453,7 @@ class PostDetails extends StatelessWidget {
                 if (postController.currentUserId == post.userId) {
                   Get.to(() => MessagesPage());
                 } else {
-                  Get.to(() => MessageChatRoom());
+                  //Get.to(() => MessageChatRoom());
                 }
               },
               style: ButtonStyle(

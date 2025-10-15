@@ -8,9 +8,9 @@ class Message {
 
   Message(
       {this.id,
-      this.sender,
-      this.receiver,
-      this.content,
+      required this.sender,
+      required this.receiver,
+      required this.content,
       this.timestamp,
       this.read});
 

@@ -6,6 +6,7 @@ import 'package:simple_nav_bar/controllers/photo_controller/photos_controller.da
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/avis_et_evaluation_controller/avis_et_evaluation_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/notifications_controller.dart/notifications_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/parametres_controller/parametres_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
@@ -34,6 +35,8 @@ class InitialBinding extends Bindings {
     Get.put<AvisEtEvaluationController>(AvisEtEvaluationController());
     Get.put<ParametresController>(ParametresController());
     Get.put<FilterController>(FilterController());
+    Get.put(MessagesController());
+
 
     Get.put<PostController>(PostController());
   }

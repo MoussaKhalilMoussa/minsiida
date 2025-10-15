@@ -7,6 +7,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/assistance.dart';
@@ -43,6 +44,8 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
 
   final categoryController = Get.find<CategoryContorller>();
   final profileController = Get.find<ProfileController>();
+  final messageController = Get.put<MessagesController>(MessagesController());
+
   @override
   void initState() {
     super.initState();
@@ -384,10 +387,11 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                               title: 'Messages',
                               leadingIcon: Ionicons.chatbubble_outline,
                               trailingIcon: Ionicons.chevron_forward_outline,
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {
                                   selectedIndex = 6;
                                 });
+                                await messageController.getMyConversations();
                                 Get.to(() => MessagesPage());
                               },
                             ),

@@ -5,33 +5,41 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
+import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
+import 'package:simple_nav_bar/view/profile/model/conversation.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/own_message_card.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/reply_card.dart';
 
 class MessageChatRoom extends StatelessWidget {
-  MessageChatRoom({super.key});
+  MessageChatRoom({super.key, required this.conversation});
+  final Conversation conversation;
 
-  final messaController = Get.put(MessagesController());
+  final messageController = Get.find<MessagesController>();
+  final profilleController = Get.find<ProfileController>();
   final FocusNode inputFocus = FocusNode(); // persistent focus node
 
   @override
   Widget build(BuildContext context) {
     inputFocus.addListener(() {
       if (inputFocus.hasFocus &&
-          messaController.showEmojiPicker.value == true) {
-        messaController.showEmojiPicker.value = false;
+          messageController.showEmojiPicker.value == true) {
+        messageController.showEmojiPicker.value = false;
       }
     });
 
     return Obx(() {
+      UserProfile user = conversation.partner;
+
       return Scaffold(
         backgroundColor: greyColo1.withValues(alpha: 1.3),
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              if (messaController.showEmojiPicker.value) {
-                messaController.showEmojiPicker.value = false;
+              if (messageController.showEmojiPicker.value) {
+                messageController.showEmojiPicker.value = false;
               } else {
                 Get.back();
               }
@@ -40,17 +48,58 @@ class MessageChatRoom extends StatelessWidget {
           titleSpacing: 0,
           title: Row(
             children: [
-              CircleAvatar(
+              /* CircleAvatar(
                 radius: 20,
                 backgroundColor: blueColor,
                 child: const Icon(Icons.person, color: Colors.white),
+              ), */
+              CircleAvatar(
+                backgroundColor: blueColor,
+                radius: 20,
+                child: ClipOval(
+                  child:
+                      user.profilePicture != null &&
+                              user.profilePicture!.isNotEmpty
+                          ? Image.network(
+                            user.profilePicture!,
+                            fit: BoxFit.cover,
+                            width: 40,
+                            height: 40,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(
+                                child: SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              );
+                            },
+                            errorBuilder:
+                                (context, error, stackTrace) => Image.asset(
+                                  'assets/icons/profile.png',
+                                  width: 20,
+                                  height: 20,
+                                  color: whiteColor,
+                                ),
+                          )
+                          : Image.asset(
+                            'assets/icons/profile.png',
+                            width: 20,
+                            height: 20,
+                            color: whiteColor,
+                          ),
+                ),
               ),
+
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Name",
+                    user.name!,
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -69,8 +118,8 @@ class MessageChatRoom extends StatelessWidget {
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
             if (didPop) return;
-            if (messaController.showEmojiPicker.value) {
-              messaController.showEmojiPicker.value = false;
+            if (messageController.showEmojiPicker.value) {
+              messageController.showEmojiPicker.value = false;
               return;
             }
             Get.back();
@@ -78,32 +127,37 @@ class MessageChatRoom extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: ListView(
+                child: ListView.builder(
                   shrinkWrap: true,
-                  children: [
-                    OwnMessageCard(message: ".",time: "12:56",),
-                    ReplyCard(message: ". ",time: "08:39"),
-                    OwnMessageCard(message: "Proper vertical alignment between text and timestamp.",time: "12:56",),
-                    ReplyCard(message: "Proper vertical alignment between text ",time: "08:39"),
-                    OwnMessageCard(message: "Pimestamp.",time: "12:56",),
-                    ReplyCard(message: "Proper vertical alignment between ",time: "08:39"),
-                    OwnMessageCard(message: "Proper vertical alignment between text and timestamp.",time: "12:56",),
-                    ReplyCard(message: "Proper vertical alignment  text and timestamp.",time: "08:39"),
-                    OwnMessageCard(message: "Proper vertical alignment between text and timestamp.",time: "12:56",),
-                    ReplyCard(message: "Proper vertical alignment between text and ",time: "08:39"),
-                    OwnMessageCard(message: "Proper timestamp.",time: "12:56",),
-                    ReplyCard(message: "Proper vertical alignment between text and timestamp.",time: "08:39"),
-                  ],
+                  itemCount: messageController.messages.length,
+                  itemBuilder: (context, index) {
+                    final message =
+                        messageController.messages.reversed.toList()[index];
+                    final isOwn =
+                        message.sender ==
+                        profilleController.currentUserId.toString();
+                    if (isOwn) {
+                      return OwnMessageCard(
+                        message: message.content!,
+                        time: extractTime(message.timestamp!),
+                      );
+                    } else {
+                      return ReplyCard(
+                        message: message.content!,
+                        time: extractTime(message.timestamp!),
+                      );
+                    }
+                  },
                 ), // chat messages area
               ),
               _buildInputArea(context),
               Offstage(
-                offstage: !messaController.showEmojiPicker.value,
+                offstage: !messageController.showEmojiPicker.value,
                 child: SizedBox(
                   height: 256,
                   child: EmojiPicker(
                     textEditingController:
-                        messaController.sendMessageContentController,
+                        messageController.sendMessageContentController,
                     config: Config(
                       height: 256,
                       checkPlatformCompatibility: true,
@@ -154,7 +208,7 @@ class MessageChatRoom extends StatelessWidget {
                     bottom: 6,
                   ),
                   child: TextFormField(
-                    controller: messaController.sendMessageContentController,
+                    controller: messageController.sendMessageContentController,
                     focusNode: inputFocus,
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
@@ -178,8 +232,8 @@ class MessageChatRoom extends StatelessWidget {
                     ),
                     onPressed: () {
                       FocusScope.of(context).unfocus();
-                      messaController.showEmojiPicker.value =
-                          !messaController.showEmojiPicker.value;
+                      messageController.showEmojiPicker.value =
+                          !messageController.showEmojiPicker.value;
                     },
                   ),
                 ),
