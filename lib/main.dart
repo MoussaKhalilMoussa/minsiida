@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
               selectionColor: greyColo1, // highlighted selection
               selectionHandleColor: greyColo1, // circular handles
             ),
-            textTheme: GoogleFonts.playfairDisplayTextTheme(),
+            textTheme: GoogleFonts.poppinsTextTheme(),
             primarySwatch: Colors.purple,
             scaffoldBackgroundColor: Colors.white,
             appBarTheme: AppBarTheme(

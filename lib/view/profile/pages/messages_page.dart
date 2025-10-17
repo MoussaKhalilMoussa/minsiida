@@ -48,7 +48,7 @@ class MessagesPage extends StatelessWidget {
                       children: [
                         SizedBox(
                           height: 50,
-                          width: MediaQuery.sizeOf(Get.context!).width * 0.90.w,
+                          width: MediaQuery.sizeOf(Get.context!).width * 0.95,
                           child: TextField(
                             decoration: InputDecoration(
                               //focusColor: greyColor,

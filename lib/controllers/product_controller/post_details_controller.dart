@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
+import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class PosttDetailsController extends GetxController {
@@ -9,6 +10,7 @@ class PosttDetailsController extends GetxController {
   late int selectedIndex;
   final RxInt selectedImageIndex = 0.obs;
   var isShippingSelected = false.obs;
+  RxBool isUserLoading = false.obs;
 
   var postUser = Rxn<UserProfile?>();
 
@@ -23,8 +25,15 @@ class PosttDetailsController extends GetxController {
   } */
 
   void getUser({required int userId}) async {
-    final user = await userService.getUser(userId: userId);
-    postUser.value = user;
+    try {
+      isUserLoading.value = true;
+      final user = await userService.getUser(userId: userId);
+      postUser.value = user;
+    } catch (e) {
+      logger.severe("Unexpected error happened in getUser postController");
+    } finally {
+      isUserLoading.value = false;
+    }
   }
 
   get selectedProduct => products[selectedIndex];

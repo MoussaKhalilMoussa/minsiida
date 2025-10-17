@@ -24,87 +24,90 @@ class ProfleSummary extends StatelessWidget {
           border: BoxBorder.all(color: greyColo1.withValues(alpha: 0.6)),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 35.sp,
-                  backgroundColor: Colors.teal,
-                  backgroundImage:
-                      user!.profilePicture != null
-                          ? NetworkImage(user.profilePicture!)
-                          : null,
-                  child:
-                      user.profilePicture == null
-                          ? Text(
-                            user.name![0].toUpperCase(),
-                            style: GoogleFonts.poppins(
-                              color: whiteColor,
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                          : null,
-                ),
-                SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child:
+            postDetailsController.isUserLoading.value
+                ? Center(child: CircularProgressIndicator())
+                : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      user.name!,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: GoogleFonts.poppins(
-                        color: blackColor2,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                    Text(
-                      "Membre depuis ${extractMonthYear(user.createdAt!)}",
-                      style: GoogleFonts.poppins(
-                        color: greyColor,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 14,
-                      ),
-                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (index) {
-                        int starIndex = index + 1;
-                        return Icon(
-                          size: 16,
-                          Ionicons.star,
-                          color:
-                              4 >= starIndex
-                                  ? Colors.amber
-                                  : 4 >= starIndex - 0.5
-                                  ? Colors.amberAccent
-                                  : Colors.grey[300],
-                        );
-                      }),
+                      children: [
+                        CircleAvatar(
+                          radius: 35.sp,
+                          backgroundColor: Colors.teal,
+                          backgroundImage:
+                              user!.profilePicture != null
+                                  ? NetworkImage(user.profilePicture!)
+                                  : null,
+                          child:
+                              user.profilePicture == null
+                                  ? Text(
+                                    user.name![0].toUpperCase(),
+                                    style: GoogleFonts.poppins(
+                                      color: whiteColor,
+                                      fontSize: 28.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                  : null,
+                        ),
+                        SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.name!,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: GoogleFonts.poppins(
+                                color: blackColor2,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              ),
+                            ),
+                            Text(
+                              "Membre depuis ${extractMonthYear(user.createdAt!)}",
+                              style: GoogleFonts.poppins(
+                                color: greyColor,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(5, (index) {
+                                int starIndex = index + 1;
+                                return Icon(
+                                  size: 16,
+                                  Ionicons.star,
+                                  color:
+                                      4 >= starIndex
+                                          ? Colors.amber
+                                          : 4 >= starIndex - 0.5
+                                          ? Colors.amberAccent
+                                          : Colors.grey[300],
+                                );
+                              }),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    _localReusableWidget(
+                      icon: LucideIcons.clock3,
+                      text: "Derniere activite it y a 18 heures",
+                    ),
+                    _localReusableWidget(
+                      icon: LucideIcons.messageCircle,
+                      text: "Reponse en moyenne en 1 h",
+                    ),
+                    _localReusableWidget(
+                      icon: LucideIcons.clock3,
+                      text: "Derniere activite it y a 18 heures",
                     ),
                   ],
                 ),
-              ],
-            ),
-            SizedBox(height: 20),
-            _localReusableWidget(
-              icon: LucideIcons.clock3,
-              text: "Derniere activite it y a 18 heures",
-            ),
-            _localReusableWidget(
-              icon: LucideIcons.messageCircle,
-              text: "Reponse en moyenne en 1 h",
-            ),
-            _localReusableWidget(
-              icon: LucideIcons.clock3,
-              text: "Derniere activite it y a 18 heures",
-            ),
-          ],
-        ),
       );
     });
   }
