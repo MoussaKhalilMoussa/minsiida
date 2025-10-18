@@ -28,8 +28,8 @@ class ComptesConnecteNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Comptes connectés',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: blackColor2,
               ),
@@ -67,7 +67,7 @@ class ComptesConnecteNotContainer extends StatelessWidget {
                     child: Icon(Ionicons.logo_facebook, color: whiteColor),
                   ),
                   title: Text("Facebook"),
-                  subtitle: Text("Non connecté"),
+                  subtitle: Text("Non connecté",style: GoogleFonts.poppins(),),
 
                   trailing: ElevatedButton(
                     style: ButtonStyle(
@@ -90,7 +90,7 @@ class ComptesConnecteNotContainer extends StatelessWidget {
                     onPressed: () {},
                     child: Text(
                       "Connecter",
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -109,7 +109,10 @@ class ComptesConnecteNotContainer extends StatelessWidget {
                     child: Icon(LucideIcons.x, color: whiteColor),
                   ),
                   title: Text("X"),
-                  subtitle: Text("Non connecté"),
+                  subtitle: Text(
+                    "Non connecté",
+                    style: GoogleFonts.poppins(),
+                  ),
 
                   trailing: ElevatedButton(
                     style: ButtonStyle(
@@ -132,7 +135,7 @@ class ComptesConnecteNotContainer extends StatelessWidget {
                     onPressed: () {},
                     child: Text(
                       "Connecter",
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -153,9 +156,9 @@ class ComptesConnecteNotContainer extends StatelessWidget {
                   title: Text("Google"),
                   subtitle: Text(
                     "Connecté",
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.poppins(
                       color: darkGreen,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
 
@@ -180,7 +183,7 @@ class ComptesConnecteNotContainer extends StatelessWidget {
                     onPressed: () {},
                     child: Text(
                       "Déconnecter",
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),

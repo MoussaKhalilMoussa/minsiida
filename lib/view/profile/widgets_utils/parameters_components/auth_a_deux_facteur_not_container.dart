@@ -30,8 +30,8 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Authentification à deux facteurs',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: blackColor2,
               ),
@@ -87,17 +87,17 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           "L'authentification à deux facteurs est actuellement désactivée",
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.poppins(
                             fontSize: 10,
                             color: blackColor,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           "Lorsque l'A2F est activée, vous devrez saisir un code provenant de votre téléphone en plus de votre mot de passe lors de la connexion.",
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 10,
+                          style: GoogleFonts.poppins(
+                            fontSize: 9,
                             color: greyColor,
                             //fontWeight: FontWeight.w500,
                           ),
@@ -131,7 +131,7 @@ class AuthADeuxFacteurNotContainer extends StatelessWidget {
                           onPressed: () {},
                           child: Text(
                             "Activer l'A2F",
-                            style: GoogleFonts.playfairDisplay(
+                            style: GoogleFonts.poppins(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),

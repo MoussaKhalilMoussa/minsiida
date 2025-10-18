@@ -47,8 +47,8 @@ Widget buildNotificationCard({
                   children: [
                     Text(
                       title,
-                      style: GoogleFonts.playfairDisplay(
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
                         fontSize: 14,
                       ),
                     ),
@@ -62,7 +62,7 @@ Widget buildNotificationCard({
                         time,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: Colors.grey[600],
                         ),
@@ -86,7 +86,7 @@ Widget buildNotificationCard({
                 SizedBox(height: 8),
                 Text(
                   description,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.poppins(
                     fontSize: 12,
                     color: Colors.grey[600],
                   ),
@@ -102,7 +102,7 @@ Widget buildNotificationCard({
                       ),
                       label: Text(
                         'Voir',
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.poppins(
                           color: primaryColor,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
@@ -121,7 +121,7 @@ Widget buildNotificationCard({
                         ),
                         label: Text(
                           'Marque comme lu',
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.poppins(
                             color: greyColor,
                             fontWeight: FontWeight.w600,
                             fontSize: 12,

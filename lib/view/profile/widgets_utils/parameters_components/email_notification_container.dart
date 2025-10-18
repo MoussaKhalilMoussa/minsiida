@@ -30,8 +30,8 @@ class EmailNotificationContainer extends StatelessWidget {
             ),
             title: Text(
               'Notifications par email',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: blackColor2,
               ),
@@ -56,8 +56,8 @@ class EmailNotificationContainer extends StatelessWidget {
             ),
             title: Text(
               'Nouveaux messages',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -65,8 +65,8 @@ class EmailNotificationContainer extends StatelessWidget {
             value: false,
             subtitle: Text(
               'Soyez notifié lorsque vous recevez un nouveau message',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),
@@ -87,8 +87,8 @@ class EmailNotificationContainer extends StatelessWidget {
             ),
             title: Text(
               'Nouvelles offres',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -96,8 +96,8 @@ class EmailNotificationContainer extends StatelessWidget {
             value: true,
             subtitle: Text(
               'Soyez notifié lorsque vous recevez une nouvelle offre',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),
@@ -118,8 +118,8 @@ class EmailNotificationContainer extends StatelessWidget {
             ),
             title: Text(
               'Mises à jour des commandes',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -127,8 +127,8 @@ class EmailNotificationContainer extends StatelessWidget {
             value: true,
             subtitle: Text(
               'Soyez notifié des changements de statut des commandes',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),
@@ -149,8 +149,8 @@ class EmailNotificationContainer extends StatelessWidget {
             ),
             title: Text(
               'Emails marketing',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -158,8 +158,8 @@ class EmailNotificationContainer extends StatelessWidget {
             value: false,
             subtitle: Text(
               'Recevez des offres spéciales et des promotions',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),

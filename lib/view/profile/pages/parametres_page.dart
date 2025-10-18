@@ -35,7 +35,11 @@ class ParametresPage extends StatelessWidget {
             centerTitle: true,
             title: Text(
               'Paramètres',
-              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: blackColor,
+                ),
             ),
             floating: true,
             snap: true,

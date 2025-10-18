@@ -30,8 +30,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Paramètres de confidentialité',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: blackColor2,
               ),
@@ -56,8 +56,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Afficher mon profil aux utilisateurs inscrits',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -65,8 +65,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             value: true,
             subtitle: Text(
               'Vos informations de profil seront visibles par d\'autres utilisateurs',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),
@@ -87,8 +87,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Afficher mon statut en ligne',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -96,8 +96,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             value: true,
             subtitle: Text(
               'Les autres utilisateurs verront quand vous êtes en ligne',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),
@@ -118,8 +118,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Partager mon activité',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w500,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: greyColor,
               ),
@@ -127,8 +127,8 @@ class ParaDesConfiNotContainer extends StatelessWidget {
             value: false,
             subtitle: Text(
               'Permettre aux autres de voir vos annonces et achats récents',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.w400,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w300,
                 fontSize: 10,
                 color: greyColor.withValues(alpha: 0.7),
               ),

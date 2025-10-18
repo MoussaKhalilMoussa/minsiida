@@ -32,8 +32,8 @@ class SupprimerLeCompteNotContainer extends StatelessWidget {
             ),
             title: Text(
               'Supprimer le compte',
-              style: GoogleFonts.playfairDisplay(
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: blackColor2,
               ),
@@ -81,7 +81,7 @@ class SupprimerLeCompteNotContainer extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     "Supprimer mon compte",
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),

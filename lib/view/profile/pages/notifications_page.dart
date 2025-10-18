@@ -31,7 +31,11 @@ class NotificationsPage extends StatelessWidget {
             centerTitle: true,
             title: Text(
               'Notifications',
-              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: blackColor,
+              ),
             ),
             floating: true,
             snap: true,
@@ -135,9 +139,9 @@ class NotificationsPage extends StatelessWidget {
                           Expanded(
                             child: Text(
                               notificationText,
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.poppins(
                                 color: blackColor,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 16,
                               ),
                             ),
@@ -150,7 +154,7 @@ class NotificationsPage extends StatelessWidget {
                             ),
                             label: Text(
                               'Tout marquer lu',
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.poppins(
                                 color: primaryColor,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12,
@@ -169,7 +173,7 @@ class NotificationsPage extends StatelessWidget {
                             ),
                             label: Text(
                               'Tout effacer',
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.poppins(
                                 color: redColor,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12,

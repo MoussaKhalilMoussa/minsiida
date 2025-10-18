@@ -997,7 +997,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            "user.name!",
+                            user.name!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: blackColor2,
