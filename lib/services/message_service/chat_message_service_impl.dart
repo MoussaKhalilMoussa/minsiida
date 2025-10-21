@@ -39,7 +39,7 @@ class ChatMessageServiceImpl implements ChatMessageService {
   void connect(int userId) {
     stompClient = StompClient(
       config: StompConfig.sockJS(
-        url: "$baseUrl/ws",
+        url: "http://app.minsiida.com:8080/ws",
         onConnect: (StompFrame frame) {
           logger.info("Connected to Websocket");
           // subscribe to personal topic

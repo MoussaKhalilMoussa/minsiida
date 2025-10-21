@@ -4,6 +4,11 @@ import 'package:get/get.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
+import 'package:simple_nav_bar/controllers/auth/auth_login_controller.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/auth/login_screen.dart';
 import 'package:simple_nav_bar/view/home/screen/home.dart';
 
@@ -15,10 +20,24 @@ class SplashScren extends StatefulWidget {
 }
 
 class _SplashScrenState extends State<SplashScren> {
+  var authController = Get.find<AuthLoginController>();
+  var profileController = Get.find<ProfileController>();
+  var categoryController = Get.find<CategoryContorller>();
+  final homeController = Get.find<HomeController>();
+  final postController = Get.find<PostController>();
+
   bool fakeUser = true;
   void changeScreen() {
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!fakeUser && mounted) {
+    Future.delayed(const Duration(seconds: 3), () async {
+      if (authController.isTokenValid() && mounted) {
+        homeController.setFakeLoadingsToTrue();
+        await profileController.loadProfile();
+        categoryController.getCategories();
+        categoryController.getCategories1();
+        await postController.getAllMyFavoritePosts();
+        homeController.getFeaturedPosts();
+        homeController.getTrendingPosts();
+        homeController.getSuggestedPosts();
         Get.to(() => HomeScreen());
       } else {
         Get.to(() => LoginScreen());

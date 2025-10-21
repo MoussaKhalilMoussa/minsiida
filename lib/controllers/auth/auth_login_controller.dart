@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/services/auth_service/auth_service_imple.dart';
@@ -16,13 +18,22 @@ class AuthLoginController extends GetxController {
   var passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   TextEditingController get emailController => _emailController;
-  
+
   var email = "";
+
+  final box = GetStorage();
+
+  bool isTokenValid() {
+    String? token = box.read(authToken);
+    if (token == null) return false;
+
+    return !JwtDecoder.isExpired(token);
+  }
 
   Future<void> loginMethod({context}) async {
     try {
       isLoading.value = true;
-     
+
       final token = await authService.userLogin(
         userName: userNameController.text.trim(),
         password: passwordController.text.trim(),

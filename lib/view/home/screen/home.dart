@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -31,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
+
+
   var currentPage = 0;
   int currentStartIndex = 0;
 
@@ -109,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
+
   void _closeDrawer() {
     setState(() => _isDrawerOpen = false);
     _controller.reverse();
@@ -186,181 +190,205 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     ];
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Obx(() {
-          return Stack(
-            children: [
-              //_pages[homeController.selectedIndex.value],
-              //NB: because of layout issue the top header section come second element of this stack widget
-              widgets1[homeController.homeIndex.value],
+    return PopScope<Object?>(
+      // Prevent the framework from auto-popping — we will control the pop.
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        // If animation (drawer, overlay, etc.) is open → reverse it
+        if (_controller.status == AnimationStatus.forward ||
+            _controller.status == AnimationStatus.completed) {
+          await _controller.reverse();
+          setState(() {
+            _isDrawerOpen = false;
+            homeController.selectedIndex.value = 0;
+          });
+          return; // stop here, don't exit
+        }
 
-              // Fixed top header (logo + search)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 120,
-                            height: 50,
-                            child: InkWell(
-                              onTap: () => homeController.homeIndex.value = 0,
-                              child: Image.asset(
-                                minsiidaLogo,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ), // Replace with actual logo
-                          Row(
-                            children: [
-                              Icon(Icons.location_on_outlined),
-                              SizedBox(width: 4),
-                              Text('N\'Djamena, Tchad'),
-                              Icon(Icons.keyboard_arrow_down),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Rechercher sur MinSiida',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                    ],
-                  ),
-                ),
-              ),
+        // If animation is closed and route not popped yet → exit the app
+        if (!didPop) {
+          // This closes the app like a system back
+          await SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Obx(() {
+            return Stack(
+              children: [
+                //_pages[homeController.selectedIndex.value],
+                //NB: because of layout issue the top header section come second element of this stack widget
+                widgets1[homeController.homeIndex.value],
 
-              // Custom bottom nav and FAB
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 80,
-                  decoration: BoxDecoration(
+                // Fixed top header (logo + search)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
                     color: Colors.white,
-                    border: Border(
-                      bottom: BorderSide(
-                        style: BorderStyle.none,
-                        color: Colors.white,
-                      ),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              height: 50,
+                              child: InkWell(
+                                onTap: () => homeController.homeIndex.value = 0,
+                                child: Image.asset(
+                                  minsiidaLogo,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ), // Replace with actual logo
+                            Row(
+                              children: [
+                                Icon(Icons.location_on_outlined),
+                                SizedBox(width: 4),
+                                Text('N\'Djamena, Tchad'),
+                                Icon(Icons.keyboard_arrow_down),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16),
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Rechercher sur MinSiida',
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                      ],
                     ),
                   ),
-                  // for reference, this is the height of the bottom nav bar
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Container(
-                        height: 80,
-                        margin: EdgeInsets.symmetric(horizontal: mainMargin),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                          ),
+                ),
+
+                // Custom bottom nav and FAB
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(
+                          style: BorderStyle.none,
                           color: Colors.white,
-                          border: Border(
-                            top: BorderSide(
-                              style: BorderStyle.solid,
-                              // this gives us the effect of shadow on top of navbars box under FAB
-                              color: Colors.grey.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ),
+                    // for reference, this is the height of the bottom nav bar
+                    child: Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Container(
+                          height: 80,
+                          margin: EdgeInsets.symmetric(horizontal: mainMargin),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                            ),
+                            color: Colors.white,
+                            border: Border(
+                              top: BorderSide(
+                                style: BorderStyle.solid,
+                                // this gives us the effect of shadow on top of navbars box under FAB
+                                color: Colors.grey.withValues(alpha: 0.7),
+                              ),
                             ),
                           ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            spacing: MediaQuery.sizeOf(context).width / 7,
+                            children: [
+                              _buildNavItem(LucideIcons.menu, "Menu", 0),
+                              _buildNavItem(LucideIcons.heart, "Favorites", 1),
+                              // SizedBox(width: 60), // space for FAB
+                              _buildNavItem(LucideIcons.grid, "Categories", 2),
+                              _buildNavItem(LucideIcons.user, "Profile", 3),
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: MediaQuery.sizeOf(context).width / 7,
-                          children: [
-                            _buildNavItem(LucideIcons.menu, "Menu", 0),
-                            _buildNavItem(LucideIcons.heart, "Favorites", 1),
-                            // SizedBox(width: 60), // space for FAB
-                            _buildNavItem(LucideIcons.grid, "Categories", 2),
-                            _buildNavItem(LucideIcons.user, "Profile", 3),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Overlay background when drawer is open
-              if (_isDrawerOpen)
-                GestureDetector(
-                  onTap: _closeDrawer,
-                  child: Container(color: Colors.black.withValues(alpha: 0.5)),
-                ),
-              Positioned(
-                bottom: 25,
-                left: MediaQuery.sizeOf(context).width / 2 - 40,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/addPost');
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: blueColor,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+                // Overlay background when drawer is open
+                if (_isDrawerOpen)
+                  GestureDetector(
+                    onTap: _closeDrawer,
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.5),
+                    ),
+                  ),
+                Positioned(
+                  bottom: 25,
+                  left: MediaQuery.sizeOf(context).width / 2 - 40,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/addPost');
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 70,
+                          height: 70,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: blueColor,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            LucideIcons.camera,
+                            color: Colors.white,
+                            size: 30,
+                          ),
                         ),
-                        child: Icon(
-                          LucideIcons.camera,
-                          color: Colors.white,
-                          size: 30,
+                        SizedBox(height: 2),
+                        // it is here as an spacer
+                        Text(
+                          "",
+                          style: TextStyle(
+                            color:
+                                homeController.selectedIndex.value == 2
+                                    ? Colors.blue
+                                    : Colors.grey,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 2),
-                      // it is here as an spacer
-                      Text(
-                        "",
-                        style: TextStyle(
-                          color:
-                              homeController.selectedIndex.value == 2
-                                  ? Colors.blue
-                                  : Colors.grey,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Slide-in drawer
-              for (int i = 0; i < widgets.length; i++)
-                if (i == homeController.selectedIndex.value)
-                  widgets[homeController.selectedIndex.value],
-              // Always last = on top
-            ],
-          );
-        }),
+                // Slide-in drawer
+                for (int i = 0; i < widgets.length; i++)
+                  if (i == homeController.selectedIndex.value)
+                    widgets[homeController.selectedIndex.value],
+                // Always last = on top
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
