@@ -37,26 +37,29 @@ class ChatMessageServiceImpl implements ChatMessageService {
   }
 
   void connect(int userId) {
-    stompClient = StompClient(
-      config: StompConfig.sockJS(
-        url: "http://app.minsiida.com:8080/ws",
-        onConnect: (StompFrame frame) {
-          logger.info("Connected to Websocket");
-          // subscribe to personal topic
-          stompClient!.subscribe(
-            destination: '/topic/user/$userId',
-            callback: (frame) {
-              if (frame.body != null) {
-                final data = json.decode(frame.body!);
-                final message = Message.fromJson(data);
-                onMessageReceived?.call(message);
-              }
-            },
-          );
+
+  stompClient = StompClient(
+  config: StompConfig(
+    url: 'ws://10.0.2.2:8080/ws',
+    //url: 'http://app.minsiida.com:8080/ws',  
+    onConnect: (StompFrame frame) {
+      logger.info("Connected to WebSocket");
+      stompClient!.subscribe(
+        destination: '/topic/user/$userId',
+        callback: (frame) {
+          if (frame.body != null) {
+            final data = json.decode(frame.body!);
+            final message = Message.fromJson(data);
+            onMessageReceived?.call(message);
+          }
         },
-        onWebSocketError: (error) => logger.severe("Websocket error: $error"),
-      ),
-    );
+      );
+    },
+    onWebSocketError: (error) => logger.severe("WebSocket error: $error"),
+  ),
+);
+
+    
     stompClient!.activate();
   }
 
