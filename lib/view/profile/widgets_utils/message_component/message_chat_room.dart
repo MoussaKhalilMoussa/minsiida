@@ -18,6 +18,7 @@ class MessageChatRoom extends StatelessWidget {
 
   final messageController = Get.find<MessagesController>();
   final profilleController = Get.find<ProfileController>();
+
   final FocusNode inputFocus = FocusNode(); // persistent focus node
 
   @override
@@ -41,6 +42,7 @@ class MessageChatRoom extends StatelessWidget {
               if (messageController.showEmojiPicker.value) {
                 messageController.showEmojiPicker.value = false;
               } else {
+                messageController.disconnectSocket();
                 Get.back();
               }
             },
@@ -106,7 +108,7 @@ class MessageChatRoom extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "last seen today at 12:05 AM",
+                    "last seen today at ${extractTime(conversation.lastMessage.timestamp!)}",
                     style: GoogleFonts.poppins(fontSize: 12),
                   ),
                 ],
@@ -126,31 +128,53 @@ class MessageChatRoom extends StatelessWidget {
           },
           child: Column(
             children: [
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: messageController.messages.length,
-                  itemBuilder: (context, index) {
-                    final message =
-                        messageController.messages.reversed.toList()[index];
-                    final isOwn =
-                        message.sender ==
-                        profilleController.currentUserId.toString();
-                    if (isOwn) {
-                      return OwnMessageCard(
-                        message: message.content!,
-                        time: extractTime(message.timestamp!),
-                      );
-                    } else {
-                      return ReplyCard(
-                        message: message.content!,
-                        time: extractTime(message.timestamp!),
-                      );
-                    }
-                  },
-                ), // chat messages area
+              messageController.messagesLoading.value
+                  ? Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 2.5,
+                      ),
+                      child: CircularProgressIndicator(color: primaryColor),
+                    ),
+                  )
+                  : Expanded(
+                    flex: 40
+                ,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: messageController.messages.length,
+                      padding: EdgeInsets.only(top: 12),
+                      itemBuilder: (context, index) {
+                        final message =
+                            messageController.messages.toList()[index];
+                        final isOwn =
+                            message.sender ==
+                            profilleController.currentUserId.toString();
+                        if (isOwn) {
+                          return OwnMessageCard(
+                            message: message.content!,
+                            time: extractTime(message.timestamp!),
+                            isSeen: message.read!,
+                          );
+                        } else {
+                          return ReplyCard(
+                            message: message.content!,
+                            time: extractTime(message.timestamp!),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+              Spacer(),
+              _buildInputArea(
+                context,
+                onPressed: () async {
+                  messageController.sendMessage(
+                    messageController.sendMessageContentController.text,
+                    user.id!,
+                  );
+                },
               ),
-              _buildInputArea(context),
               Offstage(
                 offstage: !messageController.showEmojiPicker.value,
                 child: SizedBox(
@@ -188,7 +212,10 @@ class MessageChatRoom extends StatelessWidget {
     });
   }
 
-  Widget _buildInputArea(BuildContext context) {
+  Widget _buildInputArea(
+    BuildContext context, {
+    required void Function()? onPressed,
+  }) {
     return Row(
       children: [
         Expanded(
@@ -247,7 +274,7 @@ class MessageChatRoom extends StatelessWidget {
             backgroundColor: Colors.blueAccent,
             radius: 25,
             child: IconButton(
-              onPressed: () {},
+              onPressed: onPressed,
               icon: const Icon(Icons.send, color: Colors.white),
             ),
           ),

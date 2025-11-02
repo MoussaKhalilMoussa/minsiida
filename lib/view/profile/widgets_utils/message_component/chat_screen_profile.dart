@@ -19,6 +19,7 @@ class ChatScreenProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProfile user = conversation.partner;
     Message message = conversation.lastMessage;
+    final count = messageController.unreadCounts[conversation.partner.id] ?? 0;
     return Column(
       children: [
         ListTile(
@@ -82,13 +83,16 @@ class ChatScreenProfile extends StatelessWidget {
                 extractTime(message.timestamp!),
                 style: GoogleFonts.poppins(fontSize: 12),
               ),
-              buildBadge("10"), // test with any number
+              buildBadge("$count"), // test with any number
             ],
           ),
 
-          onTap: () {
+          onTap: () async {
             Get.to(() => MessageChatRoom(conversation: conversation));
-            messageController.initChat(peer: user.id!);
+            await messageController.initChat(peer: user.id!);
+            await messageController.getConversationBtwTwoUser(user.id!);
+            messageController.resetUnreadCount(conversation.partner.id!);
+
           },
         ),
 

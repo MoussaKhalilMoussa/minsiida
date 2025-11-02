@@ -244,6 +244,9 @@ class HomeController extends GetxController {
       suggestedPosts.value = await postService.getSuggestedPosts(
         userId: profileController.userProfile.value!.id!,
       );
+    print("it is not runnig ${profileController.userProfile.value!.id!}");
+
+
       for (var post in suggestedPosts) {
         if (post.userId != null &&
             !usersForSuggestedPosts.containsKey(post.userId)) {
@@ -251,6 +254,8 @@ class HomeController extends GetxController {
             userId: post.userId!,
           );
           usersForSuggestedPosts.refresh();
+        print("========================================================");
+        print("it is not runnig");
         }
       }
       suggestedPostsloading.value = false;

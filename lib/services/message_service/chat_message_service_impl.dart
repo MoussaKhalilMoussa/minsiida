@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:simple_nav_bar/constants/strings.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
 import 'package:simple_nav_bar/services/message_service/chat_message_service.dart';
 import 'package:simple_nav_bar/utiles/logger.dart';
@@ -35,34 +34,36 @@ class ChatMessageServiceImpl implements ChatMessageService {
       rethrow;
     }
   }
-
+/* 
   void connect(int userId) {
+    // ✅ Create and connect socket
+    stompClient = StompClient(
+      config: StompConfig(
+        url: 'ws://app.minsiida.com:8080/ws',
+        onConnect: (StompFrame frame) {
+          logger.info("Connected to WebSocket as user $userId");
 
-  stompClient = StompClient(
-  config: StompConfig(
-    url: 'ws://10.0.2.2:8080/ws',
-    //url: 'http://app.minsiida.com:8080/ws',  
-    onConnect: (StompFrame frame) {
-      logger.info("Connected to WebSocket");
-      stompClient!.subscribe(
-        destination: '/topic/user/$userId',
-        callback: (frame) {
-          if (frame.body != null) {
-            final data = json.decode(frame.body!);
-            final message = Message.fromJson(data);
-            onMessageReceived?.call(message);
-          }
+          stompClient!.subscribe(
+            destination: '/topic/user/$userId',
+            callback: (frame) {
+              if (frame.body != null) {
+                final data = json.decode(frame.body!);
+                final message = Message.fromJson(data);
+
+                // ✅ Immediately trigger the handler
+                onMessageReceived?.call(message);
+              }
+            },
+          );
         },
-      );
-    },
-    onWebSocketError: (error) => logger.severe("WebSocket error: $error"),
-  ),
-);
+        onWebSocketError: (error) => logger.severe("WebSocket error: $error"),
+        onDisconnect: (frame) => logger.warning("⚠️ WebSocket disconnected"),
+      ),
+    );
 
-    
     stompClient!.activate();
   }
-
+ */
   @override
   Future<Message?> sendMessage({
     required int senderId,
@@ -99,6 +100,38 @@ class ChatMessageServiceImpl implements ChatMessageService {
     } catch (e) {
       logger.severe(" Unexpected error: $e");
       rethrow;
+    }
+  }
+
+  /// ✅ Fetch conversation between two users
+  @override
+  ///
+  Future<List<Message>> getConversationBtwTwoUser({
+    required int userId1,
+    required int userId2,
+  }) async {
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/messages",
+        queryParameters: {'user1': userId1, 'user2': userId2},
+      );
+
+      if (response.data != null) {
+        final data = response.data as List;
+        return data.map((e) => Message.fromJson(e)).toList();
+      }
+      return [];
+    } catch (e) {
+      logger.severe("❌ Error loading conversation: $e");
+      rethrow;
+    }
+  }
+
+  /// ✅ Disconnect cleanly
+  void disconnect() {
+    if (stompClient != null && stompClient!.connected) {
+      stompClient!.deactivate();
+      logger.info("👋 Disconnected from WebSocket");
     }
   }
 }

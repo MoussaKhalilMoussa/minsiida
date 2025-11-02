@@ -53,7 +53,6 @@ class DeconnectionPage extends StatelessWidget {
                 //alignment: Alignment.bottomCenter,
                 child: Card(
                   color: whiteColor,
-
                   child: Container(
                     padding: EdgeInsets.all(24),
                     child: Column(

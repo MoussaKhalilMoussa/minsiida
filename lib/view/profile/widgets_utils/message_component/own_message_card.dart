@@ -65,7 +65,7 @@ class OwnMessageCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Icon(
-                  isSeen ? Icons.done_all : Icons.done,
+                  isSeen ? Icons.done_all : Icons.done_all,
                   size: 18,
                   color: isSeen ? Colors.blueAccent : Colors.grey,
                 ),

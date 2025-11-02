@@ -5,7 +5,10 @@ abstract class ChatMessageService {
 
 Future<List<Conversation?>> getMyConversations({required int userId});
 
-  Future<Message?> sendMessage({
+Future<List<Message?>> getConversationBtwTwoUser({required int userId1,required int userId2});
+
+
+Future<Message?> sendMessage({
     required int senderId,
     required int receiverId,
     required String content,

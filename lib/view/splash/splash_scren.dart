@@ -37,7 +37,10 @@ class _SplashScrenState extends State<SplashScren> {
         await postController.getAllMyFavoritePosts();
         homeController.getFeaturedPosts();
         homeController.getTrendingPosts();
+        print("debug 1");
         homeController.getSuggestedPosts();
+        print("debug 2");
+
         Get.to(() => HomeScreen());
       } else {
         Get.to(() => LoginScreen());

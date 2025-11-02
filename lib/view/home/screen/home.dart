@@ -7,7 +7,9 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/images.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/view/categories/screen/categories_page.dart';
 import 'package:simple_nav_bar/view/favorites/favorites.dart';
@@ -33,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
 
-
   var currentPage = 0;
   int currentStartIndex = 0;
 
@@ -49,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen>
   //var homeController = Get.put(HomeController());
   final homeController = Get.find<HomeController>();
   final profileController = Get.find<ProfileController>();
+  final categoryController = Get.find<CategoryContorller>();
+  final postController = Get.find<PostController>();
 
   late double itemWidthWithSpacing;
 
@@ -74,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen>
         });
       }
     });
+    //initializeHomeData();
   }
 
   @override
@@ -111,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen>
       });
     }
   }
-
 
   void _closeDrawer() {
     setState(() => _isDrawerOpen = false);

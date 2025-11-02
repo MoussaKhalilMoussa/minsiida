@@ -33,4 +33,9 @@ class Message {
     data['read'] = read;
     return data;
   }
+
+   @override
+  String toString() {
+    return 'Subscription(id: $id, plan: $sender, activeAdsLimit: $receiver, monthlyAdsLimit: $content, adExpirationDays: $timestamp, boosts: $read )';
+  }
 }
