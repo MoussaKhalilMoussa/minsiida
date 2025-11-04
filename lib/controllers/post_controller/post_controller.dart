@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -24,6 +23,8 @@ import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import '../../utiles/utitlity_functions.dart';
 
 class PostController extends GetxController {
   final postService = Get.put<PostServiceImpl>(PostServiceImpl());

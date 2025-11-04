@@ -67,7 +67,7 @@ class Post {
       );
     }
 
-    if (json['expiresAt'] != null) {
+    if (json['createdAt'] != null) {
       date = DateTime.tryParse(json['createdAt']);
     }
 
