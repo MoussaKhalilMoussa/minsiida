@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
-import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 
 Widget CarsDrawer({
@@ -35,9 +34,10 @@ Widget CarsDrawer({
               leadingWidth: 25,
               title: Text(
                 "Véhicules",
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 18,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
                   color: greyColor,
+                  fontWeight: FontWeight.w500
                 ),
               ),
               bottom: PreferredSize(
@@ -49,8 +49,8 @@ Widget CarsDrawer({
             // List of subcategories
             Obx(() {
               final cat =
-                  categories1[categoryController.selectedCategoryIndex.value];
-              final subcat = cat['subcategory'];
+                  categoryController.categories1[categoryController.selectedCategoryIndex.value];
+              final subcat = cat.subcategories!;
               return SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final sub = subcat[index];
@@ -63,10 +63,10 @@ Widget CarsDrawer({
                       width: double.infinity,
                       // or only on selection
                       alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
                       child: Text(
-                        sub,
-                        style: TextStyle(
+                        sub.name!,
+                        style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),

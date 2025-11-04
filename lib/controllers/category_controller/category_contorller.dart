@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/services/category_service/category_service_impl.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
@@ -11,6 +10,7 @@ class CategoryContorller extends GetxController {
 
   RxBool showCategoryError = false.obs;
   var selectedCategoryName = "".obs;
+  var selectedCategoryId = 0.obs;
   var selectedSubcategory = ''.obs;
   var isSelected = false.obs;
 
@@ -54,10 +54,6 @@ class CategoryContorller extends GetxController {
 /*  getCategoriesByName({}){
 
 } */
-
-
-
-
 
 
   clear() {

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
+import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 
 Widget sectionHeader(String title) {
+  final postController = Get.put(PostController());
+  final homeController = Get.find<HomeController>();
+  var categoryController = Get.find<CategoryContorller>();
+
   return Container(
     margin: EdgeInsets.symmetric(horizontal: mainMargin),
     child: Row(
@@ -18,9 +26,20 @@ Widget sectionHeader(String title) {
         ),
         Row(
           children: [
-            TextButton(onPressed: () {}, child: Text("Voir plus \nd'annonces")),
+            TextButton(
+              onPressed: () async {
+                homeController.homeIndex.value = 1;
+                categoryController.selectedCategoryName.value = "Tous";
+                await postController.getAllPostsByStatus(status: "all");
+              },
+              child: Text("Voir plus \nd'annonces"),
+            ),
             IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                homeController.homeIndex.value = 1;
+                categoryController.selectedCategoryName.value = "Tous";
+                await postController.getAllPostsByStatus(status: "all");
+              },
               icon: Icon(Icons.arrow_forward_ios, size: 12, color: greyColor),
             ),
           ],

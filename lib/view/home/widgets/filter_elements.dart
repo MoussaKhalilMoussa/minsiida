@@ -37,9 +37,13 @@ Widget filterElements() {
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              collapsedIconColor: greyColor,
               title: Text(
                 "Categories",
-                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               children: [
                 Padding(
@@ -148,9 +152,13 @@ Widget filterElements() {
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              collapsedIconColor: greyColor,
               title: Text(
                 "Lieu",
-                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               children: [
                 Padding(
@@ -345,9 +353,13 @@ Widget filterElements() {
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              collapsedIconColor: greyColor,
               title: Text(
                 "Prix",
-                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               children: [
                 Padding(
@@ -380,7 +392,7 @@ Widget filterElements() {
                                 homeController.setLeftFieldFocus(hasFocus);
                               },
                               child: TextField(
-                                cursorHeight: 20,
+                                cursorHeight: 24,
                                 controller: homeController.leftController,
                                 decoration: InputDecoration(
                                   isDense: true,
@@ -390,9 +402,9 @@ Widget filterElements() {
                                       right: 0,
                                     ), // spacing
                                     child: Text(
-                                      "€",
-                                      style: GoogleFonts.playfairDisplay(
-                                        fontSize: 20,
+                                      "XAF",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
                                         color: greyColo1,
                                       ),
                                     ),
@@ -402,8 +414,8 @@ Widget filterElements() {
                                     minHeight: 0,
                                   ),
                                   hintText: "0",
-                                  hintStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 28,
+                                  hintStyle: GoogleFonts.poppins(
+                                    fontSize: 24,
                                     color: blackColor2,
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
@@ -411,9 +423,7 @@ Widget filterElements() {
                                   ),
                                   border: InputBorder.none,
                                 ),
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 28,
-                                ),
+                                style: GoogleFonts.poppins(fontSize: 24),
                               ),
                             ),
                           ),
@@ -446,7 +456,7 @@ Widget filterElements() {
                                 homeController.setRightFieldFocus(hasFocus);
                               },
                               child: TextField(
-                                cursorHeight: 20,
+                                cursorHeight: 24,
                                 textAlign: TextAlign.justify,
                                 keyboardType: TextInputType.numberWithOptions(
                                   decimal: true,
@@ -460,9 +470,9 @@ Widget filterElements() {
                                       right: 0,
                                     ), // spacing
                                     child: Text(
-                                      "€",
-                                      style: GoogleFonts.playfairDisplay(
-                                        fontSize: 20,
+                                      "XAF",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
                                         color: greyColo1,
                                       ),
                                     ),
@@ -471,9 +481,9 @@ Widget filterElements() {
                                     minWidth: 0,
                                     minHeight: 0,
                                   ),
-                                  hintText: "500",
-                                  hintStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 28,
+                                  hintText: "0",
+                                  hintStyle: GoogleFonts.poppins(
+                                    fontSize: 24,
                                     fontStyle: FontStyle.normal,
                                     color: blackColor2,
                                   ),
@@ -482,69 +492,80 @@ Widget filterElements() {
                                   ),
                                   border: InputBorder.none,
                                 ),
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 28,
-                                ),
+                                style: GoogleFonts.poppins(fontSize: 24),
                               ),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 0.5.h),
-                      Wrap(
-                        spacing: 8,
-                        children:
-                            ['<100', '<500', '<1000', '<5000'].map((label) {
-                              final numericValue = label.replaceFirst('<', '');
-                              final isSelected =
-                                  homeController.selectedPreset.value ==
-                                  numericValue;
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          spacing: 12,
+                          children:
+                              [
+                                '100',
+                                '500',
+                                '1000',
+                                '2500',
+                                '5000',
+                                '10000',
+                                '20000',
+                                '30000',
+                                '40000',
+                              ].map((value) {
+                                //final numericValue = label.replaceFirst('<', '');
+                                final isSelected =
+                                    homeController.selectedPreset.value ==
+                                    value;
 
-                              return GestureDetector(
-                                onTap:
-                                    () => homeController.selectPresetValue(
-                                      numericValue,
+                                return GestureDetector(
+                                  onTap:
+                                      () => homeController.selectPresetValue(
+                                        value,
+                                      ),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 6,
                                     ),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        isSelected
-                                            ? primaryColor.withValues(
-                                              alpha: 0.2,
-                                            )
-                                            : Colors.grey.withValues(
-                                              alpha: 0.1,
-                                            ),
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
+                                    decoration: BoxDecoration(
                                       color:
                                           isSelected
-                                              ? primaryColor
-                                              : Colors.transparent,
+                                              ? primaryColor.withValues(
+                                                alpha: 0.2,
+                                              )
+                                              : Colors.grey.withValues(
+                                                alpha: 0.1,
+                                              ),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color:
+                                            isSelected
+                                                ? primaryColor
+                                                : Colors.transparent,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      textAlign: TextAlign.justify,
+                                      value,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        color:
+                                            isSelected
+                                                ? primaryColor
+                                                : Colors.black87,
+                                        fontWeight:
+                                            isSelected
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                      ),
                                     ),
                                   ),
-                                  child: Text(
-                                    textAlign: TextAlign.justify,
-                                    label,
-                                    style: GoogleFonts.playfairDisplay(
-                                      fontSize: 18,
-                                      color:
-                                          isSelected
-                                              ? primaryColor
-                                              : Colors.black87,
-                                      fontWeight:
-                                          isSelected
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                        ),
                       ),
                     ],
                   ),
@@ -555,9 +576,13 @@ Widget filterElements() {
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              collapsedIconColor: greyColor,
               title: Text(
                 "Date de publication",
-                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               children: [
                 Padding(
@@ -584,9 +609,9 @@ Widget filterElements() {
                                   ),
                                   child: Text(
                                     item,
-                                    style: GoogleFonts.playfairDisplay(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
                                       color:
                                           homeController
                                                       .selectedDayFilter
@@ -621,9 +646,13 @@ Widget filterElements() {
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              collapsedIconColor: greyColor,
               title: Text(
                 "Filtrer par mot-clé",
-                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               children: [
                 Padding(
@@ -694,15 +723,16 @@ Widget filterElements() {
                     children: [
                       Text(
                         'Vendeur vérifié',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          color: greyColor,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       Text(
                         'Voir uniquement les annonces des vendeurs vérifiés',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 12,
+                        style: GoogleFonts.poppins(
+                          fontSize: 10,
                           color: Colors.grey[700],
                         ),
                       ),
@@ -713,7 +743,6 @@ Widget filterElements() {
                   // Toggle Button with GetX
                   Obx(
                     () => Switch(
-                    
                       trackOutlineWidth: WidgetStateProperty.all(0),
                       activeTrackColor: primaryColor,
                       inactiveThumbColor: whiteColor,
@@ -731,9 +760,14 @@ Widget filterElements() {
             ExpansionTile(
               expandedAlignment: Alignment.centerLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              collapsedIconColor: greyColor,
               title: Text(
                 "Note vendeur",
-                style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                style: GoogleFonts.poppins(
+                  color: greyColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               children: [
                 Padding(
@@ -759,9 +793,9 @@ Widget filterElements() {
                                   ),
                                   child: Text(
                                     item,
-                                    style: GoogleFonts.playfairDisplay(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
                                       color:
                                           homeController.selectedVendor.value ==
                                                   item

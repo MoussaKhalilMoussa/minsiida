@@ -36,8 +36,9 @@ class FilterPage extends StatelessWidget {
               //leadingWidth: 25,
               title: Text(
                 "Filtres",
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 18,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                   color: blackColor2,
                 ),
               ),
@@ -98,11 +99,11 @@ class FilterPage extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       fixedSize: WidgetStatePropertyAll(Size.fromWidth(150)),
-                      backgroundColor: WidgetStatePropertyAll(whiteColor),
+                      backgroundColor: WidgetStatePropertyAll(greyColo1.withValues(alpha: 0.5)),
                     ),
                     child: Text(
                       "Effacer",
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.poppins(
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
                       ),
@@ -118,7 +119,7 @@ class FilterPage extends StatelessWidget {
                     ),
                     child: Text(
                       "Appliquer",
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),

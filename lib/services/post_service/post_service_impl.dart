@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/models/post.dart';
+import 'package:simple_nav_bar/models/posts_wrapper.dart';
 import 'package:simple_nav_bar/services/post_service/post_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:simple_nav_bar/dio_networking/dio_api_client.dart';
@@ -251,20 +252,22 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> getPostsByCategoryNameOrId({
+  Future<PostsWrapper?> getPostsByCategoryNameOrId({
     required int categoryId,
+    int? page,
+    int? size,
   }) async {
     try {
       final response = await _dio.readDataWithoutAuth(
         "/api/ads/category/$categoryId",
+        queryParameters: {"page": page, "size": size},
       );
       if (response.data != null && response.data["content"] != null) {
-        final List<dynamic> data = response.data["content"];
-
+        final PostsWrapper wrapper = PostsWrapper.fromJson(response.data);
         // Convert JSON list → List<Post>
-        return data.map((json) => Post.fromJson(json)).toList();
+        return wrapper;
       } else {
-        return [];
+        return null;
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
@@ -334,6 +337,62 @@ class PostServiceImpl implements PostService {
     } catch (e) {
       logger.severe("❌ Unexpected error in reportPost service: $e");
       throw Exception("Failed to report post by post id, service");
+    }
+  }
+
+  @override
+  Future<PostsWrapper?> getPostsByStatus({
+    required String status,
+    int? page,
+    int? size,
+  }) async {
+    // api/ads/status/all
+    try {
+      final response = await _dio.readDataWithoutAuth(
+        "/api/ads/status/$status",
+        queryParameters: {"page": page, "size": size},
+      );
+
+      if (response.data != null && response.data["content"] != null) {
+        final PostsWrapper wrapper = PostsWrapper.fromJson(response.data);
+        // Convert JSON list → List<Post>
+        return wrapper;
+      } else {
+        return null;
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in fetching posts by status service: $e");
+      }
+      throw Exception(
+        "Failed to fetch posts by status due to DioException service",
+      );
+    } catch (e) {
+      logger.severe("❌ Unexpected error in postsbyStatus service: $e");
+      throw Exception("Failed to fetch posts by status service");
+    }
+  }
+
+  @override
+  Future<String?> deletePost({required int postId}) async {
+    try {
+      final response = await _dio.deleteData("/api/ads/$postId");
+
+      if (response.data != null) {
+        final data = response.data['message'];
+        // Convert JSON list → List<Post>
+        return data;
+      } else {
+        return null;
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        logger.severe("❌ Error in deletePost post by id service: $e");
+      }
+      return null;
+    } catch (e) {
+      logger.severe("❌ Unexpected error in deletePost service: $e");
+      return null;
     }
   }
 }

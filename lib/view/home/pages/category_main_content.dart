@@ -91,8 +91,8 @@ class _CategoryMainContent extends State<CategoryMainContent> {
     return Positioned.fill(
       child: Obx(() {
         final posts = postController.postsByCategoryNameOrId;
-        final count = min(postController.visibleCount.value, posts.length);
-        final visibleItems = posts.take(count).toList();
+        /* final count = min(postController.visibleCount.value, posts.length);
+        final visibleItems = posts.take(count).toList(); */
         return ListView(
           physics: ClampingScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 160),
@@ -183,7 +183,8 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                         ),
                         SizedBox(height: 12),
 
-                        postController.isLoadingCategoryPosts.value
+                        postController.isLoadingCategoryPosts.value ||
+                                postController.isLoadingStatusPosts.value
                             ? Text(
                               categoryController.selectedCategoryName.value,
                               style: GoogleFonts.poppins(
@@ -194,8 +195,8 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                             )
                             : Text(
                               "${categoryController.selectedCategoryName.value}"
-                              " - ${postController.postsByCategoryNameOrId.length} "
-                              "annonce${postController.postsByCategoryNameOrId.length > 1 ? 's trouvées' : ' trouvée'}",
+                              " - ${postController.totalElements.value} "
+                              "annonce${postController.totalElements.value > 1 ? 's trouvées' : ' trouvée'}",
                               style: GoogleFonts.poppins(
                                 color: blackColor2,
                                 fontSize: 12,
@@ -206,7 +207,8 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  postController.isLoadingCategoryPosts.value
+                  postController.isLoadingCategoryPosts.value ||
+                          postController.isLoadingStatusPosts.value
                       ? Padding(
                         padding: EdgeInsetsGeometry.only(
                           bottom: MediaQuery.sizeOf(context).height / 5,
@@ -237,8 +239,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                         children: [
                           GridView.builder(
                             padding: EdgeInsets.symmetric(horizontal: 12),
-                            //itemCount: visibleItems.length,
-                            itemCount: visibleItems.length,
+                            itemCount: posts.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             gridDelegate:
@@ -249,7 +250,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                                   childAspectRatio: 0.7,
                                 ),
                             itemBuilder: (_, index) {
-                              Post post = visibleItems[index];
+                              Post post = posts[index];
                               return porductCard(post: post);
                             },
                           ),
@@ -259,7 +260,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                               onPressed:
                                   postController.isLoadingMore.value
                                       ? null
-                                      : () => postController.showMore(step: 2),
+                                      : () => postController.showMore(step: 10),
                               style: ButtonStyle(
                                 //maximumSize: WidgetStatePropertyAll(Size.fromWidth(250)),
                                 //foregroundColor: WidgetStatePropertyAll(whiteColor),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
+import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 
@@ -15,19 +17,23 @@ class ProductCard extends StatelessWidget {
   final String status;
   final String date;
   final int view;
+  final int? id;
 
   const ProductCard({
     super.key,
+    this.id,
     required this.imageUrl,
     required this.title,
     required this.price,
     required this.status,
     required this.date,
     required this.view,
+    required,
   });
 
   @override
   Widget build(BuildContext context) {
+    final postController = Get.find<PostController>();
     return Card(
       color: Colors.white,
       child: Column(
@@ -162,10 +168,8 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  // Edit action
-                  print(imageUrl);
-                  print("===========");
-                  print(price);
+                  // View action
+                  // TODO: View product
                 },
               ),
               IconButton(
@@ -180,7 +184,8 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  // Delete action
+                  // Edit action
+                  // TODO: edit action
                 },
               ),
               IconButton(
@@ -195,7 +200,7 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 onPressed: () {
-                  // Delete action
+                  postController.deletePost(postId: id!);
                 },
               ),
             ],

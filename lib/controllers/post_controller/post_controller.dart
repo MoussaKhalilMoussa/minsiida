@@ -23,6 +23,7 @@ import 'package:simple_nav_bar/view/categories/models/category.dart';
 import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
 import 'package:uuid/uuid.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class PostController extends GetxController {
   final postService = Get.put<PostServiceImpl>(PostServiceImpl());
@@ -50,6 +51,7 @@ class PostController extends GetxController {
   // loading status
   final RxBool _isLoading = false.obs;
   final RxBool myAddsLoading = false.obs;
+  final RxBool isDeleting = false.obs;
 
   // uploading status
   final RxBool _isUploading = false.obs;
@@ -70,7 +72,13 @@ class PostController extends GetxController {
   Worker? _debounceWorker;
 
   final postsByCategoryNameOrId = <Post>[].obs;
+  final totalElements = 0.obs;
+  final pageSize = 0.obs;
+  final pageNumber = 0.obs;
+  final totalPages = 0.obs;
+
   final isLoadingCategoryPosts = false.obs;
+  final isLoadingStatusPosts = false.obs;
   final errorMessage = RxnString();
 
   //final myFavoritePosts = <Post>[].obs;
@@ -516,17 +524,121 @@ class PostController extends GetxController {
       );
       postsByCategoryNameOrId.clear();
 
-      if (response.isEmpty) {
+      if (response == null) {
         errorMessage.value = "Pas d'annonce trouvée";
       } else {
         //postsByCategoryNameOrId.assignAll(response);
-        setPosts(response);
+        setPosts(response.content!);
+        totalElements.value = response.page!.totalElements!;
       }
     } catch (e) {
       logger.severe("❌ Unexpected error in getPostsByCategoryNameOrId: $e");
       errorMessage.value = "Erreur de chargement des annonces.";
     } finally {
       isLoadingCategoryPosts.value = false;
+    }
+  }
+
+  Future<void> getPostsByCategoryNameorIdForShowMore({
+    required int categoryId,
+    int? page,
+    int? size,
+  }) async {
+    try {
+      errorMessage.value = null;
+
+      final response = await postService.getPostsByCategoryNameOrId(
+        categoryId: categoryId,
+        page: page,
+        size: size,
+      );
+      postsByCategoryNameOrId.clear();
+      totalElements.value = 0;
+      pageSize.value = 0;
+      pageNumber.value = 0;
+      totalPages.value = 0;
+
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        //setPosts(response.content!);
+        postsByCategoryNameOrId.assignAll(response.content!);
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getPostsByCategoryNameOrId: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    }
+  }
+
+  Future<void> getAllPostsByStatus({
+    required String status,
+    int? page,
+    int? size,
+  }) async {
+    try {
+      isLoadingStatusPosts.value = true;
+      errorMessage.value = null;
+
+      final response = await postService.getPostsByStatus(status: status);
+      // here we are using status to get all posts
+      postsByCategoryNameOrId.clear();
+
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        setPosts(response.content!);
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getAllPostsByStatus: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    } finally {
+      isLoadingStatusPosts.value = false;
+    }
+  }
+
+  Future<void> getAllPostsByStatusForShowMore({
+    required String status,
+    int? page,
+    int? size,
+  }) async {
+    try {
+      errorMessage.value = null;
+      final response = await postService.getPostsByStatus(
+        status: status,
+        page: page,
+        size: size,
+      );
+      // here we are using status to get all posts
+      postsByCategoryNameOrId.clear();
+      totalElements.value = 0;
+      pageSize.value = 0;
+      pageNumber.value = 0;
+      totalPages.value = 0;
+
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        //setPosts(response.content!);
+        postsByCategoryNameOrId.assignAll(response.content!);
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getAllPostsByStatus: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
     }
   }
 
@@ -602,7 +714,10 @@ class PostController extends GetxController {
                         Navigator.of(context).pop();
                         _reportController.clear();
                       },
-              child: Text("Annuler",style: GoogleFonts.poppins(color: greyColor)),
+              child: Text(
+                "Annuler",
+                style: GoogleFonts.poppins(color: greyColor),
+              ),
             ),
             ElevatedButton(
               style: ButtonStyle(shape: WidgetStatePropertyAll(LinearBorder())),
@@ -643,20 +758,77 @@ class PostController extends GetxController {
     );
   }
 
+  void deletePost({required int postId}) async {
+    try {
+      errorMessage.value = "";
+      isDeleting.value = true;
+      final String? response = await postService.deletePost(postId: postId);
+      if (response == null) {
+        errorMessage.value = "echec de suppression";
+        Get.snackbar(
+          maxWidth: Get.context!.screenWidth - 40,
+          backgroundColor: frindlyErrorColor,
+          colorText: blackColor2,
+          duration: Duration(seconds: 3),
+          "Echec",
+          errorMessage.value!,
+          snackPosition: SnackPosition.TOP,
+        );
+        isDeleting.value = false;
+      } else {
+        myAdds.removeWhere((post) => post.id == postId);
+        filteredAdds.removeWhere((post) => post.id == postId);
+        Get.snackbar(
+          maxWidth: Get.context!.screenWidth - 40,
+          colorText: blackColor2,
+          duration: Duration(seconds: 3),
+          "Supprimer",
+          "Supprimer avec succee",
+          snackPosition: SnackPosition.TOP,
+        );
+        //getAllMyPosts();
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in deletePost: $e");
+    }
+  }
+
   //final visibleCount = 24.obs;
-  final visibleCount = 4.obs;
+  final visibleCount = 0.obs;
   final isLoadingMore = false.obs;
 
-  bool get isAllVisible => visibleCount.value >= postsByCategoryNameOrId.length;
+  bool get isAllVisible => visibleCount.value >= totalElements.value;
 
-  void showMore({int step = 2}) async {
+  void showMore({int step = 10}) async {
     if (isAllVisible) return;
     isLoadingMore.value = true;
-    await Future.delayed(const Duration(milliseconds: 300)); // simulate delay
-    visibleCount.value = min(
-      visibleCount.value + step,
-      postsByCategoryNameOrId.length,
-    );
+    if (categoryController.selectedCategoryName.value != "Tous") {
+      int size = pageSize.value;
+      if (visibleCount.value < totalElements.value) {
+        size += 10;
+        await getPostsByCategoryNameorIdForShowMore(
+          categoryId: categoryController.selectedCategoryId.value,
+          size: size,
+        );
+        print("getPostsByCategoryNameorIdForShowMore 2 ${visibleCount.value}");
+        visibleCount.value = min(
+          visibleCount.value + step,
+          totalElements.value,
+        );
+      }
+    } else {
+      //await Future.delayed(const Duration(milliseconds: 300)); // simulate delay
+      int size = pageSize.value;
+      if (visibleCount.value < totalElements.value) {
+        size += 10;
+        await getAllPostsByStatusForShowMore(status: "all", size: size);
+        visibleCount.value = min(
+          visibleCount.value + step,
+          totalElements.value,
+        );
+        print("getAllPostsByStatusForShowMore 4 ${visibleCount.value}");
+      }
+    }
     isLoadingMore.value = false;
   }
 
@@ -664,7 +836,7 @@ class PostController extends GetxController {
   void setPosts(List<Post> posts) {
     postsByCategoryNameOrId.assignAll(posts);
     // reset visible count to initial or clamp if there are fewer posts
-    visibleCount.value = min(4, postsByCategoryNameOrId.length);
+    visibleCount.value = 10;
   }
 
   void resetAdsSearch() {

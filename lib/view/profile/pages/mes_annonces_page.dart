@@ -143,6 +143,7 @@ class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
                         itemBuilder: (context, index) {
                           Post post = postController.filteredAdds[index];
                           return ProductCard(
+                            id:post.id!,
                             imageUrl: post.mediaUrls!.first.content!,
                             title: post.title!,
                             price: post.price!.toString(),

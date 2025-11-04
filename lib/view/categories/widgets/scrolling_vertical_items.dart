@@ -37,7 +37,7 @@ class ScrollingVerticalItems extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               label,
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.poppins(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: greyColor,

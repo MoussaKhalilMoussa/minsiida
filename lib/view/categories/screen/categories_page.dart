@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
+import 'package:simple_nav_bar/view/categories/models/category.dart';
 import 'package:simple_nav_bar/view/categories/pages/cars_drawer.dart';
 import 'package:simple_nav_bar/view/categories/widgets/scrolling_vertical_items.dart';
 
@@ -61,15 +63,16 @@ class _CategoriesPageState extends State<CategoriesPage>
                     automaticallyImplyLeading: false,
                     title: Text(
                       "Categories",
-                      style: GoogleFonts.playfairDisplay(
-                        //fontWeight: FontWeight.bold,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20 ,
                         color: greyColor,
                       ),
                     ),
                     actions: [
                       IconButton(
                         icon: Icon(Icons.close, color: blackColor2),
-                        onPressed:widget.closeCategories,
+                        onPressed: widget.closeCategories,
                       ),
                     ],
                   ),
@@ -81,30 +84,34 @@ class _CategoriesPageState extends State<CategoriesPage>
                     ),
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
-                        final cat = categories1[index];
+                        //final cat = categories1[index];
+                        final cat = categoryController.categories1[index];
+                        final categoryIcon =
+                            iconsMap[cat.name] ??
+                            CategoryIcon(LucideIcons.helpCircle, Colors.black);
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6.0),
                           child: ScrollingVerticalItems(
-                            icon: cat['icon'],
-                            label: cat['label'],
-                            color: cat['color'],
+                            icon: categoryIcon.icon,
+                            label: cat.name!,
+                            color: categoryIcon.color,
                             onTap: () {
                               categoryController.selectedCategoryIndex.value =
                                   index;
-                              if (cat['label'] == "Véhicules") {
+                              if (cat.name! == "Véhicules") {
                                 _controller.forward();
                                 setState(() {
                                   isVehiculesOpen = true;
                                 });
                               }
-                              print(cat['label']);
+                              print(cat.name!);
                               print(
                                 categoryController.selectedCategoryIndex.value,
                               );
                             },
                           ),
                         );
-                      }, childCount: categories1.length),
+                      }, childCount: categoryController.categories1.length),
                     ),
                   ),
                 ],

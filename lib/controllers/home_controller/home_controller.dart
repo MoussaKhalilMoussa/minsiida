@@ -149,8 +149,34 @@ class HomeController extends GetxController {
   }
 
   void selectPresetValue(String value) {
-    rightController.text = value;
-    leftController.clear();
+    final doubleValue = double.tryParse(value);
+    if (doubleValue == null) return; // invalid input
+
+    final leftValue = double.tryParse(leftController.text);
+    final rightValue = double.tryParse(rightController.text);
+
+    if (isFocusedLeftField.value) {
+      // When user is editing left side
+      if (rightValue == null || doubleValue <= rightValue) {
+        leftController.text = value;
+      } else {
+        // left > right, reset right side
+        leftController.text = value;
+        rightController.clear();
+      }
+      isFocusedRightField.value = false;
+    } else {
+      // When user is editing right side
+      if (leftValue == null || doubleValue >= leftValue) {
+        rightController.text = value;
+      } else {
+        // right < left, reset left side
+        rightController.text = value;
+        leftController.clear();
+      }
+      isFocusedLeftField.value = false;
+    }
+
     selectedPreset.value = value;
   }
 
@@ -244,8 +270,7 @@ class HomeController extends GetxController {
       suggestedPosts.value = await postService.getSuggestedPosts(
         userId: profileController.userProfile.value!.id!,
       );
-    print("it is not runnig ${profileController.userProfile.value!.id!}");
-
+      print("it is not runnig ${profileController.userProfile.value!.id!}");
 
       for (var post in suggestedPosts) {
         if (post.userId != null &&
@@ -254,8 +279,8 @@ class HomeController extends GetxController {
             userId: post.userId!,
           );
           usersForSuggestedPosts.refresh();
-        print("========================================================");
-        print("it is not runnig");
+          print("========================================================");
+          print("it is not runnig");
         }
       }
       suggestedPostsloading.value = false;

@@ -15,7 +15,6 @@ import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
 import 'package:simple_nav_bar/view/home/pages/post_details.dart';
-import 'package:simple_nav_bar/view/home/widgets/custome_progress_indicator.dart';
 import 'package:simple_nav_bar/view/home/widgets/hoverable_category_item_widget.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
@@ -58,10 +57,11 @@ class _HomeMainContentState extends State<HomeMainContent> {
   late int currentStartIndex;
   late int currentStartIndex1;
 
-  final homeController = Get.find<HomeController>();
+  
   //final profileController = Get.find<ProfileController>();
   final userService = Get.put<UserServiceImpl>(UserServiceImpl());
   final postController = Get.put(PostController());
+  final homeController = Get.find<HomeController>();
   var categoryController = Get.find<CategoryContorller>();
   final postDetailsController = Get.find<PosttDetailsController>();
 
@@ -166,11 +166,21 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                       categoryController
                                           .selectedCategoryName
                                           .value = cat.name!;
-                                      // TODO:get all post (pour tout)
-                                      await postController
-                                          .getPostsByCategoryNameorId(
-                                            categoryId: cat.id!,
-                                          );
+                                      if (categoryController
+                                              .selectedCategoryName
+                                              .value ==
+                                          "Tous") {
+                                        await postController
+                                            .getAllPostsByStatus(status: "all");
+                                      } else {
+                                        categoryController
+                                            .selectedCategoryId
+                                            .value = cat.id!;
+                                        await postController
+                                            .getPostsByCategoryNameorId(
+                                              categoryId: cat.id!,
+                                            );
+                                      }
                                     },
                                   ),
                                 );
@@ -942,7 +952,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
                                     userId: post.userId!,
                                   );
                                   Get.to(() => PostDetails(), arguments: post);
-                                  
+
                                   postController.viewPost(postId: post.id!);
                                 },
                                 child: Image.network(
