@@ -23,19 +23,17 @@ class DeconnectionPage extends StatelessWidget {
         shrinkWrap: true,
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: whiteColor,
             pinned: true,
-            leading: IconButton(
-              icon: const Icon(Ionicons.chevron_back_outline),
-              onPressed: () {
-                Navigator.of(context).pop();
-                profileController.clearUserProfile();
-              },
-            ),
             centerTitle: true,
             title: Text(
               'Déconnexion',
-              style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: blackColor,
+              ),
             ),
             floating: true,
             snap: true,
@@ -74,9 +72,9 @@ class DeconnectionPage extends StatelessWidget {
                         Text(
                           'Êtes-vous sûr de vouloir vous déconnecter ?',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                             color: greyColor,
                           ),
                         ),
@@ -86,8 +84,8 @@ class DeconnectionPage extends StatelessWidget {
                           child: Text(
                             'Vous serez déconnecté de votre compte et redirigé vers la page de connexion.',
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 14,
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
                               //fontWeight: FontWeight.bold,
                               color: blackColor2,
                             ),
@@ -129,9 +127,9 @@ class DeconnectionPage extends StatelessWidget {
                               SizedBox(width: 8.w),
                               Text(
                                 "Déconnexion",
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
@@ -161,7 +159,9 @@ class DeconnectionPage extends StatelessWidget {
                             ),
                             foregroundColor: WidgetStatePropertyAll(whiteColor),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.back();
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,7 +174,7 @@ class DeconnectionPage extends StatelessWidget {
                               SizedBox(width: 8.w),
                               Text(
                                 "Annuler",
-                                style: GoogleFonts.playfairDisplay(
+                                style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: blackColor2,
