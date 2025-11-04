@@ -81,7 +81,9 @@ class PostDetails extends StatelessWidget {
                             onTap:
                                 () => Future.delayed(
                                   Duration.zero,
-                                  () => postController.openReportDialog(postId: post.id!)
+                                  () => postController.openReportDialog(
+                                    postId: post.id!,
+                                  ),
                                 ),
                           ),
                         ],
@@ -369,7 +371,7 @@ class PostDetails extends StatelessWidget {
                       ),
                     ),
 
-                 /*    Padding(
+                    /*    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: shippingMethod(
                         icon: "📦",
