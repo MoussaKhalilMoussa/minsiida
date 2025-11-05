@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -140,7 +142,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = Platform.isIOS ? 24.0 : 12.0;
+    final leftPadding = Platform.isIOS ? 16.0 : 8.0;
+    final rightPadding = Platform.isIOS ? 16.0 : 8.0;
+
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: whiteColor,
         shadowColor: Colors.grey.withValues(alpha: 1),
@@ -156,7 +163,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             deliveryController.resetFields();
             specificationsController.resetSelection();
             Navigator.pop(context);
-          }, 
+          },
         ),
         title: Text(
           'Publier une annonce',
@@ -229,7 +236,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
       bottomNavigationBar:
           !hideContinueButton
               ? Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.fromLTRB(
+                  leftPadding,
+                  8.0,
+                  rightPadding,
+                  bottomPadding,
+                ),
                 child: CustomButton(
                   borderRadius: 12,
                   onPressed: () {

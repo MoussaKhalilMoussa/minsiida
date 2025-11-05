@@ -396,6 +396,8 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+
+
   Widget _buildNavItem(IconData icon, String label, int index) {
     return GestureDetector(
       onTap: () => _onItemTapped(index),

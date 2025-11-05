@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,7 @@ import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/repl
 
 class MessageChatRoom extends StatelessWidget {
   MessageChatRoom({super.key, required this.conversation});
+
   final Conversation conversation;
 
   final messageController = Get.find<MessagesController>();
@@ -23,6 +26,10 @@ class MessageChatRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = Platform.isIOS ? 0.0 : 0.0;
+    final leftPadding = Platform.isIOS ? 0.0 : 0.0;
+    final rightPadding = Platform.isIOS ? 0.0 : 0.0;
+
     inputFocus.addListener(() {
       if (inputFocus.hasFocus &&
           messageController.showEmojiPicker.value == true) {
@@ -34,6 +41,7 @@ class MessageChatRoom extends StatelessWidget {
       UserProfile user = conversation.partner;
 
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: greyColo1.withValues(alpha: 1.3),
         appBar: AppBar(
           leading: IconButton(
@@ -116,96 +124,106 @@ class MessageChatRoom extends StatelessWidget {
             ],
           ),
         ),
-        body: PopScope(
-          canPop: false,
-          onPopInvokedWithResult: (didPop, result) {
-            if (didPop) return;
-            if (messageController.showEmojiPicker.value) {
-              messageController.showEmojiPicker.value = false;
-              return;
-            }
-            Get.back();
-          },
-          child: Column(
-            children: [
-              messageController.messagesLoading.value
-                  ? Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 2.5,
-                      ),
-                      child: CircularProgressIndicator(color: primaryColor),
-                    ),
-                  )
-                  : Expanded(
-                    flex: 40
-                ,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: messageController.messages.length,
-                      padding: EdgeInsets.only(top: 12),
-                      itemBuilder: (context, index) {
-                        final message =
-                            messageController.messages.toList()[index];
-                        final isOwn =
-                            message.sender ==
-                            profilleController.currentUserId.toString();
-                        if (isOwn) {
-                          return OwnMessageCard(
-                            message: message.content!,
-                            time: extractTime(message.timestamp!),
-                            isSeen: message.read!,
-                          );
-                        } else {
-                          return ReplyCard(
-                            message: message.content!,
-                            time: extractTime(message.timestamp!),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-              Spacer(),
-              _buildInputArea(
-                context,
-                onPressed: () async {
-                  messageController.sendMessage(
-                    messageController.sendMessageContentController.text,
-                    user.id!,
-                  );
-                },
+        body: Column(
+          children: [
+            PopScope(
+              canPop: false,
+              onPopInvokedWithResult: (didPop, result) {
+                if (didPop) return;
+                if (messageController.showEmojiPicker.value) {
+                  messageController.showEmojiPicker.value = false;
+                  return;
+                }
+                Get.back();
+              },
+              child: Expanded(
+                flex: 12,
+                child:
+                    messageController.messagesLoading.value
+                        ? Center(
+                          child: CircularProgressIndicator(color: primaryColor),
+                        )
+                        : ListView.builder(
+                          itemCount: messageController.messages.length,
+                          padding: EdgeInsets.only(top: 12),
+                          itemBuilder: (context, index) {
+                            final message =
+                                messageController.messages.toList()[index];
+                            final isOwn =
+                                message.sender ==
+                                profilleController.currentUserId.toString();
+                            if (isOwn) {
+                              return OwnMessageCard(
+                                message: message.content!,
+                                time: extractTime(message.timestamp!),
+                                isSeen: message.read!,
+                              );
+                            } else {
+                              return ReplyCard(
+                                message: message.content!,
+                                time: extractTime(message.timestamp!),
+                              );
+                            }
+                          },
+                        ),
               ),
-              Offstage(
-                offstage: !messageController.showEmojiPicker.value,
-                child: SizedBox(
-                  height: 256,
-                  child: EmojiPicker(
-                    textEditingController:
-                        messageController.sendMessageContentController,
-                    config: Config(
-                      height: 256,
-                      checkPlatformCompatibility: true,
-                      emojiViewConfig: EmojiViewConfig(
-                        emojiSizeMax:
-                            28 *
-                            (foundation.defaultTargetPlatform ==
-                                    TargetPlatform.iOS
-                                ? 1.20
-                                : 1.0),
+            ),
+          ],
+        ),
+        bottomNavigationBar: SafeArea(
+          bottom: Platform.isIOS ? true : false,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              leftPadding,
+              8.0,
+              rightPadding,
+              bottomPadding,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildInputArea(
+                  context,
+                  onPressed: () async {
+                    messageController.sendMessage(
+                      messageController.sendMessageContentController.text,
+                      user.id!,
+                    );
+                  },
+                ),
+                Offstage(
+                  offstage: !messageController.showEmojiPicker.value,
+                  child: SizedBox(
+                    height: 256,
+                    child: EmojiPicker(
+                      textEditingController:
+                          messageController.sendMessageContentController,
+                      config: Config(
+                        height: 256,
+                        checkPlatformCompatibility: true,
+                        emojiViewConfig: EmojiViewConfig(
+                          emojiSizeMax:
+                              28 *
+                              (foundation.defaultTargetPlatform ==
+                                      TargetPlatform.iOS
+                                  ? 1.20
+                                  : 1.0),
+                        ),
+                        viewOrderConfig: const ViewOrderConfig(
+                          top: EmojiPickerItem.categoryBar,
+                          middle: EmojiPickerItem.emojiView,
+                          bottom: EmojiPickerItem.searchBar,
+                        ),
+                        categoryViewConfig: const CategoryViewConfig(),
+                        searchViewConfig: SearchViewConfig(),
+                        bottomActionBarConfig: const BottomActionBarConfig(),
                       ),
-                      viewOrderConfig: const ViewOrderConfig(
-                        top: EmojiPickerItem.categoryBar,
-                        middle: EmojiPickerItem.emojiView,
-                        bottom: EmojiPickerItem.searchBar,
-                      ),
-                      categoryViewConfig: const CategoryViewConfig(),
-                      searchViewConfig: SearchViewConfig(),
-                      bottomActionBarConfig: const BottomActionBarConfig(),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -283,3 +301,29 @@ class MessageChatRoom extends StatelessWidget {
     );
   }
 }
+
+/*
+
+ListView.builder(
+itemCount: messageController.messages.length,
+padding: EdgeInsets.only(top: 12),
+itemBuilder: (context, index) {
+final message =
+messageController.messages.toList()[index];
+final isOwn =
+message.sender ==
+profilleController.currentUserId.toString();
+if (isOwn) {
+return OwnMessageCard(
+message: message.content!,
+time: extractTime(message.timestamp!),
+isSeen: message.read!,
+);
+} else {
+return ReplyCard(
+message: message.content!,
+time: extractTime(message.timestamp!),
+);
+}
+},
+),*/

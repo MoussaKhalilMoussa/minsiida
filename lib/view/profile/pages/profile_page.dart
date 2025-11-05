@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,10 +13,15 @@ import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
+
   final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = Platform.isIOS ? 24.0 : 12.0;
+    final leftPadding = Platform.isIOS ? 16.0 : 8.0;
+    final rightPadding = Platform.isIOS ? 16.0 : 8.0;
+
     UserProfile? profile = profileController.userProfile.value;
 
     profileController.nameController.text = profile!.name!;
@@ -26,7 +33,6 @@ class ProfilePage extends StatelessWidget {
       profileController.phoneController.text = profile.phone!;
     }
     // profile.phone!;
-
     return Obx(() {
       return Stack(
         children: [
@@ -349,7 +355,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
 
-                /* 
+                /*
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -378,7 +384,7 @@ class ProfilePage extends StatelessWidget {
                                 color: greyColor,
                               ),
                             ),
-            
+
                             SizedBox(height: 8),
                             TextFormField(
                               style: GoogleFonts.poppins(
@@ -468,22 +474,30 @@ class ProfilePage extends StatelessWidget {
                  */
               ],
             ),
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomButton(
-                onPressed: () async {
-                  await profileController.updateProfile();
-                },
-                color: blueColor,
-                width: MediaQuery.sizeOf(Get.context!).width,
-                height: 60,
-                borderRadius: 30,
-                child: Text(
-                  "Enregistrer les modifications",
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+            bottomNavigationBar: SafeArea(
+              bottom: Platform.isIOS ? true : false,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  leftPadding,
+                  8.0,
+                  rightPadding,
+                  bottomPadding,
+                ),
+                child: CustomButton(
+                  onPressed: () async {
+                    await profileController.updateProfile();
+                  },
+                  color: blueColor,
+                  width: MediaQuery.sizeOf(Get.context!).width,
+                  height: 60,
+                  borderRadius: 30,
+                  child: Text(
+                    "Enregistrer les modifications",
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

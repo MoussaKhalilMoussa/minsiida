@@ -142,8 +142,6 @@ class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
                         itemCount: postController.filteredAdds.length,
                         itemBuilder: (context, index) {
                           Post post = postController.filteredAdds[index];
-                          print("%%%%%%%%%%%%%%%%%%%%%=====");
-                          print(formatShortDateNumber(post.date!.toIso8601String()));
                           return ProductCard(
                             id:post.id!,
                             imageUrl: post.mediaUrls!.first.content!,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -29,6 +31,11 @@ class PostDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = Platform.isIOS ? 30.0 : 8.0;
+    //final bottomPadding = Platform.isIOS ? 24.0 : 12.0;
+    final leftPadding = Platform.isIOS ? 14.0 : 8.0;
+    final rightPadding = Platform.isIOS ? 14.0 : 8.0;
+
     final Post post = Get.arguments;
 
     final List<String> imageUrls =
@@ -39,6 +46,7 @@ class PostDetails extends StatelessWidget {
         if (c.key != null && c.value != null) c.key!: c.value!,
     };
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Obx(() {
         final currentIndex = postDetailsController.selectedImageIndex.value + 1;
         final isLiked = postController.isPostLiked(post.id!);
@@ -423,7 +431,12 @@ class PostDetails extends StatelessWidget {
       }),
 
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.fromLTRB(
+          leftPadding,
+          8,
+          rightPadding,
+          bottomPadding,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
