@@ -7,9 +7,9 @@ abstract class PostService {
 
   Future<List<Post>> getAllMyPosts(int userId);
 
-  Future<List<Post>> getFeaturedPosts();
+  Future<PostsWrapper?> getFeaturedPosts();
 
-  Future<List<Post>> getTrendingPosts();
+  Future<PostsWrapper?> getTrendingPosts();
 
   Future<List<Post>> getSuggestedPosts({required int userId});
 

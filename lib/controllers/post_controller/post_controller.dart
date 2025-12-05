@@ -24,8 +24,6 @@ import 'package:simple_nav_bar/view/profile/pages/mes_annonces_page.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../utiles/utitlity_functions.dart';
-
 class PostController extends GetxController {
   final postService = Get.put<PostServiceImpl>(PostServiceImpl());
   final authService = Get.put<AuthServiceImple>(AuthServiceImple());
@@ -73,6 +71,8 @@ class PostController extends GetxController {
   Worker? _debounceWorker;
 
   final postsByCategoryNameOrId = <Post>[].obs;
+  final featuredPosts = <Post>[].obs;
+
   final totalElements = 0.obs;
   final pageSize = 0.obs;
   final pageNumber = 0.obs;
@@ -80,6 +80,9 @@ class PostController extends GetxController {
 
   final isLoadingCategoryPosts = false.obs;
   final isLoadingStatusPosts = false.obs;
+  final featuredPostsloading = false.obs;
+  final trendingPostsloading = false.obs;
+  final suggestedPostsloading = false.obs;
   final errorMessage = RxnString();
 
   //final myFavoritePosts = <Post>[].obs;
@@ -640,6 +643,33 @@ class PostController extends GetxController {
     } catch (e) {
       logger.severe("❌ Unexpected error in getAllPostsByStatus: $e");
       errorMessage.value = "Erreur de chargement des annonces.";
+    }
+  }
+
+  Future<void> getFeaturedPosts() async {
+    try {
+      featuredPostsloading.value = true;
+      errorMessage.value = null;
+
+      final response = await postService.getFeaturedPosts();
+      //featuredPosts.assignAll(respons);
+      // fetch all users for these posts
+      featuredPosts.clear();
+      totalElements.value = 0;
+      pageSize.value = 0;
+      pageNumber.value = 0;
+      totalPages.value = 0;
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        setPosts(response.content!);
+        totalElements.value = response.page!.totalElements!;
+
+      }
+      featuredPostsloading.value = false;
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
     }
   }
 

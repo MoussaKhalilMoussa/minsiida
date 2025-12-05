@@ -37,6 +37,10 @@ class HomeController extends GetxController {
   var trendingPostsloading = false.obs;
   var suggestedPostsloading = false.obs;
 
+  final errorMessageForFeatured = RxnString();
+  final errorMessageForTrending = RxnString();
+  final errorMessageForSuggest = RxnString();
+
   var fakeFeaturedPostsloading = false.obs;
   var fakeTrendingPostsloading = false.obs;
   var fakeSuggestedPostsloading = false.obs;
@@ -225,30 +229,45 @@ class HomeController extends GetxController {
       featuredPostsloading.value = true;
       fakeFeaturedPostsloading.value = false;
 
-      featuredPosts.value = await postService.getFeaturedPosts();
-      //featuredPosts.assignAll(respons);
-      // fetch all users for these posts
-      for (var post in featuredPosts) {
-        if (post.userId != null &&
-            !usersForfeaturedPosts.containsKey(post.userId)) {
-          usersForfeaturedPosts[post.userId!] = await userService.getUser(
-            userId: post.userId!,
-          );
-          usersForfeaturedPosts.refresh();
+      final response = await postService.getFeaturedPosts();
+      featuredPosts.clear();
+
+      if (response == null) {
+        errorMessageForFeatured.value = "Pas d'annonce trouvée";
+      } else {
+        featuredPosts.assignAll(response.content!);
+        for (var post in featuredPosts) {
+          if (post.userId != null &&
+              !usersForfeaturedPosts.containsKey(post.userId)) {
+            usersForfeaturedPosts[post.userId!] = await userService.getUser(
+              userId: post.userId!,
+            );
+            usersForfeaturedPosts.refresh();
+          }
         }
       }
-      featuredPostsloading.value = false;
     } catch (e) {
       logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessageForFeatured.value = "Erreur de chargement des annonces.";
+    } finally {
+      featuredPostsloading.value = false;
     }
   }
 
   Future<void> getTrendingPosts() async {
-    try {
+
+     try {
       trendingPostsloading.value = true;
       fakeTrendingPostsloading.value = false;
-      trendingPosts.value = await postService.getTrendingPosts();
-      for (var post in trendingPosts) {
+      
+      final response = await postService.getTrendingPosts();
+      trendingPosts.clear();
+
+      if (response == null) {
+        errorMessageForTrending.value = "Pas d'annonce trouvée";
+      } else {
+        trendingPosts.assignAll(response.content!);
+        for (var post in trendingPosts) {
         if (post.userId != null &&
             !usersFortrendingPosts.containsKey(post.userId)) {
           usersFortrendingPosts[post.userId!] = await userService.getUser(
@@ -257,9 +276,12 @@ class HomeController extends GetxController {
           usersFortrendingPosts.refresh();
         }
       }
-      trendingPostsloading.value = false;
+      }
     } catch (e) {
-      logger.severe("❌ Unexpected error in getTrendingPosts: $e");
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessageForTrending.value = "Erreur de chargement des annonces.";
+    } finally {
+      trendingPostsloading.value = false;
     }
   }
 

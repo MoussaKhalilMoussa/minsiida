@@ -37,8 +37,23 @@ Widget sectionHeader(String title) {
             IconButton(
               onPressed: () async {
                 homeController.homeIndex.value = 1;
-                categoryController.selectedCategoryName.value = "Tous";
-                await postController.getAllPostsByStatus(status: "all");
+                switch (title) {
+                  case "Meilleures annonces en \n vedette":
+                    categoryController.selectedCategoryName.value =
+                        "Annonces en \n vedette";
+                    await homeController.getFeaturedPosts();
+                    break;
+                  case "Nos annonces\n recommandées":
+                    categoryController.selectedCategoryName.value =
+                        "Annonces\n recommandées";
+                    await homeController.getSuggestedPosts();
+                    break;
+                  case "Annonces tendances\n populaires":
+                    categoryController.selectedCategoryName.value =
+                        "Annonces populaires ";
+                    await homeController.getTrendingPosts();
+                    break;
+                }
               },
               icon: Icon(Icons.arrow_forward_ios, size: 12, color: greyColor),
             ),

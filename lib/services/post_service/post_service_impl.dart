@@ -112,17 +112,19 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> getFeaturedPosts() async {
+  Future<PostsWrapper?> getFeaturedPosts({int? page, int? size}) async {
     try {
-      final response = await _dio.readDataWithoutAuth("/api/ads/featured");
+      final response = await _dio.readDataWithoutAuth(
+        "/api/ads/featured",
+        queryParameters: {"page": page, "size": size},
+      );
 
-      if (response.data != null) {
-        final List<dynamic> data = response.data;
-
+      if (response.data != null && response.data["content"] != null) {
+        final PostsWrapper wrapper = PostsWrapper.fromJson(response.data);
         // Convert JSON list → List<Post>
-        return data.map((json) => Post.fromJson(json)).toList();
+        return wrapper;
       } else {
-        return [];
+        return null;
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
@@ -138,20 +140,19 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> getTrendingPosts() async {
+  Future<PostsWrapper?> getTrendingPosts({int? page, int? size}) async {
     try {
       final response = await _dio.readDataWithoutAuth(
         "/api/ads/trending",
-        queryParameters: {"limit": 20},
+        queryParameters: {"page": page, "size": size},
       );
 
-      if (response.data != null) {
-        final List<dynamic> data = response.data;
-
+      if (response.data != null && response.data["content"] != null) {
+        final PostsWrapper wrapper = PostsWrapper.fromJson(response.data);
         // Convert JSON list → List<Post>
-        return data.map((json) => Post.fromJson(json)).toList();
+        return wrapper;
       } else {
-        return [];
+        return null;
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
