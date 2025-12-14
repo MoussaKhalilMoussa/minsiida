@@ -38,11 +38,11 @@ class DioApiClient {
     dio.interceptors.addAll([
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('Request: ${options.method} ${options.uri}');
+          //print('Request: ${options.method} ${options.uri}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          print('Response: ${response.statusCode} ${response.data}');
+          //print('Response: ${response.statusCode} ${response.data}');
           return handler.next(response);
         },
         onError: (DioException error, handler) {
@@ -54,10 +54,10 @@ class DioApiClient {
         },
       ),
       PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
+        requestHeader: false,
+        requestBody: false,
         responseHeader: false,
-        responseBody: true,
+        responseBody: false,
         error: true,
         compact: true,
       ),

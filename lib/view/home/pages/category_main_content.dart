@@ -90,7 +90,14 @@ class _CategoryMainContent extends State<CategoryMainContent> {
   Widget build(BuildContext context) {
     return Positioned.fill(
       child: Obx(() {
-        final posts = postController.postsByCategoryNameOrId;
+        final RxList posts = [].obs;
+        if (categoryController.selectedCategoryName.value == "vedette") {
+          posts.clear();
+          posts.value = postController.featuredPosts;
+        } else {
+          posts.clear();
+          posts.value = postController.postsByCategoryNameOrId;
+        }
         /* final count = min(postController.visibleCount.value, posts.length);
         final visibleItems = posts.take(count).toList(); */
         return ListView(
@@ -184,7 +191,8 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                         SizedBox(height: 12),
 
                         postController.isLoadingCategoryPosts.value ||
-                                postController.isLoadingStatusPosts.value
+                                postController.isLoadingStatusPosts.value ||
+                                postController.featuredPostsloading.value
                             ? Text(
                               categoryController.selectedCategoryName.value,
                               style: GoogleFonts.poppins(
@@ -208,7 +216,8 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                   ),
                   SizedBox(height: 16),
                   postController.isLoadingCategoryPosts.value ||
-                          postController.isLoadingStatusPosts.value
+                          postController.isLoadingStatusPosts.value ||
+                          postController.featuredPostsloading.value
                       ? Padding(
                         padding: EdgeInsetsGeometry.only(
                           bottom: MediaQuery.sizeOf(context).height / 5,

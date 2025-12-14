@@ -11,7 +11,7 @@ abstract class PostService {
 
   Future<PostsWrapper?> getTrendingPosts();
 
-  Future<List<Post>> getSuggestedPosts({required int userId});
+  Future<PostsWrapper?> getSuggestedPosts({required int userId});
 
   Future<List<Post>> getMyFavoritesPosts({required int userId});
 
@@ -25,8 +25,7 @@ abstract class PostService {
     required String reason,
   });
 
-Future<PostsWrapper?> getPostsByStatus({required String status});
+  Future<PostsWrapper?> getPostsByStatus({required String status});
 
-Future<String?> deletePost({required int postId });
-
+  Future<String?> deletePost({required int postId});
 }

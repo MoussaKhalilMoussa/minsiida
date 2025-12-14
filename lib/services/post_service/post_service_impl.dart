@@ -94,7 +94,7 @@ class PostServiceImpl implements PostService {
         return [];
       }
     } on DioException catch (e) {
-      // 👇 handle the "no posts" case gracefully
+      // handle the "no posts" case gracefully
       if (e.response?.statusCode == 404 ||
           e.response!.data.toString().contains(
             "Pas d'annonces trouvées pour cet utilisateur",
@@ -168,20 +168,23 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> getSuggestedPosts({required int userId}) async {
+  Future<PostsWrapper?> getSuggestedPosts({
+    required int userId,
+    int? page,
+    int? size,
+  }) async {
     try {
       final response = await _dio.readDataWithoutAuth(
         "/api/user/for-you",
-        queryParameters: {"userId": userId, "limit": 20},
+        queryParameters: {"userId": userId, "page": page, "size": size},
       );
 
-      if (response.data != null) {
-        final List<dynamic> data = response.data;
-
+      if (response.data != null && response.data["content"] != null) {
+        final PostsWrapper wrapper = PostsWrapper.fromJson(response.data);
         // Convert JSON list → List<Post>
-        return data.map((json) => Post.fromJson(json)).toList();
+        return wrapper;
       } else {
-        return [];
+        return null;
       }
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
@@ -223,10 +226,7 @@ class PostServiceImpl implements PostService {
 
   Future<void> unlikePost({required int postId, required int userId}) async {
     try {
-      final response = await _dio.deleteData(
-        "/api/user/$userId/unlike/$postId",
-      );
-      logger.info("✅ ${response.data}");
+      await _dio.deleteData("/api/user/$userId/unlike/$postId");
     } on DioException catch (e) {
       if (e.type == DioExceptionType.badResponse) {
         logger.severe('❌ Dio error in unlikePost service: ${e.message}');
@@ -322,8 +322,6 @@ class PostServiceImpl implements PostService {
         {"reporterId": userId, "reason": reason},
       );
       if (response.data != null) {
-        print("%%%%%%%%%%%%%%%%%%%%%%%");
-        print(response.data);
         return response.data;
       } else {
         return "";

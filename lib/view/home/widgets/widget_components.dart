@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
@@ -7,7 +8,7 @@ import 'package:simple_nav_bar/controllers/category_controller/category_contorll
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 
-Widget sectionHeader(String title) {
+Widget sectionHeader(String title, {String? title2}) {
   final postController = Get.put(PostController());
   final homeController = Get.find<HomeController>();
   var categoryController = Get.find<CategoryContorller>();
@@ -29,19 +30,33 @@ Widget sectionHeader(String title) {
             TextButton(
               onPressed: () async {
                 homeController.homeIndex.value = 1;
-                categoryController.selectedCategoryName.value = "Tous";
-                await postController.getAllPostsByStatus(status: "all");
+                switch (title2) {
+                  case "vedette":
+                    categoryController.selectedCategoryName.value = "vedette";
+                    await postController.getFeaturedPosts();
+
+                    break;
+                  case "Nos annonces\n recommandées":
+                    categoryController.selectedCategoryName.value =
+                        "Annonces\n recommandées";
+                    //await homeController.getSuggestedPosts();
+                    break;
+                  case "Annonces tendances\n populaires":
+                    categoryController.selectedCategoryName.value =
+                        "Annonces populaires ";
+                    //await homeController.getTrendingPosts();
+                    break;
+                }
               },
               child: Text("Voir plus \nd'annonces"),
             ),
             IconButton(
               onPressed: () async {
                 homeController.homeIndex.value = 1;
-                switch (title) {
-                  case "Meilleures annonces en \n vedette":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces en \n vedette";
-                    await homeController.getFeaturedPosts();
+                switch (title2) {
+                  case "vedette":
+                    categoryController.selectedCategoryName.value = "vedette";
+                    await postController.getFeaturedPosts();
                     break;
                   case "Nos annonces\n recommandées":
                     categoryController.selectedCategoryName.value =

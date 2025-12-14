@@ -36,6 +36,7 @@ class PostController extends GetxController {
   final specificationsController = Get.find<SpecificationController>();
   final deliveryController = Get.find<DeliveryController>();
   final profileController = Get.find<ProfileController>();
+  //final homeController = Get.find<HomeController>();
 
   //late final UserProfile user;
   int get currentUserId => profileController.userProfile.value?.id ?? 0;
@@ -73,6 +74,8 @@ class PostController extends GetxController {
   final postsByCategoryNameOrId = <Post>[].obs;
   final featuredPosts = <Post>[].obs;
 
+  final announce = RxnString();
+
   final totalElements = 0.obs;
   final pageSize = 0.obs;
   final pageNumber = 0.obs;
@@ -80,9 +83,10 @@ class PostController extends GetxController {
 
   final isLoadingCategoryPosts = false.obs;
   final isLoadingStatusPosts = false.obs;
-  final featuredPostsloading = false.obs;
-  final trendingPostsloading = false.obs;
-  final suggestedPostsloading = false.obs;
+  var featuredPostsloading = false.obs;
+  var trendingPostsloading = false.obs;
+  var suggestedPostsloading = false.obs;
+
   final errorMessage = RxnString();
 
   //final myFavoritePosts = <Post>[].obs;
@@ -410,7 +414,7 @@ class PostController extends GetxController {
     filteredAdds.assignAll(results);
   }
 
-  // 🔍 Search in favorites
+  // Search in favorites
   void searchMyFavorites(String query) {
     if (query.trim().isEmpty) {
       resetFavoritesSearch();
@@ -534,6 +538,9 @@ class PostController extends GetxController {
         //postsByCategoryNameOrId.assignAll(response);
         setPosts(response.content!);
         totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
       }
     } catch (e) {
       logger.severe("❌ Unexpected error in getPostsByCategoryNameOrId: $e");
@@ -632,8 +639,6 @@ class PostController extends GetxController {
       if (response == null) {
         errorMessage.value = "Pas d'annonce trouvée";
       } else {
-        //postsByCategoryNameOrId.assignAll(response);
-        //setPosts(response.content!);
         postsByCategoryNameOrId.assignAll(response.content!);
         totalElements.value = response.page!.totalElements!;
         pageSize.value = response.page!.size!;
@@ -646,14 +651,14 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> getFeaturedPosts() async {
+  Future<void> getFeaturedPostsForShowMore({int? page, int? size}) async {
     try {
-      featuredPostsloading.value = true;
       errorMessage.value = null;
+      final response = await postService.getFeaturedPosts(
+        page: page,
+        size: size,
+      );
 
-      final response = await postService.getFeaturedPosts();
-      //featuredPosts.assignAll(respons);
-      // fetch all users for these posts
       featuredPosts.clear();
       totalElements.value = 0;
       pageSize.value = 0;
@@ -663,13 +668,40 @@ class PostController extends GetxController {
         errorMessage.value = "Pas d'annonce trouvée";
       } else {
         //postsByCategoryNameOrId.assignAll(response);
-        setPosts(response.content!);
+        featuredPosts.assignAll(response.content!);
         totalElements.value = response.page!.totalElements!;
-
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
       }
-      featuredPostsloading.value = false;
     } catch (e) {
       logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    }
+  }
+
+  Future<void> getFeaturedPosts() async {
+    try {
+      featuredPostsloading.value = true;
+      errorMessage.value = null;
+
+      final response = await postService.getFeaturedPosts();
+      featuredPosts.clear();
+
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        featuredPosts.assignAll(response.content!);
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    } finally {
+      featuredPostsloading.value = false;
     }
   }
 
@@ -833,15 +865,28 @@ class PostController extends GetxController {
   void showMore({int step = 10}) async {
     if (isAllVisible) return;
     isLoadingMore.value = true;
-    if (categoryController.selectedCategoryName.value != "Tous") {
+
+    if (categoryController.selectedCategoryName.value == "Tous") {
       int size = pageSize.value;
+      print("ttttttttttttttttttt");
+      print(pageSize.value);
       if (visibleCount.value < totalElements.value) {
         size += 10;
-        await getPostsByCategoryNameorIdForShowMore(
-          categoryId: categoryController.selectedCategoryId.value,
-          size: size,
+
+        await getAllPostsByStatusForShowMore(status: "all", size: size);
+        visibleCount.value = min(
+          visibleCount.value + step,
+          totalElements.value,
         );
-        print("getPostsByCategoryNameorIdForShowMore 2 ${visibleCount.value}");
+      }
+    } else if (categoryController.selectedCategoryName.value == "vedette") {
+      int size = pageSize.value;
+      print("ttttttttttttttttttt");
+      print(pageSize.value);
+      if (visibleCount.value < totalElements.value) {
+        size += 10;
+
+        await getFeaturedPostsForShowMore(size: size);
         visibleCount.value = min(
           visibleCount.value + step,
           totalElements.value,
@@ -850,9 +895,14 @@ class PostController extends GetxController {
     } else {
       //await Future.delayed(const Duration(milliseconds: 300)); // simulate delay
       int size = pageSize.value;
+      print("ttttttttttttttttttt");
+      print(pageSize.value);
       if (visibleCount.value < totalElements.value) {
         size += 10;
-        await getAllPostsByStatusForShowMore(status: "all", size: size);
+        await getPostsByCategoryNameorIdForShowMore(
+          categoryId: categoryController.selectedCategoryId.value,
+          size: size,
+        );
         visibleCount.value = min(
           visibleCount.value + step,
           totalElements.value,

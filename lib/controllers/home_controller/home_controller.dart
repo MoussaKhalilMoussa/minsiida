@@ -255,11 +255,10 @@ class HomeController extends GetxController {
   }
 
   Future<void> getTrendingPosts() async {
-
-     try {
+    try {
       trendingPostsloading.value = true;
       fakeTrendingPostsloading.value = false;
-      
+
       final response = await postService.getTrendingPosts();
       trendingPosts.clear();
 
@@ -268,14 +267,14 @@ class HomeController extends GetxController {
       } else {
         trendingPosts.assignAll(response.content!);
         for (var post in trendingPosts) {
-        if (post.userId != null &&
-            !usersFortrendingPosts.containsKey(post.userId)) {
-          usersFortrendingPosts[post.userId!] = await userService.getUser(
-            userId: post.userId!,
-          );
-          usersFortrendingPosts.refresh();
+          if (post.userId != null &&
+              !usersFortrendingPosts.containsKey(post.userId)) {
+            usersFortrendingPosts[post.userId!] = await userService.getUser(
+              userId: post.userId!,
+            );
+            usersFortrendingPosts.refresh();
+          }
         }
-      }
       }
     } catch (e) {
       logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
@@ -289,27 +288,32 @@ class HomeController extends GetxController {
     try {
       suggestedPostsloading.value = true;
       fakeSuggestedPostsloading.value = false;
-      suggestedPosts.value = await postService.getSuggestedPosts(
+      final response = await postService.getSuggestedPosts(
         userId: profileController.userProfile.value!.id!,
       );
-      print("it is not runnig ${profileController.userProfile.value!.id!}");
+      suggestedPosts.clear();
 
-      for (var post in suggestedPosts) {
-        if (post.userId != null &&
-            !usersForSuggestedPosts.containsKey(post.userId)) {
-          usersForSuggestedPosts[post.userId!] = await userService.getUser(
-            userId: post.userId!,
-          );
-          usersForSuggestedPosts.refresh();
-          print("========================================================");
-          print("it is not runnig");
+      if (response == null) {
+        errorMessageForSuggest.value = "Pas d'annonce trouvée";
+      } else {
+        suggestedPosts.assignAll(response.content!);
+        for (var post in suggestedPosts) {
+          if (post.userId != null &&
+              !usersForSuggestedPosts.containsKey(post.userId)) {
+            usersForSuggestedPosts[post.userId!] = await userService.getUser(
+              userId: post.userId!,
+            );
+            usersForSuggestedPosts.refresh();
+          }
         }
       }
-      suggestedPostsloading.value = false;
     } catch (e) {
       logger.severe(
         "❌ Unexpected error in homeController getSuggestedPosts: $e",
       );
+      errorMessageForSuggest.value = "Erreur de chargement des annonces.";
+    } finally {
+      suggestedPostsloading.value = false;
     }
   }
 

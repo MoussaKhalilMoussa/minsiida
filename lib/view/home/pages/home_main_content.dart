@@ -57,7 +57,6 @@ class _HomeMainContentState extends State<HomeMainContent> {
   late int currentStartIndex;
   late int currentStartIndex1;
 
-  
   //final profileController = Get.find<ProfileController>();
   final userService = Get.put<UserServiceImpl>(UserServiceImpl());
   final postController = Get.put(PostController());
@@ -189,7 +188,10 @@ class _HomeMainContentState extends State<HomeMainContent> {
               ),
             ),
             SizedBox(height: 12.h),
-            sectionHeader(" Meilleures annonces en \n vedette"),
+            sectionHeader(
+              " Meilleures annonces en \n vedette",
+              title2: "vedette",
+            ),
             SizedBox(height: 12.h),
 
             homeController.fakeFeaturedPostsloading.value
