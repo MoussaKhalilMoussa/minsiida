@@ -23,3 +23,5 @@ const textColor = Color(0xFF4F46E5); // Tailwind indigo-600
 const amberAccent = Colors.amberAccent;
 const amber = Colors.amber;
 final frindlyErrorColor =  Colors.amber[700];
+final shimmmerBaseColor =  Colors.grey[300];
+final shimmerhighlightColor = Colors.grey[100];

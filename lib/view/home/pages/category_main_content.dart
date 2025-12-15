@@ -1,10 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:simple_nav_bar/common_widgets/looding_text.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
@@ -18,6 +17,7 @@ import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/home/pages/filter_page.dart';
 import 'package:simple_nav_bar/view/home/pages/post_details.dart';
+import 'package:simple_nav_bar/view/home/widgets/show_category_name_and_length.dart';
 import 'package:simple_nav_bar/view/home/widgets/sort_dropdown.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
@@ -98,8 +98,10 @@ class _CategoryMainContent extends State<CategoryMainContent> {
           posts.clear();
           posts.value = postController.postsByCategoryNameOrId;
         }
-        /* final count = min(postController.visibleCount.value, posts.length);
-        final visibleItems = posts.take(count).toList(); */
+        final isLoading =
+            postController.isLoadingCategoryPosts.value ||
+            postController.isLoadingStatusPosts.value ||
+            postController.featuredPostsloading.value;
         return ListView(
           physics: ClampingScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 160),
@@ -116,7 +118,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                 children: [
                   Container(
                     height: 100,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    //padding: EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(color: whiteColor),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,27 +192,11 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                         ),
                         SizedBox(height: 12),
 
-                        postController.isLoadingCategoryPosts.value ||
-                                postController.isLoadingStatusPosts.value ||
-                                postController.featuredPostsloading.value
-                            ? Text(
-                              categoryController.selectedCategoryName.value,
-                              style: GoogleFonts.poppins(
-                                color: blackColor2,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                            : Text(
-                              "${categoryController.selectedCategoryName.value}"
-                              " - ${postController.totalElements.value} "
-                              "annonce${postController.totalElements.value > 1 ? 's trouvées' : ' trouvée'}",
-                              style: GoogleFonts.poppins(
-                                color: blackColor2,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                        ShowCategoryNameAndLength(
+                          categoryController: categoryController,
+                          postController: postController,
+                          isLoading: isLoading,
+                        ),
                       ],
                     ),
                   ),
