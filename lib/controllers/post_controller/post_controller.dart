@@ -478,8 +478,12 @@ class PostController extends GetxController {
     }
   }
 
+  final RxBool isLiked = false.obs;
+
   bool isPostLiked(int postId) => likedPostIds.contains(postId);
 
+  
+ 
   void toggleLike(Post post) async {
     final wasLiked = isPostLiked(post.id!);
 

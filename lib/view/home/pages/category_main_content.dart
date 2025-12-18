@@ -17,6 +17,7 @@ import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/home/pages/filter_page.dart';
 import 'package:simple_nav_bar/view/home/pages/post_details.dart';
+import 'package:simple_nav_bar/view/home/widgets/product_list.dart';
 import 'package:simple_nav_bar/view/home/widgets/show_category_name_and_length.dart';
 import 'package:simple_nav_bar/view/home/widgets/sort_dropdown.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
@@ -201,94 +202,69 @@ class _CategoryMainContent extends State<CategoryMainContent> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  postController.isLoadingCategoryPosts.value ||
-                          postController.isLoadingStatusPosts.value ||
-                          postController.featuredPostsloading.value
-                      ? Padding(
-                        padding: EdgeInsetsGeometry.only(
-                          bottom: MediaQuery.sizeOf(context).height / 5,
-                        ),
-                        child: Center(
-                          child: LoadingText(
-                            text: "Chargement en cours...",
-                            padding: EdgeInsetsGeometry.only(
-                              top: MediaQuery.sizeOf(context).height / 4,
-                            ),
-                          ),
-                        ),
-                      )
-                      : posts.isEmpty
-                      ? Padding(
-                        padding: EdgeInsetsGeometry.only(
-                          top: MediaQuery.sizeOf(context).height / 5,
-                          bottom: MediaQuery.sizeOf(context).height / 4,
-                        ),
-                        child: Center(
-                          child: Text(
-                            postController.errorMessage.value ??
-                                "Pas d'annonce trouvée",
-                          ),
-                        ),
-                      )
-                      : Column(
-                        children: [
-                          GridView.builder(
-                            padding: EdgeInsets.symmetric(horizontal: 12),
-                            itemCount: posts.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 12,
-                                  childAspectRatio: 0.7,
-                                ),
-                            itemBuilder: (_, index) {
-                              Post post = posts[index];
-                              return porductCard(post: post);
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          if (!postController.isAllVisible)
-                            ElevatedButton(
-                              onPressed:
-                                  postController.isLoadingMore.value
-                                      ? null
-                                      : () => postController.showMore(step: 10),
-                              style: ButtonStyle(
-                                //maximumSize: WidgetStatePropertyAll(Size.fromWidth(250)),
-                                //foregroundColor: WidgetStatePropertyAll(whiteColor),
-                                backgroundColor: WidgetStatePropertyAll(
-                                  primaryColor,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (postController.isLoadingMore.value) ...[
-                                    SizedBox(
-                                      height: 16,
-                                      width: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                  SizedBox(width: 10),
-                                  Text(
-                                    "Voir plus",
-                                    style: GoogleFonts.poppins(
-                                      color: whiteColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                        ],
+                  Column(
+                    children: [
+                      ProductList(
+                        posts: posts,
+                        postController: postController,
+                        postDetailsController: postDetailsController,
+                        isLoading: isLoading,
                       ),
+
+                      posts.isEmpty && !isLoading
+                          ? Padding(
+                            padding: EdgeInsetsGeometry.only(
+                              top: MediaQuery.sizeOf(context).height / 5,
+                              bottom: MediaQuery.sizeOf(context).height / 4,
+                            ),
+                            child: Center(
+                              child: Text(
+                                postController.errorMessage.value ??
+                                    "Pas d'annonce trouvée",
+                              ),
+                            ),
+                          )
+                          : SizedBox.shrink(),
+                      const SizedBox(height: 8),
+                      if (!postController.isAllVisible)
+                        ElevatedButton(
+                          onPressed:
+                              postController.isLoadingMore.value
+                                  ? null
+                                  : () => postController.showMore(step: 10),
+                          style: ButtonStyle(
+                            //maximumSize: WidgetStatePropertyAll(Size.fromWidth(250)),
+                            //foregroundColor: WidgetStatePropertyAll(whiteColor),
+                            backgroundColor: WidgetStatePropertyAll(
+                              primaryColor,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (postController.isLoadingMore.value) ...[
+                                SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                              SizedBox(width: 10),
+                              Text(
+                                "Voir plus",
+                                style: GoogleFonts.poppins(
+                                  color: whiteColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
                 ],
               ),
             ),
