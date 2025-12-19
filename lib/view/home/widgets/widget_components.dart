@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
@@ -34,17 +33,15 @@ Widget sectionHeader(String title, {String? title2}) {
                   case "vedette":
                     categoryController.selectedCategoryName.value = "vedette";
                     await postController.getFeaturedPosts();
-
                     break;
-                  case "Nos annonces\n recommandées":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces\n recommandées";
-                    //await homeController.getSuggestedPosts();
+                  case "recommandees":
+                    categoryController.selectedCategoryName.value = "recommandees";
+                    await postController.getSuggestedPosts();
                     break;
-                  case "Annonces tendances\n populaires":
+                  case "populaires":
                     categoryController.selectedCategoryName.value =
-                        "Annonces populaires ";
-                    //await homeController.getTrendingPosts();
+                        "populaires";
+                    await postController.getTrendingPosts();
                     break;
                 }
               },
@@ -58,15 +55,14 @@ Widget sectionHeader(String title, {String? title2}) {
                     categoryController.selectedCategoryName.value = "vedette";
                     await postController.getFeaturedPosts();
                     break;
-                  case "Nos annonces\n recommandées":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces\n recommandées";
-                    await homeController.getSuggestedPosts();
+                  case "recommandees":
+                    categoryController.selectedCategoryName.value = "recommandees";
+                    await postController.getSuggestedPosts();
                     break;
-                  case "Annonces tendances\n populaires":
+                  case "populaires":
                     categoryController.selectedCategoryName.value =
-                        "Annonces populaires ";
-                    await homeController.getTrendingPosts();
+                        "populaires";
+                    await postController.getTrendingPosts();
                     break;
                 }
               },

@@ -95,14 +95,25 @@ class _CategoryMainContent extends State<CategoryMainContent> {
         if (categoryController.selectedCategoryName.value == "vedette") {
           posts.clear();
           posts.value = postController.featuredPosts;
+        } else if (categoryController.selectedCategoryName.value ==
+            "recommandees") {
+          posts.clear();
+          posts.value = postController.suggestedPosts;
+        } else if (categoryController.selectedCategoryName.value ==
+            "populaires") {
+          posts.clear();
+          posts.value = postController.trendingPosts;
         } else {
           posts.clear();
           posts.value = postController.postsByCategoryNameOrId;
         }
+
         final isLoading =
             postController.isLoadingCategoryPosts.value ||
             postController.isLoadingStatusPosts.value ||
-            postController.featuredPostsloading.value;
+            postController.featuredPostsloading.value ||
+            postController.suggestedPostsloading.value ||
+            postController.trendingPostsloading.value;
         return ListView(
           physics: ClampingScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 160),
