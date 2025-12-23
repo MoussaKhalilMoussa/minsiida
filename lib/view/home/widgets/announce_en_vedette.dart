@@ -145,6 +145,9 @@ class _AnnounceEnVedetteState extends State<AnnounceEnVedette> {
                   );
                 },
               )
+              
+              
+              
               : ListView.builder(
                 controller: widget.scrollController2,
                 scrollDirection: Axis.horizontal,
