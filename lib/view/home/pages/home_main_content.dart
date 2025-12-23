@@ -15,6 +15,8 @@ import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
 import 'package:simple_nav_bar/view/home/pages/post_details.dart';
+import 'package:simple_nav_bar/view/home/widgets/announce_en_vedette.dart';
+import 'package:simple_nav_bar/view/home/widgets/announce_recommande.dart';
 import 'package:simple_nav_bar/view/home/widgets/hoverable_category_item_widget.dart';
 import 'package:simple_nav_bar/view/home/widgets/widget_components.dart';
 
@@ -83,6 +85,9 @@ class _HomeMainContentState extends State<HomeMainContent> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      final isFeaturedPostsloading =
+          homeController.fakeFeaturedPostsloading.value ||
+          homeController.featuredPostsloading.value;
       return Positioned.fill(
         child: ListView(
           physics: ClampingScrollPhysics(),
@@ -193,239 +198,15 @@ class _HomeMainContentState extends State<HomeMainContent> {
               title2: "vedette",
             ),
             SizedBox(height: 12.h),
-
-            homeController.fakeFeaturedPostsloading.value
-                ? Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: greyColo1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  width: width * 0.32,
-                  height: height * 0.25,
-                  child: Center(
-                    child: Text(
-                      "Chargement en cours...",
-                      style: GoogleFonts.poppins(),
-                    ),
-                  ),
-                )
-                : homeController.featuredPostsloading.value
-                ? Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: greyColo1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  width: width * 0.32,
-                  height: height * 0.25,
-                  child: Center(
-                    child: Text(
-                      "Chargement en cours...",
-                      style: GoogleFonts.poppins(),
-                    ),
-                  ),
-                )
-                : Container(
-                  margin: EdgeInsets.symmetric(horizontal: mainMargin),
-                  height: height * 0.50,
-                  child: ListView.builder(
-                    controller: scrollController2,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: homeController.featuredPosts.length,
-                    itemBuilder: (context, index) {
-                      //final ad = featuredAds[index];
-                      final post = homeController.featuredPosts[index];
-                      final user =
-                          homeController.usersForfeaturedPosts[post.userId];
-
-                      final isLiked = postController.isPostLiked(post.id!);
-
-                      if (user == null) {
-                        return Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: greyColo1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          width: width * 0.32,
-                          height: height * 0.25,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              constraints: BoxConstraints.tight(
-                                Size.fromRadius(12.r),
-                              ),
-                              valueColor: AlwaysStoppedAnimation(primaryColor),
-                            ),
-                          ),
-                        );
-                      }
-                      return Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        width: width * 0.32,
-                        height: height * 0.25,
-                        //margin: EdgeInsets.symmetric(horizontal: 2),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Colors.grey[200],
-                                    ),
-                                    height: height * 0.25,
-                                    width: width * 0.32,
-                                    child: InkWell(
-                                      onTap: () {
-                                        postDetailsController.getUser(
-                                          userId: post.userId!,
-                                        );
-
-                                        Get.to(
-                                          () => PostDetails(),
-                                          arguments: post,
-                                        );
-                                        postController.viewPost(
-                                          postId: post.id!,
-                                        );
-                                      },
-                                      child: Image.network(
-                                        post.mediaUrls!.first.content == null
-                                            ? 'https://cdn.pixabay.com/photo/2016/11/20/09/06/laptop-1842297_1280.jpg'
-                                            : "${post.mediaUrls!.first.content}",
-                                        height: height * 0.25,
-                                        width: width * 0.32,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: InkWell(
-                                    onTap: () {
-                                      postController.toggleLike(post);
-                                      setState(() {});
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor:
-                                          isLiked ? Colors.red : Colors.white,
-                                      radius: 12,
-                                      child: Icon(
-                                        size: 18,
-                                        isLiked
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color:
-                                            isLiked ? Colors.white : Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.h),
-                            Row(
-                              spacing: 5,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.yellow.shade900,
-                                  radius: 12,
-                                  child: Text(
-                                    (user.name?.isNotEmpty ?? false)
-                                        ? user.name![0].toUpperCase()
-                                        : "U", // fallback initial
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      color: whiteColor,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  tooShortTruncateWithEllipsis(
-                                    user.name ?? "No name",
-                                  ),
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: blackColor2,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(
-                              post.description!,
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: blackColor2,
-                                textStyle: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 8.h),
-                            PriceWidget(
-                              price: post.price!.toString(),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: blackColor2,
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(
-                              maxLines: 2,
-                              post.location == null
-                                  ? "N'Djamena /\nN'Djamena-Centre"
-                                  : "",
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: greyColor,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              formatShortDateNumber(
-                                post.date!.toIso8601String(),
-                              ),
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: greyColor,
-                              ),
-                            ),
-                            SizedBox(height: 8.h),
-                            /* Container(
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: Colors.blue.shade100.withValues(alpha: .5),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                'Livraison possible',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 8,
-                                  color: Colors.blue.shade900,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ), */
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
+            AnnounceEnVedette(
+              height: height,
+              width: width,
+              homeController: homeController,
+              postController: postController,
+              postDetailsController: postDetailsController,
+              scrollController2: scrollController2,
+              isLoading: isFeaturedPostsloading,
+            ),
             const SizedBox(height: 20),
             SizedBox(
               child: Row(
@@ -495,8 +276,16 @@ class _HomeMainContentState extends State<HomeMainContent> {
                     ),
                   ),
                 )
-                : _horizontalGridForSuggestedPosts(
+                : AnnounceRecommande(
+                  scrollController1: scrollController1,
+                  homeController: homeController,
+                  postController: postController,
+                  postDetailsController: postDetailsController,
                   controller: scrollController1,
+                  width: width,
+                  height: height,
+                  currentPage: currentPage,
+                  currentPage1: currentPage1,
                 ),
             const SizedBox(height: 20),
 
@@ -534,7 +323,17 @@ class _HomeMainContentState extends State<HomeMainContent> {
                     ),
                   ),
                 )
-                : _horizontalGridForTrendingPosts(controller: scrollController),
+                : AnnounceRecommande(
+                  scrollController1: scrollController,
+                  homeController: homeController,
+                  postController: postController,
+                  postDetailsController: postDetailsController,
+                  controller: scrollController,
+                  width: width,
+                  height: height,
+                  currentPage: currentPage,
+                  currentPage1: currentPage1,
+                ),
             const SizedBox(height: 20),
             footerSections(),
             //const SizedBox(height: 25),
