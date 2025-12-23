@@ -463,7 +463,6 @@ class _HomeMainContentState extends State<HomeMainContent> {
 
             SizedBox(height: 20),
             SectionHeader(" Nos annonces\n recommandées"),
-
             homeController.fakeSuggestedPostsloading.value
                 ? Container(
                   padding: EdgeInsets.all(8),
@@ -500,6 +499,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
                   controller: scrollController1,
                 ),
             const SizedBox(height: 20),
+
             SectionHeader(" Annonces tendances\n populaires"),
 
             homeController.fakeTrendingPostsloading.value

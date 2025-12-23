@@ -73,6 +73,8 @@ class PostController extends GetxController {
 
   final postsByCategoryNameOrId = <Post>[].obs;
   final featuredPosts = <Post>[].obs;
+  final trendingPosts = <Post>[].obs;
+  final suggestedPosts = <Post>[].obs;
 
   final announce = RxnString();
 
@@ -478,6 +480,8 @@ class PostController extends GetxController {
     }
   }
 
+  final RxBool isLiked = false.obs;
+
   bool isPostLiked(int postId) => likedPostIds.contains(postId);
 
   void toggleLike(Post post) async {
@@ -500,7 +504,7 @@ class PostController extends GetxController {
       myFavoritePosts.add(post);
     }
 
-    // 🔥 keep filteredFavoris in sync with myFavoritePosts
+    // keep filteredFavoris in sync with myFavoritePosts
     filteredFavoris.assignAll(myFavoritePosts);
     try {
       if (wasLiked) {
@@ -651,6 +655,32 @@ class PostController extends GetxController {
     }
   }
 
+  Future<void> getFeaturedPosts() async {
+    try {
+      featuredPostsloading.value = true;
+      errorMessage.value = null;
+
+      final response = await postService.getFeaturedPosts();
+      featuredPosts.clear();
+
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        featuredPosts.assignAll(response.content!);
+        visibleCount.value = 10;
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    } finally {
+      featuredPostsloading.value = false;
+    }
+  }
+
   Future<void> getFeaturedPostsForShowMore({int? page, int? size}) async {
     try {
       errorMessage.value = null;
@@ -680,18 +710,22 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> getFeaturedPosts() async {
+  Future<void> getTrendingPosts({int? page, int? size}) async {
     try {
-      featuredPostsloading.value = true;
+      trendingPostsloading.value = true;
       errorMessage.value = null;
 
-      final response = await postService.getFeaturedPosts();
-      featuredPosts.clear();
+      final response = await postService.getTrendingPosts(
+        page: page,
+        size: size,
+      );
+      trendingPosts.clear();
 
       if (response == null) {
         errorMessage.value = "Pas d'annonce trouvée";
       } else {
-        featuredPosts.assignAll(response.content!);
+        trendingPosts.assignAll(response.content!);
+        visibleCount.value = 10;
         totalElements.value = response.page!.totalElements!;
         pageSize.value = response.page!.size!;
         pageNumber.value = response.page!.number!;
@@ -701,7 +735,96 @@ class PostController extends GetxController {
       logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
       errorMessage.value = "Erreur de chargement des annonces.";
     } finally {
-      featuredPostsloading.value = false;
+      trendingPostsloading.value = false;
+    }
+  }
+
+  Future<void> getTrendingPostsForShowMore({int? page, int? size}) async {
+    try {
+      errorMessage.value = null;
+      final response = await postService.getTrendingPosts(
+        page: page,
+        size: size,
+      );
+
+      trendingPosts.clear();
+      totalElements.value = 0;
+      pageSize.value = 0;
+      pageNumber.value = 0;
+      totalPages.value = 0;
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        trendingPosts.assignAll(response.content!);
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
+    }
+  }
+
+  Future<void> getSuggestedPosts() async {
+    try {
+      suggestedPostsloading.value = true;
+      errorMessage.value = null;
+
+      final response = await postService.getSuggestedPosts(
+        userId: profileController.userProfile.value!.id!,
+      );
+      suggestedPosts.clear();
+
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        suggestedPosts.assignAll(response.content!);
+        visibleCount.value = 10;
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe(
+        "❌ Unexpected error in homeController getSuggestedPosts: $e",
+      );
+      errorMessage.value = "Erreur de chargement des annonces.";
+    } finally {
+      suggestedPostsloading.value = false;
+    }
+  }
+
+  Future<void> getSuggestedPostsForShowMore({int? page, int? size}) async {
+    try {
+      errorMessage.value = null;
+      final response = await postService.getSuggestedPosts(
+        userId: profileController.userProfile.value!.id!,
+        page: page,
+        size: size,
+      );
+
+      suggestedPosts.clear();
+      totalElements.value = 0;
+      pageSize.value = 0;
+      pageNumber.value = 0;
+      totalPages.value = 0;
+      if (response == null) {
+        errorMessage.value = "Pas d'annonce trouvée";
+      } else {
+        //postsByCategoryNameOrId.assignAll(response);
+        suggestedPosts.assignAll(response.content!);
+        totalElements.value = response.page!.totalElements!;
+        pageSize.value = response.page!.size!;
+        pageNumber.value = response.page!.number!;
+        totalPages.value = response.page!.totalPages!;
+      }
+    } catch (e) {
+      logger.severe("❌ Unexpected error in getFeaturedPosts: $e");
+      errorMessage.value = "Erreur de chargement des annonces.";
     }
   }
 
@@ -868,8 +991,6 @@ class PostController extends GetxController {
 
     if (categoryController.selectedCategoryName.value == "Tous") {
       int size = pageSize.value;
-      print("ttttttttttttttttttt");
-      print(pageSize.value);
       if (visibleCount.value < totalElements.value) {
         size += 10;
 
@@ -881,8 +1002,7 @@ class PostController extends GetxController {
       }
     } else if (categoryController.selectedCategoryName.value == "vedette") {
       int size = pageSize.value;
-      print("ttttttttttttttttttt");
-      print(pageSize.value);
+
       if (visibleCount.value < totalElements.value) {
         size += 10;
 
@@ -892,11 +1012,37 @@ class PostController extends GetxController {
           totalElements.value,
         );
       }
+    } else if (categoryController.selectedCategoryName.value ==
+        "recommandees") {
+      int size = pageSize.value;
+
+      if (visibleCount.value < totalElements.value &&
+          size < totalElements.value) {
+        size += 10;
+
+        await getSuggestedPostsForShowMore(size: size);
+        visibleCount.value = min(
+          visibleCount.value + step,
+          totalElements.value,
+        );
+      } else {
+        visibleCount.value = totalElements.value;
+      }
+    } else if (categoryController.selectedCategoryName.value == "populaires") {
+      int size = pageSize.value;
+
+      if (visibleCount.value < totalElements.value) {
+        size += 10;
+
+        await getTrendingPostsForShowMore(size: size);
+        visibleCount.value = min(
+          visibleCount.value + step,
+          totalElements.value,
+        );
+      }
     } else {
       //await Future.delayed(const Duration(milliseconds: 300)); // simulate delay
       int size = pageSize.value;
-      print("ttttttttttttttttttt");
-      print(pageSize.value);
       if (visibleCount.value < totalElements.value) {
         size += 10;
         await getPostsByCategoryNameorIdForShowMore(
