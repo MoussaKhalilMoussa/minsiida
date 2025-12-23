@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
@@ -8,75 +7,82 @@ import 'package:simple_nav_bar/controllers/category_controller/category_contorll
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 
-Widget sectionHeader(String title, {String? title2}) {
-  final postController = Get.put(PostController());
-  final homeController = Get.find<HomeController>();
-  var categoryController = Get.find<CategoryContorller>();
+class SectionHeader extends StatelessWidget {
+  const SectionHeader(this.title, {super.key, this.title2});
 
-  return Container(
-    margin: EdgeInsets.symmetric(horizontal: mainMargin),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.playfairDisplay(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+  final String title;
+  final String? title2;
+
+  @override
+  Widget build(BuildContext context) {
+    final postController = Get.put(PostController());
+    final homeController = Get.find<HomeController>();
+    var categoryController = Get.find<CategoryContorller>();
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: mainMargin),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.playfairDisplay(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
-        ),
-        Row(
-          children: [
-            TextButton(
-              onPressed: () async {
-                homeController.homeIndex.value = 1;
-                switch (title2) {
-                  case "vedette":
-                    categoryController.selectedCategoryName.value = "vedette";
-                    await postController.getFeaturedPosts();
+          Row(
+            children: [
+              TextButton(
+                onPressed: () async {
+                  homeController.homeIndex.value = 1;
+                  switch (title2) {
+                    case "vedette":
+                      categoryController.selectedCategoryName.value = "vedette";
+                      await postController.getFeaturedPosts();
 
-                    break;
-                  case "Nos annonces\n recommandées":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces\n recommandées";
-                    //await homeController.getSuggestedPosts();
-                    break;
-                  case "Annonces tendances\n populaires":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces populaires ";
-                    //await homeController.getTrendingPosts();
-                    break;
-                }
-              },
-              child: Text("Voir plus \nd'annonces"),
-            ),
-            IconButton(
-              onPressed: () async {
-                homeController.homeIndex.value = 1;
-                switch (title2) {
-                  case "vedette":
-                    categoryController.selectedCategoryName.value = "vedette";
-                    await postController.getFeaturedPosts();
-                    break;
-                  case "Nos annonces\n recommandées":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces\n recommandées";
-                    await homeController.getSuggestedPosts();
-                    break;
-                  case "Annonces tendances\n populaires":
-                    categoryController.selectedCategoryName.value =
-                        "Annonces populaires ";
-                    await homeController.getTrendingPosts();
-                    break;
-                }
-              },
-              icon: Icon(Icons.arrow_forward_ios, size: 12, color: greyColor),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
+                      break;
+                    case "Nos annonces\n recommandées":
+                      categoryController.selectedCategoryName.value =
+                          "Annonces\n recommandées";
+                      //await homeController.getSuggestedPosts();
+                      break;
+                    case "Annonces tendances\n populaires":
+                      categoryController.selectedCategoryName.value =
+                          "Annonces populaires ";
+                      //await homeController.getTrendingPosts();
+                      break;
+                  }
+                },
+                child: Text("Voir plus \nd'annonces"),
+              ),
+              IconButton(
+                onPressed: () async {
+                  homeController.homeIndex.value = 1;
+                  switch (title2) {
+                    case "vedette":
+                      categoryController.selectedCategoryName.value = "vedette";
+                      await postController.getFeaturedPosts();
+                      break;
+                    case "Nos annonces\n recommandées":
+                      categoryController.selectedCategoryName.value =
+                          "Annonces\n recommandées";
+                      await homeController.getSuggestedPosts();
+                      break;
+                    case "Annonces tendances\n populaires":
+                      categoryController.selectedCategoryName.value =
+                          "Annonces populaires ";
+                      await homeController.getTrendingPosts();
+                      break;
+                  }
+                },
+                icon: Icon(Icons.arrow_forward_ios, size: 12, color: greyColor),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Widget footerSections() {

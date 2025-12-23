@@ -188,7 +188,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
               ),
             ),
             SizedBox(height: 12.h),
-            sectionHeader(
+            SectionHeader(
               " Meilleures annonces en \n vedette",
               title2: "vedette",
             ),
@@ -462,7 +462,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
             ),
 
             SizedBox(height: 20),
-            sectionHeader(" Nos annonces\n recommandées"),
+            SectionHeader(" Nos annonces\n recommandées"),
 
             homeController.fakeSuggestedPostsloading.value
                 ? Container(
@@ -500,7 +500,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
                   controller: scrollController1,
                 ),
             const SizedBox(height: 20),
-            sectionHeader(" Annonces tendances\n populaires"),
+            SectionHeader(" Annonces tendances\n populaires"),
 
             homeController.fakeTrendingPostsloading.value
                 ? Container(
