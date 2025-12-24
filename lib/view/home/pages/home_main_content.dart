@@ -250,7 +250,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
             ),
 
             SizedBox(height: 20),
-            SectionHeader(" Nos annonces\n recommandées"),
+            SectionHeader(" Nos annonces\n recommandées",title2: "recommandees",),
             AnnounceRecommande(
               isLoading: isSuggestedPostsLoading,
               scrollController1: scrollController1,
@@ -265,7 +265,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
             ),
             const SizedBox(height: 20),
 
-            SectionHeader(" Annonces tendances\n populaires"),
+            SectionHeader(" Annonces tendances\n populaires",title2: "populaires",),
 
             AnnouncePopulaire(
               isLoading: isTrendingPostsLoading,

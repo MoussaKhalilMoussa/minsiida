@@ -146,7 +146,7 @@ class PostServiceImpl implements PostService {
         "/api/ads/trending",
         queryParameters: {"page": page, "size": size},
       );
-
+      
       if (response.data != null && response.data["content"] != null) {
         final PostsWrapper wrapper = PostsWrapper.fromJson(response.data);
         // Convert JSON list → List<Post>

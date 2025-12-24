@@ -41,15 +41,15 @@ class SectionHeader extends StatelessWidget {
                       await postController.getFeaturedPosts();
 
                       break;
-                    case "Nos annonces\n recommandées":
+                    case "recommandees":
                       categoryController.selectedCategoryName.value =
-                          "Annonces\n recommandées";
-                      //await homeController.getSuggestedPosts();
+                          "recommandees";
+                      await postController.getSuggestedPosts();
                       break;
-                    case "Annonces tendances\n populaires":
+                    case "populaires":
                       categoryController.selectedCategoryName.value =
-                          "Annonces populaires ";
-                      //await homeController.getTrendingPosts();
+                          "populaires";
+                      await postController.getTrendingPosts();
                       break;
                   }
                 },
@@ -63,15 +63,15 @@ class SectionHeader extends StatelessWidget {
                       categoryController.selectedCategoryName.value = "vedette";
                       await postController.getFeaturedPosts();
                       break;
-                    case "Nos annonces\n recommandées":
+                    case "recommandees":
                       categoryController.selectedCategoryName.value =
-                          "Annonces\n recommandées";
-                      await homeController.getSuggestedPosts();
+                          "recommandees";
+                      await postController.getSuggestedPosts();
                       break;
-                    case "Annonces tendances\n populaires":
+                    case "populaires":
                       categoryController.selectedCategoryName.value =
-                          "Annonces populaires ";
-                      await homeController.getTrendingPosts();
+                          "populaires";
+                      await postController.getTrendingPosts();
                       break;
                   }
                 },

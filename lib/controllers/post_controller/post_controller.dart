@@ -720,7 +720,6 @@ class PostController extends GetxController {
         size: size,
       );
       trendingPosts.clear();
-
       if (response == null) {
         errorMessage.value = "Pas d'annonce trouvée";
       } else {

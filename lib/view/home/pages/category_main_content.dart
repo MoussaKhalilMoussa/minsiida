@@ -3,17 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:simple_nav_bar/common_widgets/looding_text.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/category_controller/category_contorller.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
-import 'package:simple_nav_bar/controllers/product_controller/product_controller.dart';
 import 'package:simple_nav_bar/models/post.dart';
-import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/home/pages/filter_page.dart';
 import 'package:simple_nav_bar/view/home/pages/post_details.dart';
@@ -99,8 +95,7 @@ class _CategoryMainContent extends State<CategoryMainContent> {
             "recommandees") {
           posts.clear();
           posts.value = postController.suggestedPosts;
-        } else if (categoryController.selectedCategoryName.value ==
-            "populaires") {
+        } else if (categoryController.selectedCategoryName.value == "populaires") {
           posts.clear();
           posts.value = postController.trendingPosts;
         } else {
