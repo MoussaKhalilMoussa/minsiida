@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/constants/lists.dart';
@@ -12,9 +11,7 @@ import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart'
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
 import 'package:simple_nav_bar/services/user_service/user_service_impl.dart';
-import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 import 'package:simple_nav_bar/view/categories/models/category.dart';
-import 'package:simple_nav_bar/view/home/pages/post_details.dart';
 import 'package:simple_nav_bar/view/home/widgets/announce_en_vedette.dart';
 import 'package:simple_nav_bar/view/home/widgets/announce_populaire.dart';
 import 'package:simple_nav_bar/view/home/widgets/announce_recommande.dart';
@@ -214,7 +211,7 @@ class _HomeMainContentState extends State<HomeMainContent> {
               scrollController2: scrollController2,
               isLoading: isFeaturedPostsloading,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 2),
             SizedBox(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -250,7 +247,10 @@ class _HomeMainContentState extends State<HomeMainContent> {
             ),
 
             SizedBox(height: 20),
-            SectionHeader(" Nos annonces\n recommandées",title2: "recommandees",),
+            SectionHeader(
+              " Nos annonces\n recommandées",
+              title2: "recommandees",
+            ),
             AnnounceRecommande(
               isLoading: isSuggestedPostsLoading,
               scrollController1: scrollController1,
@@ -265,8 +265,10 @@ class _HomeMainContentState extends State<HomeMainContent> {
             ),
             const SizedBox(height: 20),
 
-            SectionHeader(" Annonces tendances\n populaires",title2: "populaires",),
-
+            SectionHeader(
+              " Annonces tendances\n populaires",
+              title2: "populaires",
+            ),
             AnnouncePopulaire(
               isLoading: isTrendingPostsLoading,
               scrollController1: scrollController,

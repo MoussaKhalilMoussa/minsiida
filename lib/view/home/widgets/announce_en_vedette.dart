@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
+import 'package:simple_nav_bar/common_widgets/shimmer_container.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
@@ -62,17 +62,10 @@ class _AnnounceEnVedetteState extends State<AnnounceEnVedette> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: shimmmerBaseColor,
-                              ),
-                              height: widget.height * 0.25,
-                              width: widget.width * 0.32,
-                            ),
+                          child: ShimmerContainer(
+                            borderRadius: 8,
+                            height: widget.height * 0.25,
+                            width: widget.width * 0.32,
                           ),
                         ),
 
@@ -80,64 +73,39 @@ class _AnnounceEnVedetteState extends State<AnnounceEnVedette> {
                         Row(
                           spacing: 5,
                           children: [
-                            Shimmer.fromColors(
-                              baseColor: shimmmerBaseColor!,
-                              highlightColor: shimmerhighlightColor!,
+                            ShimmerContainer(
+                              borderRadius: 12,
                               child: CircleAvatar(
                                 backgroundColor: shimmmerBaseColor,
                                 radius: 12,
                               ),
                             ),
-                            Shimmer.fromColors(
-                              baseColor: shimmmerBaseColor!,
-                              highlightColor: shimmerhighlightColor!,
-                              child: Container(
-                                width: widget.width / 5,
-                                height: 15,
-                                color: shimmmerBaseColor,
-                              ),
+                            ShimmerContainer(
+                              width: widget.width / 5,
+                              height: 10,
+                              borderRadius: 5,
                             ),
                           ],
                         ),
                         SizedBox(height: 8.h),
-                        Shimmer.fromColors(
-                          baseColor: shimmmerBaseColor!,
-                          highlightColor: shimmerhighlightColor!,
-                          child: Container(
-                            width: widget.width * 0.32,
-                            height: 15,
-                            color: shimmmerBaseColor,
-                          ),
+                        ShimmerContainer(
+                          width: widget.width * 0.20,
+                          height: 10,
                         ),
                         SizedBox(height: 8.h),
-                        Shimmer.fromColors(
-                          baseColor: shimmmerBaseColor!,
-                          highlightColor: shimmerhighlightColor!,
-                          child: Container(
-                            width: widget.width * 0.32,
-                            height: 15,
-                            color: shimmmerBaseColor,
-                          ),
+                        ShimmerContainer(
+                          width: widget.width * 0.32,
+                          height: 10,
                         ),
                         SizedBox(height: 8.h),
-                        Shimmer.fromColors(
-                          baseColor: shimmmerBaseColor!,
-                          highlightColor: shimmerhighlightColor!,
-                          child: Container(
-                            width: widget.width * 0.32,
-                            height: 15,
-                            color: shimmmerBaseColor,
-                          ),
+                        ShimmerContainer(
+                          width: widget.width * 0.25,
+                          height: 10,
                         ),
-                        SizedBox(height: 4),
-                        Shimmer.fromColors(
-                          baseColor: shimmmerBaseColor!,
-                          highlightColor: shimmerhighlightColor!,
-                          child: Container(
-                            width: widget.width * 0.32,
-                            height: 15,
-                            color: shimmmerBaseColor,
-                          ),
+                        SizedBox(height: 8),
+                        ShimmerContainer(
+                          width: widget.width * 0.32,
+                          height: 10,
                         ),
                         SizedBox(height: 8.h),
                       ],
@@ -145,9 +113,6 @@ class _AnnounceEnVedetteState extends State<AnnounceEnVedette> {
                   );
                 },
               )
-              
-              
-              
               : ListView.builder(
                 controller: widget.scrollController2,
                 scrollDirection: Axis.horizontal,

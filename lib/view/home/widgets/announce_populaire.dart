@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
+import 'package:simple_nav_bar/common_widgets/shimmer_container.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/constants/constant_values.dart';
 import 'package:simple_nav_bar/controllers/home_controller/home_controller.dart';
@@ -94,17 +94,10 @@ class _AnnounceRecommandeState extends State<AnnouncePopulaire> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Shimmer.fromColors(
-                              baseColor: shimmmerBaseColor!,
-                              highlightColor: shimmerhighlightColor!,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: shimmmerBaseColor,
-                                ),
-                                height: widget.height * 0.25,
-                                width: itemWidth,
-                              ),
+                            child: ShimmerContainer(
+                              height: widget.height * 0.25,
+                              width: itemWidth,
+                              borderRadius: 8,
                             ),
                           ),
 
@@ -112,65 +105,27 @@ class _AnnounceRecommandeState extends State<AnnouncePopulaire> {
                           Row(
                             spacing: 5,
                             children: [
-                              Shimmer.fromColors(
-                                baseColor: shimmmerBaseColor!,
-                                highlightColor: shimmerhighlightColor!,
+                              ShimmerContainer(
+                                borderRadius: 12,
                                 child: CircleAvatar(
                                   backgroundColor: shimmmerBaseColor,
                                   radius: 12,
                                 ),
                               ),
-                              Shimmer.fromColors(
-                                baseColor: shimmmerBaseColor!,
-                                highlightColor: shimmerhighlightColor!,
-                                child: Container(
-                                  width: itemWidth * 0.73,
-                                  height: 15,
-                                  color: shimmmerBaseColor,
-                                ),
+                              ShimmerContainer(
+                                width: itemWidth * 0.73,
+                                height: 10,
                               ),
                             ],
                           ),
                           SizedBox(height: 8.h),
-                          Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              width: itemWidth,
-                              height: 15,
-                              color: shimmmerBaseColor,
-                            ),
-                          ),
+                          ShimmerContainer(width: itemWidth * 0.73, height: 10),
                           SizedBox(height: 8.h),
-                          Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              width: itemWidth,
-                              height: 15,
-                              color: shimmmerBaseColor,
-                            ),
-                          ),
+                          ShimmerContainer(width: itemWidth, height: 10),
                           SizedBox(height: 8.h),
-                          Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              width: itemWidth,
-                              height: 15,
-                              color: shimmmerBaseColor,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              width: itemWidth,
-                              height: 15,
-                              color: shimmmerBaseColor,
-                            ),
-                          ),
+                          ShimmerContainer(width: itemWidth * 0.65, height: 10),
+                          SizedBox(height: 8.h),
+                          ShimmerContainer(width: itemWidth, height: 10),
                           SizedBox(height: 8.h),
                         ],
                       ),
@@ -179,7 +134,7 @@ class _AnnounceRecommandeState extends State<AnnouncePopulaire> {
                 ),
               ),
               Positioned(
-                bottom: 0,
+                bottom: 60,
                 left: 0,
                 right: 0,
                 child: Builder(
@@ -242,7 +197,6 @@ class _AnnounceRecommandeState extends State<AnnouncePopulaire> {
             ],
           ),
         )
-       
         : SizedBox(
           height: height * 0.52,
           child: Stack(
@@ -507,7 +461,7 @@ class _AnnounceRecommandeState extends State<AnnouncePopulaire> {
 
               /// 🔹 Sliding Page Indicators
               Positioned(
-                bottom: 0,
+                bottom: 30,
                 left: 0,
                 right: 0,
                 child: Builder(

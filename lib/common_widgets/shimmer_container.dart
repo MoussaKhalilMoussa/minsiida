@@ -8,11 +8,14 @@ class ShimmerContainer extends StatelessWidget {
     this.height,
     this.width,
     this.borderRadius,
-    this.padding, this.margin,
+    this.padding,
+    this.margin,
+    this.child,
   });
   final double? height, width;
   final double? borderRadius;
-  final EdgeInsetsGeometry? padding,margin;
+  final EdgeInsetsGeometry? padding, margin;
+  final Widget? child;
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
@@ -24,9 +27,10 @@ class ShimmerContainer extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius ?? 0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 5),
           color: shimmmerBaseColor,
         ),
+        child: child,
       ),
     );
   }
