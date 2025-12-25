@@ -8,6 +8,7 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
+import 'package:simple_nav_bar/view/profile/widgets_utils/mes_annonceslist.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/product_card.dart';
 
 class MesAnnoncesPage extends StatefulWidget {
@@ -106,55 +107,7 @@ class _MesAnnoncesPageState extends State<MesAnnoncesPage> {
                   ],
                 ),
               ),
-              Obx(() {
-                return postController.myAddsLoading.value
-                    ? LoadingText(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.sizeOf(context).height / 3,
-                      ),
-                      text: "Chargement en cours...",
-                    )
-                    : postController.myAdds.isEmpty
-                    ? Padding(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.sizeOf(context).height / 3,
-                      ),
-                      child: Center(
-                        child: SizedBox(
-                          width: 200,
-                          child: Text(
-                            "Vous n'avez pas encore poster une annonce",
-                            textAlign: TextAlign.center,
-
-                            style: GoogleFonts.poppins(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    )
-                    : Container(
-                      margin: EdgeInsets.only(left: 12, right: 12),
-                      width: MediaQuery.sizeOf(Get.context!).width,
-                      child: ListView.separated(
-                        separatorBuilder:
-                            (context, index) => SizedBox(height: 10.h),
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: postController.filteredAdds.length,
-                        itemBuilder: (context, index) {
-                          Post post = postController.filteredAdds[index];
-                          return ProductCard(
-                            id:post.id!,
-                            imageUrl: post.mediaUrls!.first.content!,
-                            title: post.title!,
-                            price: post.price!.toString(),
-                            status: post.status!.name,
-                            date: formatShortDateNumber(post.date!.toString()),
-                            view: post.views,
-                          );
-                        },
-                      ),
-                    );
-              }),
+              MesAnnonceslist(postController: postController),
             ]),
           ),
         ],

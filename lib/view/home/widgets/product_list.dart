@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
+import 'package:simple_nav_bar/common_widgets/shimmer_container.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
 import 'package:simple_nav_bar/controllers/product_controller/post_details_controller.dart';
@@ -54,16 +54,12 @@ class ProductList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Shimmer.fromColors(
-                    baseColor: shimmmerBaseColor!,
-                    highlightColor: shimmerhighlightColor!,
-                    child: Container(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8,top: 8),
+                    child: ShimmerContainer(
                       height: 150.h,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: shimmmerBaseColor,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      borderRadius: 8,
                     ),
                   ),
                   //SizedBox(height: 4),
@@ -72,15 +68,10 @@ class ProductList extends StatelessWidget {
                       horizontal: 8.0,
                       vertical: 2,
                     ),
-                    child: Shimmer.fromColors(
-                      baseColor: shimmmerBaseColor!,
-                      highlightColor: shimmerhighlightColor!,
-                      child: Container(
-                        margin: EdgeInsets.all(0),
-                        height: 20.0,
-                        width: 90.0,
-                        color: shimmmerBaseColor,
-                      ),
+                    child: ShimmerContainer(
+                      height: 20,
+                      width: 90,
+                      margin: EdgeInsets.all(0),
                     ),
                   ),
                   Padding(
@@ -88,15 +79,10 @@ class ProductList extends StatelessWidget {
                       horizontal: 8.0,
                       vertical: 2,
                     ),
-                    child: Shimmer.fromColors(
-                      baseColor: shimmmerBaseColor!,
-                      highlightColor: shimmerhighlightColor!,
-                      child: Container(
-                        margin: EdgeInsets.all(0),
-                        height: 20.0,
-                        width: 170.0,
-                        color: shimmmerBaseColor,
-                      ),
+                    child: ShimmerContainer(
+                      height: 20.0,
+                      width: 170.0,
+                      margin: EdgeInsets.all(0),
                     ),
                   ),
                   Padding(
@@ -109,29 +95,18 @@ class ProductList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              margin: EdgeInsets.all(0),
-                              height: 20.0,
-                              width: 100.0,
-                              color: shimmmerBaseColor,
-                            ),
+                          child: ShimmerContainer(
+                            height: 20.0,
+                            width: 100.0,
+                            margin: EdgeInsets.all(0),
                           ),
                         ),
                         SizedBox(width: 5),
-
                         Expanded(
-                          child: Shimmer.fromColors(
-                            baseColor: shimmmerBaseColor!,
-                            highlightColor: shimmerhighlightColor!,
-                            child: Container(
-                              margin: EdgeInsets.all(0),
-                              height: 20.0,
-                              width: 80.0,
-                              color: shimmmerBaseColor,
-                            ),
+                          child: ShimmerContainer(
+                            height: 20.0,
+                            width: 80.0,
+                            margin: EdgeInsets.all(0),
                           ),
                         ),
                       ],
