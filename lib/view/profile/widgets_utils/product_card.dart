@@ -6,7 +6,6 @@ import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/common_widgets/price_widget.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/post_controller/post_controller.dart';
-import 'package:simple_nav_bar/models/post.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
 
 class ProductCard extends StatelessWidget {

@@ -7,6 +7,7 @@ import 'package:simple_nav_bar/services/message_service/chat_message_service_imp
 import 'package:simple_nav_bar/utiles/logger.dart';
 import 'package:simple_nav_bar/view/profile/model/conversation.dart';
 import 'package:simple_nav_bar/view/profile/model/message.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 class MessagesController extends GetxController {
@@ -31,6 +32,11 @@ class MessagesController extends GetxController {
 
   final RxList<Message> messages = <Message>[].obs;
   final RxList<Conversation> conversations = <Conversation>[].obs;
+  final Rxn<Conversation> conversation= Rxn<Conversation>();
+  final Rxn<UserProfile> user = Rxn<UserProfile>();
+  final Rxn<Message> message = Rxn<Message>();
+
+
   final RxInt newMessageCount = 0.obs;
 
   /// Maps userId → number of unread messages
@@ -87,6 +93,9 @@ class MessagesController extends GetxController {
         unreadCounts[senderId] = (unreadCounts[senderId] ?? 0) + 1;
         unreadCounts.refresh(); // important for Obx update
       }
+     /*  newMessageCount.value = calculateNonReadMessage(currentUserId) ?? 0;
+      print("fffffffffffffffffffff");
+      print(newMessageCount.value); */
     };
 
     // ✅ Create and connect socket
@@ -176,10 +185,10 @@ class MessagesController extends GetxController {
     unreadCounts.refresh();
   }
 
-  int? calculateNonReadMessage(int receiverId) {
+  int? calculateNonReadMessage(int peerId) {
     int read = 0;
     for (var mes in messages) {
-      if (mes.read == false && mes.receiver == receiverId.toString()) {
+      if (mes.read == false && mes.sender == peerId.toString()) {
         read++;
       }
     }

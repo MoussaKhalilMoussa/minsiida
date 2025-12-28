@@ -34,7 +34,8 @@ class ChatMessageServiceImpl implements ChatMessageService {
       rethrow;
     }
   }
-/* 
+
+  /* 
   void connect(int userId) {
     // ✅ Create and connect socket
     stompClient = StompClient(
@@ -134,4 +135,5 @@ class ChatMessageServiceImpl implements ChatMessageService {
       logger.info("👋 Disconnected from WebSocket");
     }
   }
+
 }

@@ -62,19 +62,6 @@ class ParametresPage extends StatelessWidget {
 
                   var isComptesLinkedSelected =
                       parametresController.isComptesLinkedSelected.value;
-                  var label =
-                      isToutSelected
-                          ? 'Tout'
-                          : isNotificationsSelected
-                          ? 'Notifications'
-                          : isConfidentialiteSelected
-                          ? 'Confidentialité'
-                          : isSecuritySelected
-                          ? 'Sécurité'
-                          : isComptesLinkedSelected
-                          ? 'Comptes liés'
-                          : 'Tout';
-
                   return Column(
                     children: [
                       Container(

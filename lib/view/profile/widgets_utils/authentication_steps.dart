@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 
+// ignore: must_be_immutable
 class AuthenticationSteps extends StatefulWidget {
   final double width;
   final double height;

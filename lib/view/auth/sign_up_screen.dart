@@ -25,7 +25,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return bgWidget(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Center(
@@ -220,14 +220,22 @@ class _SignupScreenState extends State<SignupScreen> {
                               // wraping into gesture detector of velocity x
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  alreadyHaveAccount.text
-                                      .color(greyColor)
-                                      .make(),
-                                  login.text.color(redColor).make().onTap(() {
-                                    Get.back();
-                                    controller.restFields();
-                                  }),
+                                  Expanded(
+                                    flex: 2,
+                                    child: alreadyHaveAccount.text
+                                        .color(greyColor)
+                                        .size(13)
+                                        .make(),
+                                  ),
+                                  Expanded(
+                                    child: login.text.color(redColor)
+                                    .size(12).make().onTap(() {
+                                      Get.back();
+                                      controller.restFields();
+                                    }),
+                                  ),
                                 ],
                               ),
                             ],

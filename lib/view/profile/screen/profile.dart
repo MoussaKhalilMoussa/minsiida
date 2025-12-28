@@ -37,28 +37,13 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Offset> _offsetAnimation;
+  
   var isVehiculesOpen = false;
   int selectedIndex = 0;
-
 
   final categoryController = Get.find<CategoryContorller>();
   final profileController = Get.find<ProfileController>();
   final messageController = Get.put<MessagesController>(MessagesController());
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset(-1.0, 0.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +125,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-      
+
                             Container(
                               margin: EdgeInsets.symmetric(horizontal: 10),
                               alignment: Alignment.center,
@@ -175,7 +160,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                         ),
                       ),
                     ),
-      
+
                     SliverToBoxAdapter(
                       child: Column(
                         children: [
@@ -189,8 +174,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 Badge(
                                   offset: Offset(-8, -8),
                                   alignment: Alignment.bottomCenter,
-                                  backgroundColor:
-                                      CupertinoColors.systemYellow,
+                                  backgroundColor: CupertinoColors.systemYellow,
                                   padding: EdgeInsets.symmetric(
                                     vertical: 3,
                                     horizontal: 6,
@@ -208,18 +192,12 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                     width: 70.w,
                                     height: 70.h,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                        40.w,
-                                      ),
-                                      color: blueColor.withValues(
-                                        alpha: 0.30,
-                                      ),
+                                      borderRadius: BorderRadius.circular(40.w),
+                                      color: blueColor.withValues(alpha: 0.30),
                                     ),
                                     child:
                                         profile.profilePicture == null ||
-                                                profile
-                                                    .profilePicture!
-                                                    .isEmpty
+                                                profile.profilePicture!.isEmpty
                                             ? Text(
                                               profile.name != null &&
                                                       profile.name!.isNotEmpty
@@ -246,8 +224,7 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 ),
                                 SizedBox(width: 12.w),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
@@ -371,11 +348,11 @@ class _Profile extends State<Profile> with SingleTickerProviderStateMixin {
                                 setState(() {
                                   selectedIndex = 4;
                                 });
-      
+
                                 Get.to(() => MesAnnoncesPage());
                               },
                             ),
-      
+
                             listTitle(
                               selected: selectedIndex == 5,
                               title: 'Favoris',

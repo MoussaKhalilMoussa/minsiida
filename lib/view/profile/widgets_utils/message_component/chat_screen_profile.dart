@@ -3,23 +3,22 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
+import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
-import 'package:simple_nav_bar/view/profile/model/conversation.dart';
-import 'package:simple_nav_bar/view/profile/model/message.dart';
-import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/message_chat_room.dart';
 
 class ChatScreenProfile extends StatelessWidget {
-  ChatScreenProfile({super.key, required this.conversation});
-  final Conversation conversation;
+  ChatScreenProfile({super.key});
+  //final Conversation conversation;
 
   final messageController = Get.find<MessagesController>();
+  final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
-    UserProfile user = conversation.partner;
-    Message message = conversation.lastMessage;
-    final count = messageController.unreadCounts[conversation.partner.id] ?? 0;
+   // UserProfile user = conversation.partner;
+   // Message message = conversation.lastMessage;
+    
     return Column(
       children: [
         ListTile(
@@ -28,9 +27,9 @@ class ChatScreenProfile extends StatelessWidget {
             radius: 30,
             child: ClipOval(
               child:
-                  user.profilePicture != null && user.profilePicture!.isNotEmpty
+                  messageController.user.value!.profilePicture != null && messageController.user.value!.profilePicture!.isNotEmpty
                       ? Image.network(
-                        user.profilePicture!,
+                        messageController.user.value!.profilePicture!,
                         fit: BoxFit.cover,
                         width: 60,
                         height: 60,
@@ -61,7 +60,7 @@ class ChatScreenProfile extends StatelessWidget {
             ),
           ),
           title: Text(
-            user.name!,
+            messageController.user.value!.name!,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w700,
               fontSize: 16,
@@ -69,7 +68,7 @@ class ChatScreenProfile extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            '${message.content}',
+            '${messageController.message.value!.content}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.poppins(color: greyColor, fontSize: 14),
@@ -80,18 +79,18 @@ class ChatScreenProfile extends StatelessWidget {
             //mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                extractTime(message.timestamp!),
+                extractTime(messageController.message.value!.timestamp!),
                 style: GoogleFonts.poppins(fontSize: 12),
               ),
-              buildBadge("$count"), // test with any number
+              buildBadge("${messageController.newMessageCount.value}"), // test with any number
             ],
           ),
 
           onTap: () async {
-            Get.to(() => MessageChatRoom(conversation: conversation));
-            await messageController.initChat(peer: user.id!);
-            await messageController.getConversationBtwTwoUser(user.id!);
-            messageController.resetUnreadCount(conversation.partner.id!);
+            Get.to(() => MessageChatRoom(conversation: messageController.conversation.value!));
+            await messageController.initChat(peer: messageController.user.value!.id!);
+            await messageController.getConversationBtwTwoUser(messageController.user.value!.id!);
+            //messageController.resetUnreadCount(conversation.partner.id!);
 
           },
         ),

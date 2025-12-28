@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
-import 'package:simple_nav_bar/view/profile/model/conversation.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/chat_screen_profile.dart';
 
 class MessagesPage extends StatelessWidget {
@@ -105,7 +103,7 @@ class MessagesPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                       width: MediaQuery.sizeOf(Get.context!).width,
                       color: Colors.transparent,
-                      child: Text("start conversation with a friend."),
+                      child: Text("Start conversation with a friend."),
                     )
                     : Container(
                       alignment: Alignment.topCenter,
@@ -124,9 +122,15 @@ class MessagesPage extends StatelessWidget {
                           horizontal: 0,
                         ),
                         itemBuilder: (context, index) {
-                          Conversation conversation =
+                          messageController.conversation.value =
                               messageController.conversations[index];
-                          return ChatScreenProfile(conversation: conversation);
+                          messageController.user.value =
+                              messageController.conversations[index].partner;
+                          messageController.message.value =
+                              messageController
+                                  .conversations[index]
+                                  .lastMessage;
+                          return ChatScreenProfile();
                         },
                         itemCount: messageController.conversations.length,
                         shrinkWrap: true,
