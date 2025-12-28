@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
+import 'package:simple_nav_bar/view/profile/model/conversation.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/chat_screen_profile.dart';
 
 class MessagesPage extends StatelessWidget {
@@ -122,15 +123,9 @@ class MessagesPage extends StatelessWidget {
                           horizontal: 0,
                         ),
                         itemBuilder: (context, index) {
-                          messageController.conversation.value =
+                          final Conversation conversation =
                               messageController.conversations[index];
-                          messageController.user.value =
-                              messageController.conversations[index].partner;
-                          messageController.message.value =
-                              messageController
-                                  .conversations[index]
-                                  .lastMessage;
-                          return ChatScreenProfile();
+                          return ChatScreenProfile(conversation: conversation);
                         },
                         itemCount: messageController.conversations.length,
                         shrinkWrap: true,

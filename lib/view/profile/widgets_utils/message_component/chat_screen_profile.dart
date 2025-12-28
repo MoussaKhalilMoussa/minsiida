@@ -5,20 +5,24 @@ import 'package:simple_nav_bar/constants/colors.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/messages_controller/messages_controller.dart';
 import 'package:simple_nav_bar/controllers/profile_controllers/profile/profile_controller.dart';
 import 'package:simple_nav_bar/utiles/utitlity_functions.dart';
+import 'package:simple_nav_bar/view/profile/model/conversation.dart';
+import 'package:simple_nav_bar/view/profile/model/message.dart';
+import 'package:simple_nav_bar/view/profile/model/user_profile.dart';
 import 'package:simple_nav_bar/view/profile/widgets_utils/message_component/message_chat_room.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ChatScreenProfile extends StatelessWidget {
-  ChatScreenProfile({super.key});
-  //final Conversation conversation;
+  ChatScreenProfile({super.key, required this.conversation});
+  final Conversation conversation;
 
   final messageController = Get.find<MessagesController>();
   final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
-   // UserProfile user = conversation.partner;
-   // Message message = conversation.lastMessage;
-    
+    UserProfile user = conversation.partner;
+    Message message = conversation.lastMessage;
+
     return Column(
       children: [
         ListTile(
@@ -27,9 +31,9 @@ class ChatScreenProfile extends StatelessWidget {
             radius: 30,
             child: ClipOval(
               child:
-                  messageController.user.value!.profilePicture != null && messageController.user.value!.profilePicture!.isNotEmpty
+                  user.profilePicture != null && user.profilePicture!.isNotEmpty
                       ? Image.network(
-                        messageController.user.value!.profilePicture!,
+                        user.profilePicture!,
                         fit: BoxFit.cover,
                         width: 60,
                         height: 60,
@@ -60,7 +64,7 @@ class ChatScreenProfile extends StatelessWidget {
             ),
           ),
           title: Text(
-            messageController.user.value!.name!,
+            user.name!,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w700,
               fontSize: 16,
@@ -68,7 +72,7 @@ class ChatScreenProfile extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            '${messageController.message.value!.content}',
+            '${message.content}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.poppins(color: greyColor, fontSize: 14),
@@ -79,19 +83,21 @@ class ChatScreenProfile extends StatelessWidget {
             //mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                extractTime(messageController.message.value!.timestamp!),
+                extractTime(message.timestamp!),
                 style: GoogleFonts.poppins(fontSize: 12),
               ),
-              buildBadge("${messageController.newMessageCount.value}"), // test with any number
+              buildBadge(
+                "${messageController.newMessageCount.value}",
+              ), // test with any number
             ],
           ),
 
           onTap: () async {
-            Get.to(() => MessageChatRoom(conversation: messageController.conversation.value!));
-            await messageController.initChat(peer: messageController.user.value!.id!);
-            await messageController.getConversationBtwTwoUser(messageController.user.value!.id!);
-            //messageController.resetUnreadCount(conversation.partner.id!);
-
+            Get.to(() => MessageChatRoom(conversation: conversation));
+            await messageController.initChat(peer: user.id!);
+            await messageController.getConversationBtwTwoUser(user.id!);
+            //messageController.currentChatPeerId.value = user.id!;
+            messageController.resetUnreadCount(user.id!);
           },
         ),
 

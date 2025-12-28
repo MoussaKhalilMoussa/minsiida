@@ -64,7 +64,7 @@ class MessageChatRoom extends StatelessWidget {
                 child: const Icon(Icons.person, color: Colors.white),
               ), */
               CircleAvatar(
-                backgroundColor: blueColor,
+                backgroundColor: blueColor.withValues(alpha: 0.7),
                 radius: 20,
                 child: ClipOval(
                   child:
@@ -82,6 +82,7 @@ class MessageChatRoom extends StatelessWidget {
                                   width: 16,
                                   height: 16,
                                   child: CircularProgressIndicator(
+                                    color: blueColor,
                                     strokeWidth: 2,
                                   ),
                                 ),
@@ -141,9 +142,10 @@ class MessageChatRoom extends StatelessWidget {
                 child:
                     messageController.messagesLoading.value
                         ? Center(
-                          child: CircularProgressIndicator(color: primaryColor),
+                          child: CircularProgressIndicator(color: blueColor),
                         )
                         : ListView.builder(
+                          controller: messageController.scrollController,
                           itemCount: messageController.messages.length,
                           padding: EdgeInsets.only(top: 12),
                           itemBuilder: (context, index) {
@@ -168,63 +170,78 @@ class MessageChatRoom extends StatelessWidget {
                         ),
               ),
             ),
-          ],
-        ),
-        bottomNavigationBar: SafeArea(
-          bottom: Platform.isIOS ? true : false,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              leftPadding,
-              8.0,
-              rightPadding,
-              bottomPadding,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildInputArea(
-                  context,
-                  onPressed: () async {
-                    messageController.sendMessage(
-                      messageController.sendMessageContentController.text,
-                      user.id!,
-                    );
-                  },
+            messageController.hasUnreadBelow.value
+                ? Positioned(
+                  bottom: 80,
+                  right: 16,
+                  child: FloatingActionButton.small(
+                    backgroundColor: blueColor,
+                    onPressed: () {
+                      messageController.scrollToBottomFromUI();
+                    },
+                    child: const Icon(Icons.arrow_downward, color: whiteColor),
+                  ),
+                )
+                : const SizedBox(),
+            //Spacer(),
+            SafeArea(
+              bottom: true,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  leftPadding,
+                  12,
+                  rightPadding,
+                  bottomPadding,
                 ),
-                Offstage(
-                  offstage: !messageController.showEmojiPicker.value,
-                  child: SizedBox(
-                    height: 256,
-                    child: EmojiPicker(
-                      textEditingController:
-                          messageController.sendMessageContentController,
-                      config: Config(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildInputArea(
+                      context,
+                      onPressed: () async {
+                        messageController.sendMessage(
+                          messageController.sendMessageContentController.text,
+                          user.id!,
+                        );
+                      },
+                    ),
+                    Offstage(
+                      offstage: !messageController.showEmojiPicker.value,
+                      child: SizedBox(
                         height: 256,
-                        checkPlatformCompatibility: true,
-                        emojiViewConfig: EmojiViewConfig(
-                          emojiSizeMax:
-                              28 *
-                              (foundation.defaultTargetPlatform ==
-                                      TargetPlatform.iOS
-                                  ? 1.20
-                                  : 1.0),
+                        child: EmojiPicker(
+                          textEditingController:
+                              messageController.sendMessageContentController,
+                          config: Config(
+                            height: 256,
+                            checkPlatformCompatibility: true,
+                            emojiViewConfig: EmojiViewConfig(
+                              emojiSizeMax:
+                                  28 *
+                                  (foundation.defaultTargetPlatform ==
+                                          TargetPlatform.iOS
+                                      ? 1.20
+                                      : 1.0),
+                            ),
+                            viewOrderConfig: const ViewOrderConfig(
+                              top: EmojiPickerItem.categoryBar,
+                              middle: EmojiPickerItem.emojiView,
+                              bottom: EmojiPickerItem.searchBar,
+                            ),
+                            categoryViewConfig: const CategoryViewConfig(),
+                            searchViewConfig: SearchViewConfig(),
+                            bottomActionBarConfig:
+                                const BottomActionBarConfig(),
+                          ),
                         ),
-                        viewOrderConfig: const ViewOrderConfig(
-                          top: EmojiPickerItem.categoryBar,
-                          middle: EmojiPickerItem.emojiView,
-                          bottom: EmojiPickerItem.searchBar,
-                        ),
-                        categoryViewConfig: const CategoryViewConfig(),
-                        searchViewConfig: SearchViewConfig(),
-                        bottomActionBarConfig: const BottomActionBarConfig(),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       );
     });
@@ -289,7 +306,7 @@ class MessageChatRoom extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 8, right: 2),
           child: CircleAvatar(
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: blueColor,
             radius: 25,
             child: IconButton(
               onPressed: onPressed,

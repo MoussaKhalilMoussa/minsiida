@@ -22,6 +22,8 @@ class MessagesController extends GetxController {
   StompClient? stompClient;
   Function(Message)? onMessageReceived;
 
+  final ScrollController scrollController = ScrollController();
+
   final RxBool sending = false.obs;
   final RxString error = "".obs;
   final RxBool showEmojiPicker = false.obs;
@@ -32,15 +34,19 @@ class MessagesController extends GetxController {
 
   final RxList<Message> messages = <Message>[].obs;
   final RxList<Conversation> conversations = <Conversation>[].obs;
-  final Rxn<Conversation> conversation= Rxn<Conversation>();
+  final Rxn<Conversation> conversation = Rxn<Conversation>();
   final Rxn<UserProfile> user = Rxn<UserProfile>();
   final Rxn<Message> message = Rxn<Message>();
-
+  //final RxInt currentChatPeerId = RxInt(-1);
 
   final RxInt newMessageCount = 0.obs;
 
   /// Maps userId → number of unread messages
   final RxMap<int, int> unreadCounts = <int, int>{}.obs;
+  bool _socketInitialized = false;
+  final RxBool hasUnreadBelow = false.obs;
+  late int? _currentPeerId;
+  bool _initialScrollDone = false;
 
   //late final int peerId;
 
@@ -73,29 +79,44 @@ class MessagesController extends GetxController {
   }
 
   /// Initialize chat socket and listen to incoming messages
-  Future<void> initChat({required int peer}) async {
+
+  /* Future<void> initChat({required int peer}) async {
+    if (_socketInitialized) return;
+    _socketInitialized = true;
+    //final int peerId = peer;
     final currentUserId = profileController.currentUserId;
-    final int peerId = peer;
 
     // ✅ Set up message handler first
     onMessageReceived = (msg) {
-      //final currentUserId = profileController.currentUserId;
       final senderId = int.parse(msg.sender!);
       final receiverId = int.parse(msg.receiver!);
+
+      if (_exists(msg)) return;
+
       // Add the message if it belongs to the currently open chat
-      if ((senderId == peerId && receiverId == currentUserId) ||
-          (senderId == currentUserId && receiverId == peerId)) {
+      // Add to chat UI if relevant
+      if (_isCurrentChat(senderId, receiverId)) {
         messages.add(msg);
+
+        if (_isUserAtBottom) {
+          Future.delayed(const Duration(milliseconds: 50), () {
+            scrollController.animateTo(
+              scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut,
+            );
+          });
+        }
       }
 
-      // ✅ Update unread count if it's a new incoming message
-      if (receiverId == currentUserId && senderId != peerId) {
-        unreadCounts[senderId] = (unreadCounts[senderId] ?? 0) + 1;
-        unreadCounts.refresh(); // important for Obx update
+      // Unread logic (GLOBAL)
+      if (receiverId == currentUserId) {
+        if (_isChatOpenWith(senderId)) {
+          _markAsRead(msg);
+        } else {
+          _incrementUnread(senderId);
+        }
       }
-     /*  newMessageCount.value = calculateNonReadMessage(currentUserId) ?? 0;
-      print("fffffffffffffffffffff");
-      print(newMessageCount.value); */
     };
 
     // ✅ Create and connect socket
@@ -127,7 +148,76 @@ class MessagesController extends GetxController {
 
     // ✅ Load existing messages after socket is ready
     messages.clear();
-    await getConversationBtwTwoUser(peerId);
+    await getConversationBtwTwoUser(peer);
+  }
+
+ */
+
+  Future<void> initChat({required int peer}) async {
+    _currentPeerId = peer;
+    _initialScrollDone = false;
+    hasUnreadBelow.value = false;
+
+    if (_socketInitialized) return;
+    _socketInitialized = true;
+
+    final currentUserId = profileController.currentUserId;
+
+    onMessageReceived = (msg) {
+      _handleIncomingMessage(msg);
+    };
+
+    stompClient = StompClient(
+      config: StompConfig(
+        url: 'ws://app.minsiida.com:8080/ws',
+        onConnect: (_) {
+          stompClient!.subscribe(
+            destination: '/topic/user/$currentUserId',
+            callback: (frame) {
+              if (frame.body == null) return;
+              final data = json.decode(frame.body!);
+              final message = Message.fromJson(data);
+              onMessageReceived?.call(message);
+            },
+          );
+        },
+      ),
+    );
+
+    stompClient!.activate();
+
+    messages.clear();
+    await getConversationBtwTwoUser(peer);
+  }
+
+  void _handleIncomingMessage(Message msg) {
+    final currentUserId = profileController.currentUserId;
+    final senderId = int.parse(msg.sender!);
+    final receiverId = int.parse(msg.receiver!);
+
+    // Deduplication (IMPORTANT)
+    if (messages.any((m) => m.id == msg.id)) return;
+
+    final isCurrentChat =
+        _currentPeerId != null &&
+        ((senderId == _currentPeerId && receiverId == currentUserId) ||
+            (senderId == currentUserId && receiverId == _currentPeerId));
+
+    if (isCurrentChat) {
+      messages.add(msg);
+
+      if (_isUserAtBottom) {
+        _scrollToBottom();
+      } else {
+        hasUnreadBelow.value = true;
+      }
+    }
+
+    // Unread count for other chats
+    if (receiverId == currentUserId && senderId != _currentPeerId) {
+      unreadCounts[senderId] = (unreadCounts[senderId] ?? 0) + 1;
+      unreadCounts.refresh();
+    }
   }
 
   Future<void> getConversationBtwTwoUser(int peerUserId) async {
@@ -139,6 +229,13 @@ class MessagesController extends GetxController {
         userId2: peerUserId,
       );
       messages.assignAll(msgs as Iterable<Message>);
+      //Scroll to bottom AFTER list is ready
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (scrollController.hasClients && !_initialScrollDone) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+          _initialScrollDone = true;
+        }
+      });
     } catch (e, s) {
       logger.warning("Failed to get conversation: $e", s);
       error.value = e.toString();
@@ -163,6 +260,15 @@ class MessagesController extends GetxController {
 
     // ✅ Add message locally for instant feedback
     messages.add(tempMsg);
+    if (_isUserAtBottom) {
+      Future.delayed(const Duration(milliseconds: 50), () {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+        );
+      });
+    }
     try {
       sending.value = true;
       await messageService.sendMessage(
@@ -185,22 +291,45 @@ class MessagesController extends GetxController {
     unreadCounts.refresh();
   }
 
-  int? calculateNonReadMessage(int peerId) {
-    int read = 0;
-    for (var mes in messages) {
-      if (mes.read == false && mes.sender == peerId.toString()) {
-        read++;
-      }
-    }
-    return read;
+  void _markAsRead(Message msg) {
+    msg.read = true;
+    //TODO:
+    //messageService.markAsRead(msg.id!);
+  }
+
+  bool get _isUserAtBottom {
+    if (!scrollController.hasClients) return true;
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.position.pixels;
+    return (maxScroll - currentScroll) < 80; // threshold
+  }
+
+  void _scrollToBottom() {
+    if (!scrollController.hasClients) return;
+
+    Future.delayed(const Duration(milliseconds: 50), () {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+      );
+      hasUnreadBelow.value = false;
+    });
+  }
+
+  void scrollToBottomFromUI() {
+    _scrollToBottom();
   }
 
   void disconnectSocket() {
-    messageService.disconnect();
+    stompClient?.deactivate();
+    stompClient = null;
+    _socketInitialized = false;
   }
 
   @override
   void onClose() {
+    disconnectSocket();
     sendMessageContentController.dispose();
     messages.clear();
     conversations.clear();
